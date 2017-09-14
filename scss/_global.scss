@@ -9,7 +9,8 @@ p {
 }
 
 a {
-  color: $theme-primary;
+  //color: $theme-primary;
+  color: black;
   &.active,
   &:active,
   &:focus,
