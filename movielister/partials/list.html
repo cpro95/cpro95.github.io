@@ -1,0 +1,26 @@
+<section ng-controller="ListController">
+  <div class="container-fluid" ng-repeat="item in movies | orderBy : 'item.movie.title[0]' | searchFor:search">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <a class="label label-primary" style="font-size:1.25em;" href="#/details/{{movies.indexOf(item)}}">{{item.movie.title[0]}}</a>
+      </div> <!-- panel-heading -->
+      <div class="panel-body">
+      <div class="row">
+          <div class="col-sm-4">
+            <img class="img-rounded img-responsive" width="214" height="317" ng-src="{{item.movie.thumb[0].$.preview}}" alt="" />
+          </div>
+          <div class="col-sm-8">
+            <h1><a href="#/details/{{movies.indexOf(item)}}">{{item.movie.title[0]}}</a> <span class="badge">{{item.movie.rating[0]}}</span></h1>
+            <h4>{{item.movie.tagline[0]}}</h4>
+            <span class="label label-info">Year : {{item.movie.year[0]}}</span>
+            <span class="label label-info">Genre : {{item.movie.genre[0]}}</span>
+            <p>
+              <br>
+              {{item.movie.plot[0]}}
+            </p>
+          </div>
+        </div>
+      </div>  <!-- panel-body -->
+    </div>  <!-- panel -->
+  </div> <!-- container-fluid -->
+</section>
