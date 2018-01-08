@@ -41,7 +41,7 @@
               <a class="nav-link js-scroll-trigger" href="#works">Works</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+              <a class="nav-link js-scroll-trigger" href="#portfolio">Tutorial</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#about">About</a>
@@ -123,7 +123,7 @@
 
         <div class="row">
           <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" href="html/tutorial/ffmpeg.html">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
@@ -212,7 +212,7 @@
     </section>
 
     <!-- About -->
-    <section id="about">
+<!--     <section id="about">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -290,7 +290,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- My Family -->
     <section class="bg-light" id="family">
@@ -449,7 +449,64 @@
 
 
 
-    <!-- Modal 2 -->
+    <!-- Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+              <div class="rl"></div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 mx-auto">
+                <div class="modal-body" style="text-align:left">
+                  <!-- Project Details Go Here -->
+                  <h2>FFMpeg 사용법</h2>
+                  <br />
+                      <h2>동영상 자막 입히기</h2>
+                          <h3>1. ass 자막으로 변환하기</h3>
+                          <ul>
+                              <li>ass 자막은 Fontname, Fontsize 변경 가능하다</li>
+                          </ul>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.srt movie.ass
+</pre></div>
+                          <br />                          
+                          <h3>2. 자막 입히기</h3>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf <span style="color: #BA2121">&quot;ass=sustitle.ass&quot;</span> out.mkv
+
+ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv:si<span style="color: #666666">=</span>1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+</pre></div>
+                          <br>
+                          <br>
+                          <h2>동영상 변환</h2>
+                              <h3>1. 동영상 코덱 관리</h3>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vcodec h264 -acodec aac out.mkv
+// 비디오 코덱은 h264, 오디오 코덱은 aac 를 지정한 경우
+</pre></div>
+                                <br>
+                                <br>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                  <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fa fa-times"></i>
+                    Close Tutorial</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal 2 -->
     <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -461,17 +518,40 @@
           <div class="container">
             <div class="row">
               <div class="col-lg-8 mx-auto">
-                <div class="modal-body">
+                <div class="modal-body" style="text-align:left">
                   <!-- Project Details Go Here -->
-                  <h2>Project Name</h2>
-                  <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                  <img class="img-fluid d-block mx-auto" src="img/portfolio/02-full.jpg" alt="">
-                  <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                  <ul class="list-inline">
-                    <li>Date: January 2017</li>
-                    <li>Client: Explore</li>
-                    <li>Category: Graphic Design</li>
-                  </ul>
+                  <h2>FFMpeg 사용법</h2>
+                  <br />
+                      <h2>동영상 자막 입히기</h2>
+                          <h3>1. ass 자막으로 변환하기</h3>
+                          <ul>
+                              <li>ass 자막은 Fontname, Fontsize 변경 가능하다</li>
+                          </ul>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.srt movie.ass
+</pre></div>
+                          <br />                          
+                          <h3>2. 자막 입히기</h3>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf <span style="color: #BA2121">&quot;ass=sustitle.ass&quot;</span> out.mkv
+
+ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv:si<span style="color: #666666">=</span>1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+</pre></div>
+
+                          <br>
+                          <br>
+                          <h2>동영상 변환</h2>
+                              <h3>1. 동영상 코덱 관리</h3>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vcodec h264 -acodec aac out.mkv
+</pre></div>
+                                <br>
+                                <br>
+                </div>
+                <div class="modal-body" style="text-align:center">
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close Project</button>
