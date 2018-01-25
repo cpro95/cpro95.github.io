@@ -60,6 +60,15 @@ img::-moz-selection {
 body {
   -webkit-tap-highlight-color: #fed136; }
 
+code {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  font-family: Consolas,Monaco,'Lucida Console',Liberation Mono,DejaVu Sans Mono,'Courier New','Malgun Gothic'; }
+
 #mainNav {
   background-color: #222222; }
   #mainNav .navbar-toggler {

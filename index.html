@@ -144,13 +144,14 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/portfolio/02-thumbnail.jpg" alt="">
+              <img class="img-fluid" src="img/tutorial/git-logo.png" alt="">
             </a>
             <div class="portfolio-caption">
-              <h4>Explore</h4>
-              <p class="text-muted">Graphic Design</p>
+              <h4>GIT</h4>
+              <p class="text-muted">분산형 버전 관리 시스템 - git</p>
             </div>
           </div>
+
           <div class="col-md-4 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
               <div class="portfolio-hover">
@@ -348,37 +349,250 @@ ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body" style="text-align:left">
                   <!-- Project Details Go Here -->
-                  <h2>FFMpeg 사용법</h2>
+                  <h2>Git 사용법</h2>
                   <br />
-                      <h2>동영상 자막 입히기</h2>
-                          <h3>1. ass 자막으로 변환하기</h3>
-                          <ul>
-                              <li>ass 자막은 Fontname, Fontsize 변경 가능하다</li>
-                          </ul>
-<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.srt movie.ass
-</pre></div>
-                          <br />                          
-                          <h3>2. 자막 입히기</h3>
-<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>subtitle.ass out.mkv
+                  <h1 id="dvcs">DVCS(분산 버전 관리 시스템)</h1>
+                  <p>git = 분산 버전 관리 시스템(Distributed Version Control System)</p>
+                  <ul>
+                  <li>클라이언트가 저장소 통채로 복제</li>
+                  <li>클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.</li>
+                  </ul>
+                  <h1 id="_1">파일의 상태</h1>
+                  <h2 id="tracked">Tracked 파일의 세 가지 상태</h2>
+                  <p><img alt="Working Directory - Staging Area - Git Directory" src="https://wikidocs.net/images/page/11069/areas.png" /></p>
+                  <ul>
+                  <li>modified: 파일을 수정했지만 아직 커밋하지 않은 상태</li>
+                  <li>staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태</li>
+                  <li>committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태</li>
+                  </ul>
+                  <h2 id="_2">파일의 라이프사이클</h2>
+                  <p><img alt="파일의 라이프사이클" src="https://wikidocs.net/images/page/11069/lifecycle.png" /></p>
+                  <p>작업 디렉토리(Working Directory)의 파일</p>
+                  <ul>
+                  <li>Untracked = 버전 관리 대상이 아닌 파일</li>
+                  <li>Tracked = 버전 관리 대상 파일<ul>
+                  <li>Unmodified = 수정 안 한 파일</li>
+                  <li>Modified = 수정한 파일</li>
+                  <li>Staged = 커밋 직전의 파일 = <strong>Changes to be committed</strong></li>
+                  </ul>
+                  </li>
+                  </ul>
+                  <p><strong>Untracked, Modified 파일을 추가(add)한다는 것은 다음에 커밋할(Staged) 파일 목록에 추가한다고 생각해야 한다.</strong> 프로젝트에 파일을 추가한다는 뜻이 아니다. 그리고 Untracked 파일은 Staged 파일이 되기 때문에 자연스럽게 Tracked 파일이 된다.</p>
+                  <h1 id="_3">설정</h1>
+                  <h2 id="_4">설정 파일</h2>
+                  <ul>
+                  <li><code>/etc/gitconfig</code> 파일: 전역 설정</li>
+                  <li><code>~/.gitconfig</code> 또는 <code>~/.config/git/config</code> 파일: 사용자 설정</li>
+                  <li><code>.git/config</code> 파일: 저장소 설정</li>
+                  </ul>
+                  <p>설정의 우선순위는 역순이다.</p>
+                  <h2 id="_5">사용자 정보</h2>
+                  <pre><code>$ git config --global user.name &quot;John Doe&quot;
+                  $ git config --global user.email &quot;johondoe@example.com&quot;
+                  </code></pre>
+                  
+                  <p><code>git config --global</code> 옵션으로 명령했기 때문에 우분투의 경우 사용자 설정 파일 <code>~/.gitconfig</code>에 다음 내용으로 저장된다.</p>
+                  <pre><code>cat .gitconfig 
+[user]
+  name = John Doe
+  email = johondoe@example.com
+                  </code></pre>
+                  </div>  
+                  <h1 id="_1">저장소 만들기</h1>
+<h2 id="git">로컬 현재 디렉토리를 git 저장소로 만들기</h2>
+<pre><code>git init
+</code></pre>
 
-ffmpeg -i movie.mkv -vf <span style="color: #BA2121">&quot;ass=sustitle.ass&quot;</span> out.mkv
+<h2 id="clone">원격 저장소를 로컬로 복제(clone)하기</h2>
+<p>원격 저장소를 원격 저장소의 이름으로 복제한다.</p>
+<pre><code>git clone https://github.com/libgit2/libgit2
+</code></pre>
 
-ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv out.mkv
-// 동영상이 자막을 포함하는 경우
+<p>원격 저장소를 <code>mylibgit</code> 새로운 이름으로 복제한다.</p>
+<pre><code>git clone https://github.com/libgit2/libgit2 mylibgit
+</code></pre>
 
-ffmpeg -i movie.mkv -vf <span style="color: #19177C">subtitles</span><span style="color: #666666">=</span>movie.mkv:si<span style="color: #666666">=</span>1 out.mkv
-// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
-</pre></div>
+<p>참고 사항</p>
+<ul>
+<li>원격 저장소의 이름은 기본값이 <code>origin</code>이다.</li>
+<li>권한이 없는 원격 저장소를 clone할 수 있고 오픈소스를 fork한 원격 저장소를 clone할 수도 있다.</li>
+</ul>
+<h1 id="_2">여러 가지 예시</h1>
+<h2 id="untracked-staged-committed">새 파일 저장소에 저장하기 (Untracked -&gt; Staged -&gt; Committed)</h2>
+<p><code>*.c</code>와 <code>LICENSE</code> 새로운 파일을 만들어서 저장소에 저장하는 것은 2단계로 나눌 수 있다.</p>
+<p>1단계 (Untracked -&gt; Staged)</p>
+<pre><code>$ git add *.c
+$ git add LICENSE
+</code></pre>
 
-                          <br>
-                          <br>
-                          <h2>동영상 변환</h2>
-                              <h3>1. 동영상 코덱 관리</h3>
-<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">ffmpeg -i movie.mkv -vcodec h264 -acodec aac out.mkv
-</pre></div>
-                                <br>
-                                <br>
-                </div>
+<p>2단계 (Staged -&gt; Committed)</p>
+<pre><code>$ git commit -m 'initial project version'
+</code></pre>
+
+<h2 id="unmodified-modified-staged-committed">파일을 수정하고 저장소에 저장하기 (Unmodified -&gt; Modified -&gt; Staged -&gt; Committed)</h2>
+<p>처음 저장소를 Clone하면 모든 파일은 Tracked이면서 Unmodified 상태이다.</p>
+<p>1단계: 파일 수정 (Unmodified -&gt; Modified)</p>
+<pre><code>에디터로 hello.c 파일을 편집한다.
+</code></pre>
+<p>2단계: 파일 추가 (Modified -&gt; Staged)</p>
+<pre><code>$ git add hello.c
+</code></pre>
+<p>3단계: 파일 커밋 (Staged -&gt; Committed)</p>
+<pre><code>$ git commit -m 'greeting message changed'
+</code></pre>
+<p><strong><code>git add</code> 명령어는 Untracked 파일을 Staged 파일로 만들 때도 쓰고 Modified 파일을 Staged 파일로 만들 때도 사용한다.</strong></p>
+<p><strong><code>git add</code>의 의미는 프로젝트에 파일을 추가한다기보다 다음에 커밋할 파일의 목록에 추가하는 것으로 이해한다.</strong></p>
+<h2 id="_3">작업 디렉토리의 파일의 상태 확인</h2>
+<pre><code>$ git status
+</code></pre>
+
+<h2 id="_4">파일 무시하기</h2>
+<p><code>.gitignore</code> 파일을 만들어 버전 관리하지 않고 무시할 파일 목록을 만든다.</p>
+<h2 id="_5">파일 비교</h2>
+<p>Modified 파일을 Committed 파일과 비교하여 보여준다.</p>
+<pre><code>$ git diff
+</code></pre>
+
+<p>Staged 파일을 Committed 파일과 비교하여 보여준다.</p>
+<pre><code>$ git diff --staged
+</code></pre>
+
+<h2 id="_6">변경사항 커밋하기</h2>
+<p>커밋 메시지를 에디터로 입력 후 커밋한다.</p>
+<pre><code>$ git commit
+</code></pre>
+
+<p>커밋 메시지를 옵션으로 지정하고 커밋한다.</p>
+<pre><code>$ git commit -m &quot;Story 182: Fix benchmarks for speed&quot;
+</code></pre>
+
+<p>Staging Area 생략 후 바로 커밋할 수도 있다.</p>
+<pre><code>$ git commit -am &quot;added new benchmarks&quot;
+</code></pre>
+
+<h2 id="_7">파일을 삭제하기</h2>
+<pre><code>$ git rm 파일 이름
+</code></pre>
+
+<h2 id="_8">파일 이름 바꾸기</h2>
+<h2 id="_9">되돌리기</h2>
+<h3 id="_10">마지막 커밋 내용을 되돌리기</h3>
+<p>이미 커밋을 했지만 파일을 깜빡하고 추가하지 않은 파일이 있거나 커밋 메시지를 수정하고 싶을 때 <code>git commit --amend</code> 명령어를 이용한다.</p>
+<pre><code>$ git commit -m 'initial commit'
+$ git add forgotten_file
+$ git commit --amend
+</code></pre>
+
+<h3 id="staged-unstaged">Staged -&gt; Unstaged</h3>
+<p><code>git reset HEAD [파일 이름]</code> 명령어로 특정 파일을 Staged 상태에서 Unstaged 상태로 변경한다.</p>
+<pre><code>$ git reset HEAD CONTRIBUTION.md
+</code></pre>
+
+<h3 id="modified-unmodified">Modified -&gt; Unmodified</h3>
+<p><code>git checkout -- [파일 이름]</code> 명령으로 애초에 저장소에 저장된 버전을 다시 꺼내온다.</p>
+<pre><code>$ git checkout -- CONTRIBUTION.md
+</code></pre>
+
+<h1 id="remote-repository">원격 저장소(Remote repository)</h1>
+<p>원격 저장소 = 인터넷이나 네트워크 어딘가에 존재하는 저장소</p>
+<h2 id="_1">원격 저장소 확인</h2>
+<p>원격 저장소를 clone하면 <code>origin</code> 이름으로 원격 저장소가 자동으로 등록된다.</p>
+<p>원격 저장소의 이름을 확인한다.</p>
+<pre><code>$ git remote
+</code></pre>
+
+<p>원격 저장소의 이름과 URL을 함께 확인한다.</p>
+<pre><code>$ git remote -v
+</code></pre>
+
+<h2 id="_2">원격 저장소 추가</h2>
+<p><code>$ git remote add [원격 저장소 이름] [URL]</code> 명령으로 아래는 예시이다.</p>
+<pre><code>$ git remote add pb https://github.com/paulboone/ticgit
+</code></pre>
+
+<p>위와 같이 등록하고 실제로 로컬 저장소에는 없지만 <code>pb</code> 원격 저장소에 있는 것을 가져오려면 아래와 같이 명령한다.</p>
+<pre><code>$ git fetch pb
+</code></pre>
+
+<p><code>git fetch</code> 명령은 원격 저장소의 데이터를 모두 로컬로 가져오지만 자동으로 Merge하지는 않는다.</p>
+<h2 id="push">원격 저장소에 Push하기</h2>
+<p><code>git push [원격 저장소 이름] [브랜치 이름]</code> 명령으로 Push할 수 있다.</p>
+<p><code>origin</code> 원격 저장소의 <code>master</code> 브랜치에 Push한다.</p>
+<pre><code>$ git push origin master
+</code></pre>
+
+<p>원격 저장소에 현재 로컬 브랜치와 동일한 이름의 브랜치에 Push한다. 원격 저장소의 다른 브랜치에 잘못 커밋하는 실수를 줄여줄 수 있다.</p>
+<pre><code>$ git push origin HEAD
+</code></pre>
+
+<h2 id="_3">원격 저장소 이름을 바꾸거나 삭제하기</h2>
+<p>원격 저장소의 이름을 변경할 수 있다.</p>
+<pre><code>$ git remote rename pb paul
+</code></pre>
+
+<p>원격 저장소를 삭제할 수 있다.</p>
+<pre><code>$ git remote rm paul
+</code></pre>
+
+<h2 id="_4">원격 저장소 이름 규칙</h2>
+<p>전형적인 원격 저장소의 이름이다.</p>
+<ul>
+<li><code>origin</code>: Github 내 저장소의 이름(Fork한 경우 포함)</li>
+<li><code>upstream</code>: Fork한 경우 원본 프로젝트의 저장소의 이름(디폴트 이름은 아니지만 통상적인 이름)</li>
+</ul>
+<p>참고로 <code>master</code>는 브랜치 이름이다.</p>
+<ul>
+<li><code>master</code>: <code>git init</code>으로 저장소 생성 시 디폴트 브랜치 이름</li>
+</ul>
+<h1 id="_5">브랜치</h1>
+<h2 id="_6">브랜치 만들기</h2>
+<p><code>git branch [브랜치 이름]</code> 명령으로 아래와 같이 <code>testing</code> 브랜치를 만든다.</p>
+<pre><code>$ git branch testing
+</code></pre>
+
+<h2 id="_7">브랜치 변경</h2>
+<p><code>git checkout</code> 명령어로 작업하려는 <code>testing</code> 브랜치로 이동할 수 있다.</p>
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p><strong>브랜치를 이동(변경)하면 작업 디렉토리의 파일 내용도 변경된다.</strong></p>
+<p><code>git checkout -b</code> 명령어로 두 번 입력하지 않고 한 번에 브랜치를 만들고 바로 이동할 수도 있다.</p>
+<pre><code>$ git checkout -b testing
+</code></pre>
+
+<h2 id="push_1">로컬 브랜치를 원격 저장소에 Push하기</h2>
+<p><code>git push -u origin [브랜치 이름]</code> 명령으로 로컬 브랜치를 원격 저장소에도 반영할 수 있다.</p>
+<pre><code>$ git push -u origin testing
+</code></pre>
+
+<h2 id="merge">Merge</h2>
+<h3 id="_8">이슈 처리를 위해 브랜치 적용 시나리오</h3>
+<p>어떤 이슈 처리를 위한 <code>issue53</code> 토픽 브랜치를 만든다.</p>
+<pre><code>$ git checkout -b issue53
+</code></pre>
+
+<p>소스파일을 수정한다.</p>
+<pre><code>$ vim index.html
+</code></pre>
+
+<p>수정한 파일을 로컬 저장소로 커밋한다.</p>
+<pre><code>$ git commit -am 'fixed the broken email address'
+</code></pre>
+
+<p><code>master</code> 브랜치로 다시 이동한다.</p>
+<pre><code>$ git checkout master
+</code></pre>
+
+<p><code>issue53</code> 브랜치의 내용을 <code>master</code> 브랜치에 반영하여 합친다.</p>
+<pre><code>$ git merge issue53
+</code></pre>
+
+<p>브랜치가 불필요해지면 삭제한다.</p>
+<pre><code>$ git branch -d issue53
+</code></pre>
+
+
+
                 <div class="modal-body" style="text-align:center">
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
