@@ -1,44 +1,25 @@
 {
-  "title": "cpro95's github homepage",
-  "name": "cpro95_github_homepage",
-  "version": "1.0.0-beta",
-  "description": "Homepage of cpro95.github.io",
-  "keywords": [
-    "css",
-    "sass",
-    "html",
-    "responsive",
-    "theme",
-    "template"
-  ],
-  "homepage": "https://cpro95.github.io",
-  "bugs": {
-    "url": "https://cpro95.github.io",
-    "email": "cpro95@gmail.com"
+  "name": "cpro95.github.io",
+  "version": "1.0.0",
+  "description": "homepage of cpro95.github.io",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next"
   },
-  "license": "MIT",
-  "author": "Start Bootstrap",
-  "contributors": [
-    "David Miller (http://davidmiller.io/)"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cpro95.github.io.git"
+    "url": "git+https://github.com/cpro95/cpro95.github.io.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpro95/cpro95.github.io/issues"
+  },
+  "homepage": "https://github.com/cpro95/cpro95.github.io#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta",
-    "browser-sync": "^2.23.3",
-    "font-awesome": "4.7.0",
-    "jquery": "^3.2.1",
-    "jquery.easing": "^1.4.1",
-    "popper.js": "^1.11.1"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "3.7.0",
-    "gulp-header": "1.8.9",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-uglify": "3.0.0"
+    "next": "^5.1.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
   }
 }
