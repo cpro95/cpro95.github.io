@@ -4,7 +4,9 @@
   "description": "homepage of cpro95.github.io",
   "main": "index.js",
   "scripts": {
-    "dev": "next"
+    "dev": "next",
+		"build": "next build",
+		"start": "next start"
   },
   "repository": {
     "type": "git",
