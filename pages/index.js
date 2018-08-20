@@ -1,17 +1,15 @@
 import Header from "../components/Header";
+import { BGChanger } from '../components/Utils';
 
-const onClickHandler = () => {
-  alert("Hello! There");
+const smoothScrolling = (event) => {
+  event.preventDefault();
+  var target = document.getElementById('start1');
+  window.scrollTo({top: target.offsetTop, behavior:'smooth'});
 };
 
 class Index extends React.Component {
   componentDidMount() {
-    const wraper = document.body.getElementsByClassName('wraper')[0].style;
-    wraper.width="100%";
-    wraper.height="93vh";
-    wraper.backgroundImage="url('/static/background-image4.jpg')";
-    wraper.backgroundRepeat="no-repeat";
-    wraper.backgroundSize="cover";
+    BGChanger('/static/background-image4.jpg');
   }
 
   render() {
@@ -25,32 +23,47 @@ class Index extends React.Component {
           <p className="h5 text-white mb-3">
             My whole life of digital, and so on.
           </p>
-          <button className="h6 btn btn-primary" onClick={onClickHandler}>
+          <button className="h6 btn btn-primary" onClick={smoothScrolling}>
             Get Started
           </button>
         </div>
-        <div className="d-flex flex-column">
-        
-          <button className="btn btn-warning">TEST</button>
-          1
-          2
-          <button className="btn btn-warning">TEST</button>
-          3
-          <button className="btn btn-warning">TEST</button>
-          4
-          <button className="btn btn-warning">TEST</button>
-          5
-          <button className="btn btn-warning">TEST</button>
-          6
-          <button className="btn btn-warning">TEST</button>
-          7
-          <button className="btn btn-warning">TEST</button>
-          8
-          <button className="btn btn-warning">TEST</button>
-          9
-          <button className="btn btn-warning">TEST</button>
-          10
-          <button className="btn btn-warning">TEST</button>
+        <hr />
+        <div className="row justify-content-around">
+          <div id="start1" className="col-sm-6 card border-dark mb-3 mx-3" style={{'maxWidth': '18rem'}}>
+            <a className="card-link" href="https://cpro95.netlify.com">
+              <div className="card-header">My Blog</div>
+              <div className="card-body text-dark">
+                <h5 className="card-title">cpro95.netlify.com</h5>
+                <p className="card-text">
+                  Powered by GatsbyJS which is a good static site generator,<br />
+                  Hosted in Netlify.com which has a fast connections.<br />
+                  <br />
+                  <br />
+                </p>
+                <footer className="blockquote-footer">
+                  Markdown page basis.
+                </footer>
+              </div>
+            </a>
+          </div>
+
+          <div className="col-sm-6 card border-dark mb-3 mx-3" style={{'maxWidth': '18rem'}}>
+            <a className="card-link" href="https://movies-cpro95.netlify.com">
+              <div className="card-header">My Movies</div>
+              <div className="card-body text-dark">
+                <h5 className="card-title">movies-cpro95.netlify.com</h5>
+                <p className="card-text">
+                  All the Movies in my HDD,<br />
+                  Backend by heroku server with SQL DB with KODI application.<br />
+                  Frontend by ReactJS with Material-UI design.
+              </p>
+                <footer className="blockquote-footer">
+                  High defination, High ratings.
+              </footer>
+              </div>
+            </a>
+          </div>
+
 
         </div>
       </div>

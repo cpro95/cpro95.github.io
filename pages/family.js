@@ -1,13 +1,9 @@
 import Header from '../components/Header';
+import { BGChanger } from '../components/Utils';
 
 class Family extends React.Component {
     componentDidMount() {
-        const wraper = document.body.getElementsByClassName('wraper')[0].style;
-        wraper.width="100%";
-        wraper.height="93vh";
-        wraper.backgroundImage="url('/static/background-image2.jpg')";
-        wraper.backgroundRepeat="no-repeat";
-        wraper.backgroundSize="cover";     
+        BGChanger('/static/background-image2.jpg');
     }
 
     render() {

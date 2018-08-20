@@ -18,3 +18,7 @@ body {
 .jumbotron {
     background: transparent;
 }
+
+.card-link:hover {
+    text-decoration : firebrick;
+}
