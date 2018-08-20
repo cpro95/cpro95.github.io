@@ -1,3 +1,3 @@
 module.exports = {
-	assetPrefix: process.env.NODE_ENV === 'production' ? '/cpro95.github.io' : '',
+	assetPrefix: process.env.NODE_ENV === 'production' ? '/cpro95' : '',
 }
