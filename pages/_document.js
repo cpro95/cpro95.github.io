@@ -11,10 +11,10 @@ export default class MyDocument extends Document {
                     {/* <style dangerouslySetInnerHTML={{ __html: bootstrap }} /> */}
                     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
                     <link href="/static/font-awesome.min.css" rel="stylesheet" />
-                    <link rel="stylesheet" href="/static/bootstrap.css" />
+                    <link rel="stylesheet" href="/static/bootstrap.min.css" />
                     <link href="/static/mystyle.css" rel="stylesheet" />
-                    <script src="/static/jquery.js"></script>
-                    <script src="/static/bootstrap.js"></script>
+                    <script src="/static/jquery.min.js"></script>
+                    <script src="/static/bootstrap.min.js"></script>
                 </Head>
                 <body>
                     <Main />
