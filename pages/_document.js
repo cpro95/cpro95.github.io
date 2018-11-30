@@ -13,8 +13,8 @@ export default class MyDocument extends Document {
                     <link href="/static/font-awesome.min.css" rel="stylesheet" />
                     <link rel="stylesheet" href="/static/bootstrap.css" />
                     <link href="/static/mystyle.css" rel="stylesheet" />
-                    <script src="/static/jquery.js"></script>
-                    <script src="/static/bootstrap.js"></script>
+                    <script src="/static/jquery.min.js"></script>
+                    <script src="/static/bootstrap.min.js"></script>
                 </Head>
                 <body>
                     <Main />
