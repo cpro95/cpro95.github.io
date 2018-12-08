@@ -1,40 +1,64 @@
-import Link from 'next/link';
+import React, { Component } from "react";
+import Link from "next/link";
 
-const Layout = () => (
-<nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-  <Link href="/">
-    <a className="navbar-brand font-weight-bold" href="#">cpro95.github.io</a>
-  </Link>
-  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span className="navbar-toggler-icon"></span>
-  </button>
+class Header extends Component {
+  state = {
+    isActive: false
+  };
 
-  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul className="navbar-nav ml-auto">
-      <li className="nav-item">
-        <Link href="/">
-          <a className="nav-link font-weight-bold" href="#">Home</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/works">
-          <a className="nav-link font-weight-bold" href="#">Works</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/family">
-          <a className="nav-link font-weight-bold" href="#">Family</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/about">
-          <a className="nav-link font-weight-bold" href="#">About</a>
-        </Link>
-      </li>
-    </ul>
+  toggleNav = () => {
+    this.setState(prevState => ({
+      isActive: !prevState.isActive
+    }));
+  };
 
-  </div>
-</nav>
-);
+  render() {
+    return (
+      <nav className="navbar is-black">
+        <div className="navbar-brand has-text-justified">
+          <Link href="/">
+            <a className="navbar-item has-text-weight-bold" href="#">
+              cpro95.github.io
+            </a>
+          </Link>
+          <a role="button" className="navbar-burger" onClick={this.toggleNav}>
+            <span />
+            <span />
+            <span />
+          </a>
+        </div>
 
-export default Layout;
+        <div
+          className={
+            this.state.isActive ? "navbar-menu is-active" : "navbar-menu"
+          }
+        >
+          <div className="navbar-start">
+            <Link href="/">
+              <a className="navbar-item has-text-weight-bold" href="#">
+                Home
+              </a>
+            </Link>
+            <Link href="/works">
+              <a className="navbar-item has-text-weight-bold" href="#">
+                Works
+              </a>
+            </Link>
+            <Link href="/family">
+              <a className="navbar-item has-text-weight-bold" href="#">
+                Family
+              </a>
+            </Link>
+            <Link href="/about">
+              <a className="navbar-item has-text-weight-bold" href="#">
+                About
+              </a>
+            </Link>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
+
+export default Header;

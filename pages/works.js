@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { BGChanger } from "../components/Utils";
 
 class Works extends React.Component {
@@ -10,58 +11,62 @@ class Works extends React.Component {
     return (
       <div>
         <Header />
-        {/* <div className="wraper d-flex flex-column justify-content-center align-items-center">
-          <h1 className="text-white">Works page</h1>
-        </div> */}
-
-        <div className="wraper d-flex flex-column justify-content-center align-items-center">
-          <div className="row justify-content-around">
-            {/* <div className="wraper d-flex flex-column justify-content-center align-items-center"> */}
-            <div
-              className="col-sm-6 card border-dark mb-3 mx-3"
-              style={{ maxWidth: "18rem" }}
-            >
-              <a className="card-link" href="https://cpro95.netlify.com">
-                <div className="card-header">My Blog</div>
-                <div className="card-body text-dark">
-                  <h5 className="card-title">cpro95.netlify.com</h5>
-                  <p className="card-text">
-                    Powered by GatsbyJS which is a good static site generator,
-                    <br />
-                    Hosted in Netlify.com which has a fast connections.
-                    <br />
-                    <br />
-                    <br />
-                  </p>
-                  <footer className="blockquote-footer">
-                    Markdown page basis.
-                  </footer>
+        <div className="wraper">
+          <section className="section">
+            <div className="tile is-ancestor">
+              <div className="tile is-vertical">
+                <div className="tile">
+                  <div className="tile is-parent is-vertical">
+                    <article className="tile is-child box">
+                      <a href="https://cpro95.netlify.com">
+                        <p className="title">cpro95.netlify.com</p>
+                        <p className="subtitle">GatsbyJS를 이용한 블로그</p>
+                      </a>
+                    </article>
+                    <article className="tile is-child box">
+                      <a href="https://movies-cpro95.netlify.com">
+                        <p className="title">movies-cpro95.netlify.com</p>
+                        <p className="subtitle">
+                          백엔드 Heroku 서버에서 json 데이타를 받아서 나름
+                          깔끔하게 영화 정보를 보여주는 웹앱
+                        </p>
+                      </a>
+                    </article>
+                  </div>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <a href="https://kakao-cpro95.netlify.com">
+                        <p className="title">kakao-cpro95.netlify.com</p>
+                        <p className="subtitle">웹에서 카카오톡 보내기</p>
+                        <figure className="image is-4by3">
+                          <img src="static/kakao-logo.png" />
+                        </figure>
+                      </a>
+                    </article>
+                  </div>
                 </div>
-              </a>
-            </div>
-
-            <div
-              className="col-sm-6 card border-dark mb-3 mx-3"
-              style={{ maxWidth: "18rem" }}
-            >
-              <a className="card-link" href="https://movies-cpro95.netlify.com">
-                <div className="card-header">My Movies</div>
-                <div className="card-body text-dark">
-                  <h5 className="card-title">movies-cpro95.netlify.com</h5>
-                  <p className="card-text">
-                    All the Movies in my HDD,
-                    <br />
-                    Backend by heroku server with SQL DB with KODI application.
-                    <br />
-                    Frontend by ReactJS with Material-UI design.
-                  </p>
-                  <footer className="blockquote-footer">
-                    High defination, High ratings.
-                  </footer>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <a href="http://github.com/cpro95">
+                      <p className="title">github.com/cpro95</p>
+                      <p className="subtitle">다른 앱 살펴보기</p>
+                      <div className="subtitle is-6">
+                        <p>
+                          깃헙에는 초창기 C로 만든 것도 있고, Qt로 만든것도
+                          있고, 파이썬, 노드JS 등 여러 언어로 다양한 것을 만들어
+                          봤었다. 최근에는 거의 웹앱 쪽이거나 백엔드 서버쪽인
+                          경우가 대부분이다. 얼마전부터 iOS 프로그래밍을
+                          공부하고 있는데 생각보다 재밌다. 멋진 게임 하나
+                          만들어서 대박내자. !!!
+                        </p>
+                      </div>
+                    </a>
+                  </article>
                 </div>
-              </a>
+              </div>
             </div>
-          </div>
+          </section>
+          <Footer />
         </div>
       </div>
     );
