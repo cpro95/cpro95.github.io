@@ -18,7 +18,7 @@ class Family extends React.Component {
                 두 아들
               </h1>
               <figure className="image is-16by9 has-text-centered">
-                <img src="static/two-kids.png" alt="two-kids" />
+                <img src="/static/two-kids.png" alt="two-kids" />
               </figure>
             </div>
           </div>

@@ -39,7 +39,7 @@ class Works extends React.Component {
                         <p className="title">kakao-cpro95.netlify.com</p>
                         <p className="subtitle">웹에서 카카오톡 보내기</p>
                         <figure className="image is-4by3">
-                          <img src="static/kakao-logo.png" />
+                          <img src="/static/kakao-logo.png" />
                         </figure>
                       </a>
                     </article>
