@@ -19,7 +19,7 @@ class Family extends React.Component {
               alt="my sons"
             />
             <figcaption class="figure-caption text-right">
-              Lovly two kids in snowy days
+              Lovely two kids in snowy days
             </figcaption>
           </figure>
         </div>
