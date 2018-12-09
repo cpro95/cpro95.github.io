@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { BGChanger } from "../components/Utils";
 
 class Works extends React.Component {
@@ -10,13 +11,9 @@ class Works extends React.Component {
     return (
       <div>
         <Header />
-        {/* <div className="wraper d-flex flex-column justify-content-center align-items-center">
-          <h1 className="text-white">Works page</h1>
-        </div> */}
 
         <div className="wraper d-flex flex-column justify-content-center align-items-center">
           <div className="row justify-content-around">
-            {/* <div className="wraper d-flex flex-column justify-content-center align-items-center"> */}
             <div
               className="col-sm-6 card border-dark mb-3 mx-3"
               style={{ maxWidth: "18rem" }}
@@ -61,8 +58,34 @@ class Works extends React.Component {
                 </div>
               </a>
             </div>
+
+            <div
+              className="col-sm-6 card border-dark mb-3 mx-3"
+              style={{ maxWidth: "18rem" }}
+            >
+              <a className="card-link" href="https://kakao-cpro95.netlify.com">
+                <div className="card-header">Kakao Service</div>
+                <div className="card-body text-dark">
+                  <h5 className="card-title">kakao-cpro95.netlify.com</h5>
+                  <p className="card-text">
+                    Kakao Services in my Web,
+                    <br />
+                    You can send KakaoTalk Messages in Your Web.
+                    <br />
+                    Kakao Developer API used.
+                    <br />
+                    <br />
+                  </p>
+                  <footer className="blockquote-footer">
+                    Frontend for ReactJS with Bulma CSS framework.
+                  </footer>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
+
+        <Footer />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { BGChanger } from "../components/Utils";
 
 const smoothScrolling = event => {
@@ -28,7 +29,8 @@ class Index extends React.Component {
           </button>
         </div>
         <hr />
-        <div className="d-flex flex-row justify-content-center">
+
+        <div className="d-flex row flex-row justify-content-around">
           <div
             id="start1"
             className="col-sm-6 card border-dark mb-3 mx-3"
@@ -69,7 +71,29 @@ class Index extends React.Component {
               </footer>
             </div>
           </div>
+
+          <div
+            className="col-sm-6 card border-dark mb-3 mx-3"
+            style={{ maxWidth: "18rem" }}
+          >
+            <div className="card-header">C/C++ Development</div>
+            <div className="card-body text-dark">
+              <h5 className="card-title">Qt, Gtk</h5>
+              <p className="card-text">
+                Cross Platform C++ Development
+                <br />
+                Gui App Development
+                <br />
+                <br />
+              </p>
+              <footer className="blockquote-footer">
+                Basic, Stable app compilation
+              </footer>
+            </div>
+          </div>
         </div>
+
+        <Footer />
       </div>
     );
   }
