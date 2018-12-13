@@ -1,18 +1,13 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { BGChanger } from "../components/Utils";
 
 class Works extends React.Component {
-  componentDidMount() {
-    BGChanger("/static/background-image3.jpg");
-  }
-
   render() {
     return (
       <div>
         <Header />
 
-        <div className="wraper d-flex flex-column justify-content-center align-items-center">
+        <div className="d-flex flex-row">
           <div className="row justify-content-around">
             <div
               className="col-sm-6 card border-dark mb-3 mx-3"
@@ -84,7 +79,6 @@ class Works extends React.Component {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     );

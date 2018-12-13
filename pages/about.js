@@ -1,17 +1,12 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { BGChanger } from "../components/Utils";
 
 class About extends React.Component {
-  componentDidMount() {
-    BGChanger("/static/background-image1.jpg");
-  }
-
   render() {
     return (
       <div>
         <Header />
-        <div className="wraper d-flex flex-column justify-content-center align-items-center">
+        <div className="d-flex flex-column justify-content-center align-items-center">
           <div className="jumbotron">
             <h1 className="display-4">Hello, there!</h1>
             <p className="lead">

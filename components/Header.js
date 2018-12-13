@@ -1,40 +1,67 @@
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
-const Layout = () => (
-<nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-  <Link href="/">
-    <a className="navbar-brand font-weight-bold" href="#">cpro95.github.io</a>
-  </Link>
-  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span className="navbar-toggler-icon"></span>
-  </button>
+class Header extends React.Component {
+  state = {
+    isActive: false
+  }
 
-  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul className="navbar-nav ml-auto">
-      <li className="nav-item">
-        <Link href="/">
-          <a className="nav-link font-weight-bold" href="#">Home</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/works">
-          <a className="nav-link font-weight-bold" href="#">Works</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/family">
-          <a className="nav-link font-weight-bold" href="#">Family</a>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link href="/about">
-          <a className="nav-link font-weight-bold" href="#">About</a>
-        </Link>
-      </li>
-    </ul>
+  toggleNav = () => {
+    this.setState(prevState => ({
+      isActive: !prevState.isActive
+    }));
+  }
 
-  </div>
-</nav>
-);
+  render() {
+    return(
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+      <Link href="/">
+        <a className="navbar-brand font-weight-bold" href="#">
+          cpro95.github.io
+        </a>
+      </Link>
+      <button
+        className="navbar-toggler"
+        type="button"
+        onClick={this.toggleNav}
+      >
+        <span className="navbar-toggler-icon" />
+      </button>
 
-export default Layout;
+      <div className={this.state.isActive ? "in navbar-collapse" : "collapse navbar-collapse"}>
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link href="/">
+              <a className="nav-link font-weight-bold" href="#">
+                Home
+              </a>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link href="/works">
+              <a className="nav-link font-weight-bold" href="#">
+                Works
+              </a>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link href="/family">
+              <a className="nav-link font-weight-bold" href="#">
+                Family
+              </a>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link href="/about">
+              <a className="nav-link font-weight-bold" href="#">
+                About
+              </a>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    );
+  }
+}
+export default Header;
