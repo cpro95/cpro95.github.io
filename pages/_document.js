@@ -10,9 +10,8 @@ export default class MyDocument extends Document {
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
                     {/* <style dangerouslySetInnerHTML={{ __html: bootstrap }} /> */}
                     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-                    <link href="/static/font-awesome.min.css" rel="stylesheet" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
                     <link href="/static/mystyle.css" rel="stylesheet" />
-                    <link rel="stylesheet" href="/static/bootstrap.min.css" />
                 </Head>
                 <body>
                     <Main />

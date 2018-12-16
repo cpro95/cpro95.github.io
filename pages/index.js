@@ -1,102 +1,72 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { BGChanger } from "../components/Utils";
+import Link from "next/link";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
-const smoothScrolling = event => {
-  event.preventDefault();
-  var target = document.getElementById("start1");
-  window.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+const styles = {
+  flex: {
+    display: "flex"
+  },
+  griditem: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  media: {
+    width: "100%",
+    height: "85vh",
+    backgroundImage: "url('/static/background-image2.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover"
+  },
+  link: {
+    textDecoration: "none",
+    color: "white"
+  },
+  title: {
+    paddingTop: "15%",
+    textAlign: "center",
+    color: "white"
+  }
 };
 
 class Index extends React.Component {
-  componentDidMount() {
-    BGChanger("/static/background-image4.jpg");
-  }
-
   render() {
+    const { classes } = this.props;
+
     return (
-      <div style={{ width: "100%" }}>
+      <div>
         <Header />
-        <div className="wraper d-flex flex-column justify-content-center align-items-center">
-          <h1 className="display-4 text-white font-weight-bold mb-4">
-            Welcome to My Home
-          </h1>
-          <p className="h5 text-white mb-3">
-            My whole life of digital, and so on.
-          </p>
-          <button className="h6 btn btn-primary" onClick={smoothScrolling}>
-            Get Started
-          </button>
-        </div>
-        <hr />
-
-        <div className="d-flex row flex-row justify-content-around">
-          <div
-            id="start1"
-            className="col-sm-6 card border-dark mb-3 mx-3"
-            style={{ maxWidth: "18rem" }}
-          >
-            <div className="card-header">Web Development</div>
-            <div className="card-body text-dark">
-              <h5 className="card-title">NodeJS, Go, Dart</h5>
-              <p className="card-text">
-                ReactJS, Redux, NextJS, GatsbyJS
+        <Grid container className={classes.flex}>
+          <Grid item xs={12} className={classes.griditem}>
+            <div className={classes.media}>
+              <div className={classes.title}>
+                <Typography color="inherit" variant="display1" gutterBottom>
+                  Welcome to My Home
+                </Typography>
                 <br />
-                ExpressJS, Go powered backend RESTful apps
-                <br />
-              </p>
-              <footer className="blockquote-footer">
-                Mordern Web Technology
-              </footer>
+                <Button variant="outlined" color="secondary" size="large">
+                  <Link href="/works">
+                    <a className={classes.link}>Learn More</a>
+                  </Link>
+                </Button>
+              </div>
             </div>
-          </div>
-
-          <div
-            className="col-sm-6 card border-dark mb-3 mx-3"
-            style={{ maxWidth: "18rem" }}
-          >
-            <div className="card-header">Mobile Development</div>
-            <div className="card-body text-dark">
-              <h5 className="card-title">IOS, Android</h5>
-              <p className="card-text">
-                Swift, Java
-                <br />
-                ReactNative, Flutter
-                <br />
-                <br />
-                <br />
-              </p>
-              <footer className="blockquote-footer">
-                Speed, Resuable Code creation
-              </footer>
-            </div>
-          </div>
-
-          <div
-            className="col-sm-6 card border-dark mb-3 mx-3"
-            style={{ maxWidth: "18rem" }}
-          >
-            <div className="card-header">C/C++ Development</div>
-            <div className="card-body text-dark">
-              <h5 className="card-title">Qt, Gtk</h5>
-              <p className="card-text">
-                Cross Platform C++ Development
-                <br />
-                Gui App Development
-                <br />
-                <br />
-              </p>
-              <footer className="blockquote-footer">
-                Basic, Stable app compilation
-              </footer>
-            </div>
-          </div>
-        </div>
-
+          </Grid>
+        </Grid>
         <Footer />
       </div>
     );
   }
 }
 
-export default Index;
+Index.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Index);

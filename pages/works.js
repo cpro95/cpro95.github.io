@@ -1,6 +1,12 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+const smoothScrolling = event => {
+  event.preventDefault();
+  var target = document.getElementById("start1");
+  window.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+};
+
 class Works extends React.Component {
   render() {
     return (

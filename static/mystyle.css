@@ -1,22 +1,9 @@
-html {
+html  {
     margin: 0;
     padding: 0;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-}
-
-.wraper {
-    width: 100%;
-    height: 93vh;
-}
-
-.jumbotron {
-    background: transparent;
-}
-
-.card-link:hover {
-    text-decoration : firebrick;
+    margin: 0;
+    padding: 0;
 }

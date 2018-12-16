@@ -7,13 +7,13 @@ class Family extends React.Component {
       <div>
         <Header />
         <div className="d-flex flex-column justify-content-around align-items-center">
-          <figure class="figure">
+          <figure className="figure">
             <img
               src="/static/two-kids.png"
-              class="figure-img img-fluid rounded"
+              className="figure-img img-fluid rounded"
               alt="my sons"
             />
-            <figcaption class="figure-caption text-right">
+            <figcaption className="figure-caption text-right">
               Lovely two kids in snowy days
             </figcaption>
           </figure>
