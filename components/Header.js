@@ -17,15 +17,18 @@ import HomeIcon from "@material-ui/icons/AccountBalanceOutlined";
 import WorksIcon from "@material-ui/icons/AssignmentOutlined";
 import AboutIcon from "@material-ui/icons/AnnouncementOutlined";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import FamilyIcon from '@material-ui/icons/TagFacesOutlined';
+import FamilyIcon from "@material-ui/icons/TagFacesOutlined";
+import Hidden from "@material-ui/core/Hidden";
 
 const styles = {
   root: {
-    display: 'flex'
+    display: "flex"
   },
 
   flex: {
-    flex: 1
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
 
   menuButton: {
@@ -117,39 +120,60 @@ class Header extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              <MenuIcon onClick={() => this.toggleDrawer("left", true)} />
-              <Drawer
-                open={this.state.left}
-                onClose={() => this.toggleDrawer("left", false)}
+          <Toolbar className={classes.flex}>
+            <Hidden smUp>
+              <IconButton
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="Menu"
               >
-                <div
-                  tabIndex={0}
-                  role="button"
-                  onClick={() => this.toggleDrawer("left", false)}
-                  onKeyDown={() => this.toggleDrawer("left", false)}
+                <MenuIcon onClick={() => this.toggleDrawer("left", true)} />
+                <Drawer
+                  open={this.state.left}
+                  onClose={() => this.toggleDrawer("left", false)}
                 >
-                  {sideList}
-                </div>
-              </Drawer>
-            </IconButton>
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    onClick={() => this.toggleDrawer("left", false)}
+                    onKeyDown={() => this.toggleDrawer("left", false)}
+                  >
+                    {sideList}
+                  </div>
+                </Drawer>
+              </IconButton>
+            </Hidden>
 
-            <Link href="/">
-              <a style={{ color: "white", textDecoration: "none" }}>
-                <Typography
-                  variant="title"
-                  color="inherit"
-                  className={classes.flex}
-                >
+            <Typography variant="title" color="inherit">
+              <Link href="/">
+                <a style={{ color: "white", textDecoration: "none" }}>
                   cpro95.github.io
-                </Typography>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </Typography>
+            <Hidden xsDown>
+              <Typography variant="title" color="inherit">
+                <Link href="/works">
+                  <a style={{ color: "white", textDecoration: "none" }}>
+                    works
+                  </a>
+                </Link>
+              </Typography>
+              <Typography variant="title" color="inherit">
+                <Link href="/family">
+                  <a style={{ color: "white", textDecoration: "none" }}>
+                    family
+                  </a>
+                </Link>
+              </Typography>
+              <Typography variant="title" color="inherit">
+                <Link href="/about">
+                  <a style={{ color: "white", textDecoration: "none" }}>
+                    about
+                  </a>
+                </Link>
+              </Typography>
+            </Hidden>
           </Toolbar>
         </AppBar>
       </div>

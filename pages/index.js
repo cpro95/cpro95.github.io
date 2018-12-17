@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Link from "next/link";
+// import Link from "next/link";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -55,7 +55,8 @@ const styles = theme => ({
     color: "white"
   },
   title2: {
-    textAlign: "center"
+    textAlign: "center",
+    paddingBottom: '20px',
   }
 });
 
@@ -74,11 +75,16 @@ class Index extends React.Component {
                   Welcome to My Home
                 </Typography>
                 <br />
-                <Button variant="outlined" color="secondary" size="large" onClick={smoothScrolling}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  onClick={smoothScrolling}
+                >
                   {/* <Link href="/works"> */}
-                    {/* <a className={classes.link} onClick={smoothScrolling}> */}
-                    Learn More
-                    {/* </a> */}
+                  {/* <a className={classes.link} onClick={smoothScrolling}> */}
+                  Learn More
+                  {/* </a> */}
                   {/* </Link> */}
                 </Button>
               </div>
@@ -95,16 +101,19 @@ class Index extends React.Component {
           </Typography>
         </div>
         <div className={classes.root}>
-          <GridList className={classes.gridList}  cols={2} spacing={20}>
+          <GridList className={classes.gridList} cols={2} spacing={10}>
             <GridListTile component="a" href="https://cpro95.netlify.com">
               <img src="/static/images/gatsby_blog.png" alt="kakao service" />
               <GridListTileBar
                 title="Gatsby Blog"
                 // subtitle={<span>by: me</span>}
                 // titlePosition="top"
-                />
+              />
             </GridListTile>
-            <GridListTile component="a" href="https://movies-cpro95.netlify.com">
+            <GridListTile
+              component="a"
+              href="https://movies-cpro95.netlify.com"
+            >
               <img src="/static/images/movies.png" alt="kakao service" />
               <GridListTileBar
                 title="Movies DB"
