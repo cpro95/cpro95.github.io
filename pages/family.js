@@ -9,7 +9,7 @@ class Family extends React.Component {
         <div className="d-flex flex-column justify-content-around align-items-center">
           <figure className="figure">
             <img
-              src="/static/two-kids.png"
+              src="/static/images/two-kids.png"
               className="figure-img img-fluid rounded"
               alt="my sons"
             />
