@@ -77,7 +77,7 @@ class Index extends React.Component {
                 <br />
                 <Button
                   variant="outlined"
-                  color="secondary"
+                  color="primary"
                   size="large"
                   onClick={smoothScrolling}
                 >

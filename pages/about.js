@@ -13,6 +13,9 @@ const styles = theme => ({
     flex: 1,
     flexDirection: "column"
   },
+  flexCenter: {
+    justifyContent: "center"
+  },
   link: {
     textDecoration: "none"
   },
@@ -29,36 +32,38 @@ class About extends React.Component {
     return (
       <div>
         <Header />
-        <Paper className={classes.flex} elevation={1}>
-          <Typography variant="h1" gutterBottom>
-            Hello, there!
-          </Typography>
-          <Typography variant="h6" className={classes.p1}>
-            I'm a novice for web dev. I made this site in my spare time.
-            <br />
-            There's lots of stuff for learn for web dev, like css, animation,
-            etc.
-          </Typography>
-          <Typography variant="h6" className={classes.p1}>
-            This is a simple Material-UI & NextJS app, if you want see the
-            source code,
-            <br />
-            plese click the below button.
-          </Typography>
-          <div style={{ paddingLeft: "10px" }}>
-            <Button
-              className={classes.link}
-              variant="outlined"
-              color="secondary"
-              size="large"
-              component="a"
-              href="https://github.com/cpro95"
-            >
-              Learn more
-            </Button>
-          </div>
-          <br />
-        </Paper>
+            <Paper elevation={1}>
+              <div className={classes.flex}>
+                <Typography variant="h2" align='center' gutterBottom>
+                  Hello, there!
+                </Typography>
+                <Typography variant="h6" align='center' className={classes.p1}>
+                  I'm a novice for web dev. I made this site in my spare time.
+                  <br />
+                  There's lots of stuff for learn for web dev, like css,
+                  animation, etc.
+                </Typography>
+                <Typography variant="h6" align='center' className={classes.p1}>
+                  This is a simple Material-UI & NextJS app, if you want see the
+                  source code,
+                  <br />
+                  plese click the below button.
+                </Typography>
+              </div>
+              <div style={{ paddingLeft: "10px", textAlign: 'center' }}>
+                <Button
+                  className={classes.link}
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  component="a"
+                  href="https://github.com/cpro95"
+                >
+                  Learn more
+                </Button>
+              </div>
+              <br />
+            </Paper>
         <Footer />
       </div>
     );
