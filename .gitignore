@@ -1,5 +1,7 @@
-node_modules/
+.esm-cache
+.vscode
+node_modules
+build
+*.log
 .DS_Store
-.next/
-out/
 
