@@ -1,0 +1,26 @@
+.Document h1{
+    font-family: 'Roboto';
+    font-size: 2.5rem;
+    font-weight: 1900;
+    line-height: 1.1;
+    margin-top: 1.7rem;
+    margin-bottom: 2.4rem;  
+    text-rendering: optimizeLegibility;
+  }
+  .Document h2 {
+    font-family: 'Roboto';
+    font-size: 2.0rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-top: 1.7rem;
+    margin-bottom: 2.4rem;  
+    text-rendering: optimizeLegibility;
+  }
+  .Document li {
+    font-family: "Roboto";
+    font-size: 1.5rem;
+    line-height: 1.1;
+    margin-top: 1.7rem;
+    margin-bottom: 2.4rem;  
+    text-rendering: optimizeLegibility;
+  }
