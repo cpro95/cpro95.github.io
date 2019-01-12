@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{79:function(t,n,e){"use strict";e.r(n),n.default={title:"Git Tutorial!",tags:["git","programming"],spoiler:"Learn how to use git.",getContent:function(){return e.e(9).then(e.bind(null,73))}}}}]);
-//# sourceMappingURL=5.ffe69f37.chunk.js.map
