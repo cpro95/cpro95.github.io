@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
-        <title>cpro95.github.io</title>
+        <title>&lt;cpro95 /&gt;</title>
         <link>/</link>
         <description>Blog of cpro95@gmail.com</description>
-        <lastBuildDate>Sat, 12 Jan 2019 10:20:45 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 14 Jan 2019 06:37:28 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Blog Tutorial!]]></title>
-            <link>/posts/2019-01-05/welcome/</link>
-            <guid>/posts/2019-01-05/welcome/</guid>
-            <content:encoded><![CDATA[<div><div><div class="document_logo__1zQZI"><img src="/static/media/navi-logo.0f2f9d7f.svg" class="document_logo-navi__vRv2J" alt="logo"/><img src="/static/media/react-logo.5d5d9eef.svg" class="document_logo-react__2qX15" alt="logo"/></div><h2 id="how-to">How to…</h2><p><strong>To update this post,</strong> edit <code>src/pages/posts/2019-01-05-welcome/document.mdx</code> and save to reload.</p><p><strong>To update the site’s title,</strong> edit the metadata in <code>src/siteMetadata.js</code>.</p><p><strong>To change the site’s colors,</strong> edit the <code>:root</code> block in <code>src/index.module.css</code>.</p><p><strong>To create a new post,</strong> add a new directory to <code>src/pages/posts</code> that is prefixed with the new post’s publication date, then create a <code>post.js</code> file inside it:</p><pre><code class="language-jsx" data-language="jsx" data-highlighted-line-numbers=""><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+            <link>\posts\2019-01-05\welcome\</link>
+            <guid>\posts\2019-01-05\welcome\</guid>
+            <content:encoded><![CDATA[<div><div><div class="document_logo__1gKDE"><img src="/static/media/navi-logo.0f2f9d7f.svg" class="document_logo-navi__1qVdn" alt="logo"/><img src="/static/media/react-logo.ee7cd8ed.svg" class="document_logo-react__2CW3W" alt="logo"/></div><h2 id="how-to">How to…</h2><p><strong>To update this post,</strong> edit <code>src/pages/posts/2019-01-05-welcome/document.mdx</code> and save to reload.</p><p><strong>To update the site’s title,</strong> edit the metadata in <code>src/siteMetadata.js</code>.</p><p><strong>To change the site’s colors,</strong> edit the <code>:root</code> block in <code>src/index.module.css</code>.</p><p><strong>To create a new post,</strong> add a new directory to <code>src/pages/posts</code> that is prefixed with the new post’s publication date, then create a <code>post.js</code> file inside it:</p><pre><code class="language-jsx" data-language="jsx" data-highlighted-line-numbers=""><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
   title<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`Learn How To Build This Blog From Scratch`</span></span><span class="token punctuation">,</span>
   tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'react'</span><span class="token punctuation">,</span> <span class="token string">'navi'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   spoiler<span class="token punctuation">:</span> <span class="token string">"An online course with loads of live demos and exercises."</span><span class="token punctuation">,</span>
@@ -21,9 +21,9 @@
         </item>
         <item>
             <title><![CDATA[FFMpeg Tutorial!]]></title>
-            <link>/posts/2019-01-10/ffmpeg-tutorial/</link>
-            <guid>/posts/2019-01-10/ffmpeg-tutorial/</guid>
-            <content:encoded><![CDATA[<div><div class="document_Document__1ja0Y"><h1 id="동영상-자막-입히기">동영상 자막 입히기</h1><ol><li>ASS 자막으로 변환하기</li></ol><pre><code>ffmpeg -i movie.srt movie.ass
+            <link>\posts\2019-01-10\ffmpeg-tutorial\</link>
+            <guid>\posts\2019-01-10\ffmpeg-tutorial\</guid>
+            <content:encoded><![CDATA[<div><div><h1 id="동영상-자막-입히기">동영상 자막 입히기</h1><ol><li>ASS 자막으로 변환하기</li></ol><pre><code>ffmpeg -i movie.srt movie.ass
 //ass 자막은 Fontname, Fontsize 변경 가능하다
 </code></pre><ol start="2"><li>자막 입히기</li></ol><pre><code>ffmpeg -i movie.mkv -vf subtitles=subtitle.ass out.mkv
 
@@ -52,9 +52,9 @@ ffmpeg -i sample.mkv -c:v copy -c:a aac out.mkv
         </item>
         <item>
             <title><![CDATA[Git Tutorial!]]></title>
-            <link>/posts/2019-01-11/git-tutorial/</link>
-            <guid>/posts/2019-01-11/git-tutorial/</guid>
-            <content:encoded><![CDATA[<div><div class="document_Document__2hvLK"><h1 id="git-tutorial">Git Tutorial</h1><h2 id="dvcs분산-버전-관리-시스템">DVCS(분산 버전 관리 시스템)</h2><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
+            <link>\posts\2019-01-11\git-tutorial\</link>
+            <guid>\posts\2019-01-11\git-tutorial\</guid>
+            <content:encoded><![CDATA[<div><div><h1 id="git-tutorial">Git Tutorial</h1><h2 id="dvcs분산-버전-관리-시스템">DVCS(분산 버전 관리 시스템)</h2><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
 </code></pre><p>클라이언트가 저장소 통채로 복제
 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.</p><hr/><h2 id="파일의-상태">파일의 상태</h2><h4 id="tracked-파일의-세-가지-상태">TRACKED 파일의 세 가지 상태</h4><p><img src="https://wikidocs.net/images/page/11069/areas.png" alt="git_status"/></p><pre><code>modified: 파일을 수정했지만 아직 커밋하지 않은 상태
 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태
@@ -159,8 +159,8 @@ $ git commit --amend
         </item>
         <item>
             <title><![CDATA[Github Pages 사용법!]]></title>
-            <link>/posts/2019-01-12/github-pages-tutorial/</link>
-            <guid>/posts/2019-01-12/github-pages-tutorial/</guid>
+            <link>\posts\2019-01-12\github-pages-tutorial\</link>
+            <guid>\posts\2019-01-12\github-pages-tutorial\</guid>
             <content:encoded><![CDATA[<div><div><h1 id="github-pages-사용법">Github Pages 사용법</h1><h2 id="나만의-홈페이지-만들기">나만의 홈페이지 만들기</h2><p>NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 호스팅하고 싶은데요
 제가 쓰는 SPA앱용 호스팅은 <a href="http://netlify.com">netlify.com</a>입니다.
 무료이고 속도도 제일 빠르더라구요.</p><p>netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각합니다.
