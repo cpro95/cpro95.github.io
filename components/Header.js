@@ -14,7 +14,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/AccountBalanceOutlined";
-import WorksIcon from "@material-ui/icons/AssignmentOutlined";
+import BlogIcon from "@material-ui/icons/AssignmentOutlined";
 import AboutIcon from "@material-ui/icons/AnnouncementOutlined";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import FamilyIcon from "@material-ui/icons/TagFacesOutlined";
@@ -73,13 +73,13 @@ class Header extends React.Component {
             </ListItem>
           </a>
         </Link>
-        <Link href="/works">
+        <Link href="/blogs">
           <a style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
-                <WorksIcon />
+                <BlogIcon />
               </ListItemIcon>
-              <ListItemText primary="Works" />
+              <ListItemText primary="Blogs" />
             </ListItem>
           </a>
         </Link>
@@ -153,9 +153,9 @@ class Header extends React.Component {
             </Typography>
             <Hidden xsDown>
               <Typography variant="title" color="inherit">
-                <Link href="/works">
+                <Link href="/blogs">
                   <a style={{ color: "white", textDecoration: "none" }}>
-                    works
+                    blogs
                   </a>
                 </Link>
               </Typography>

@@ -15,8 +15,8 @@ const styles = theme => ({
     flexDirection: "column"
   },
   card: {
-    maxWidth: 500,
-    height: 600,
+    maxWidth: 650,
+    height: 550,
   }
 });
 
