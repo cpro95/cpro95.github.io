@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{80:function(t,n,e){"use strict";e.r(n),n.default={title:"Blog Tutorial!",tags:["react","navi"],spoiler:"Learn how to add new posts and tweak the theme to your liking.",getContent:function(){return e.e(8).then(e.bind(null,65))}}}}]);
-//# sourceMappingURL=3.4fd179fb.chunk.js.map

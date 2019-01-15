@@ -1,6 +1,6 @@
 export default {
-    title: `Git Tutorial!`,
+    title: `Git 공부하기`,
     tags: ['git', 'programming'],
-    spoiler: "Learn how to use git.",
+    spoiler: "Git 기초부터 공부하기.",
     getContent: () => import('./document.mdx'),
   }

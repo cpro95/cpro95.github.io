@@ -1,6 +1,6 @@
 export default {
-    title: `FFMpeg Tutorial!`,
+    title: `FFMpeg 사용법`,
     tags: ['ffmpeg', 'video', 'audio'],
-    spoiler: "Learn how to use ffmpeg cli",
+    spoiler: "ffmpeg 명령어 사용법",
     getContent: () => import('./document.mdx'),
   }

@@ -1,5 +1,9 @@
 /* https://github.com/fabiocolacio/markdown-css-themes/blob/gh-pages/markdown.css */
 
+a {
+  text-decoration: none;
+}
+
 img {
   max-width: 100%;
 }
