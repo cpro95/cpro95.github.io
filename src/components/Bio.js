@@ -12,14 +12,10 @@ function Bio(props) {
     >
       <img src={bioPic} alt="blog img" />
       <p>
-        Enjoy my blog, thanks to "npx create-react-blog" James K Nelson.
+        Enjoy my blog!
         <br />
-        Based on{" "}
-        <a href="https://facebook.github.io/create-react-app/">
-          create-react-app
-        </a>
-        , <a href="https://mdxjs.com/">MDX</a>, and{" "}
-        <a href="https://frontarm.com/navi/">Navi</a>.
+        Lots of stuff for Node, React, Flutter, Java, Git ...
+        
       </p>
     </div>
   );

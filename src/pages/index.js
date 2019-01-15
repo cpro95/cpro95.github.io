@@ -96,6 +96,7 @@ const pagesSwitch = Navi.createSwitch({
     // Miscellaneous pages can be added directly to the root switch.
     '/tags': () => import('./tags'),
     '/about': () => import('./about'),
+    '/projects': () => import('./projects'),
 
     // Only the statically built copy of the RSS feed is intended to be opened,
     // but the content is fetched here.

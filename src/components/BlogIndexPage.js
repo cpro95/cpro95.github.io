@@ -44,7 +44,10 @@ function BlogIndexPage({ blogPathname, pageCount, pageNumber, postRoutes }) {
           <NavLink href='./tags'>
             Tags
           </NavLink> &bull;{' '}
-          <a href='https://github.com/cpro95'>
+          <NavLink href='./projects'>
+            Projects
+          </NavLink> &bull;{' '}
+          <a href='https://github.com/cpro95/cpro95.github.io'>
             Source
           </a>
         </div>
