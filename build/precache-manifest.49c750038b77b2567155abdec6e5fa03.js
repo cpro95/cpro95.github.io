@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/js/10.2e104a0d.chunk.js"
   },
   {
-    "revision": "376253ca63a0a096d8b4",
+    "revision": "6d6dc9a2f1eb3fe3b7b1",
     "url": "/static/css/main.3568ea50.chunk.css"
   },
   {
@@ -60,8 +60,8 @@ self.__precacheManifest = [
     "url": "/static/media/kakao.cbc23d38.png"
   },
   {
-    "revision": "376253ca63a0a096d8b4",
-    "url": "/static/js/main.376253ca.chunk.js"
+    "revision": "6d6dc9a2f1eb3fe3b7b1",
+    "url": "/static/js/main.6d6dc9a2.chunk.js"
   },
   {
     "revision": "d62b494c33a50ab2d0b4187e3d59a615",
@@ -116,7 +116,7 @@ self.__precacheManifest = [
     "url": "/static/css/1.6adc9a58.chunk.css"
   },
   {
-    "revision": "b332c67d7a860147c442982a2a93a7da",
+    "revision": "61beb67a6327675d8cc65a237861c933",
     "url": "/index.html"
   }
 ];

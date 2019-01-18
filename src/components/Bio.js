@@ -12,7 +12,7 @@ function Bio(props) {
     >
       <img src={bioPic} alt="blog img" />
       <p>
-        코딩 관련 블로입니다.
+        코딩 관련 블로그입니다.
         <br />
         주로 배우고 있는 거는 NodeJS, React, Flutter, Java, Git ...
         
