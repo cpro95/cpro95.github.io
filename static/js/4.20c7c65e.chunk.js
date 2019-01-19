@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{86:function(n,e,t){"use strict";t.r(e),e.default={title:"\uc774 \ube14\ub85c\uadf8\ub294 \uc5b4\ub5bb\uac8c \uc218\uc815\ud558\uc8e0? by James K Nelson",tags:["react","navi"],spoiler:"Navi\ub97c \uc774\uc6a9\ud55c \uc0c8 \ud398\uc774\uc9c0 \ub9cc\ub4e4\uae30 \ub4f1\ub4f1",getContent:function(){return t.e(10).then(t.bind(null,70))}}}}]);
-//# sourceMappingURL=4.20c7c65e.chunk.js.map

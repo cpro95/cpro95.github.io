@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{93:function(n,t,e){"use strict";e.r(t),t.default={title:"MacOS\uc5d0\uc11c chunkwm \uc0ac\uc6a9\ud558\uae30",tags:["chunkwm","skhd","mac"],spoiler:"\ub9ac\ub205\uc2a4\uc758 i3 \ud0c0\uc77c\ub9c1 window manager\uac00 \ubd80\ub7ec\uc6b8\ub550 chunkwm \ub97c \uc0ac\uc6a9\ud558\uc138\uc694",getContent:function(){return e.e(15).then(e.bind(null,84))}}}}]);
+//# sourceMappingURL=8.05140f2f.chunk.js.map
