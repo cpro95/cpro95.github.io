@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{88:function(t,n,i){"use strict";i.r(n),n.default={title:"Git \uacf5\ubd80\ud558\uae30",tags:["git","programming"],spoiler:"Git \uae30\ucd08\ubd80\ud130 \uacf5\ubd80\ud558\uae30.",getContent:function(){return i.e(12).then(i.bind(null,78))}}}}]);
-//# sourceMappingURL=6.6f593ec9.chunk.js.map

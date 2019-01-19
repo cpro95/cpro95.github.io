@@ -1,0 +1,28 @@
+/* https://github.com/fabiocolacio/markdown-css-themes/blob/gh-pages/markdown.css */
+
+a {
+    text-decoration: none;
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  img {
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    vertical-align: middle;
+  }
+  
+  @media only screen and (min-width: 480px) {
+    body {
+      font-size: 14px;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) {
+    body {
+      font-size: 16px;
+    }
+  }
+  
