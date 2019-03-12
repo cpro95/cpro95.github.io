@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[cpro95 dev blog]]></title><description><![CDATA[코딩 관련 블로그입니다. 주로 배우고 있는 거는 NodeJS, React, Flutter, Java, Git ...]]></description><link>http://cpro95.asuscomm.com:2369/</link><image><url>http://cpro95.asuscomm.com:2369/favicon.png</url><title>cpro95 dev blog</title><link>http://cpro95.asuscomm.com:2369/</link></image><generator>Ghost 2.16</generator><lastBuildDate>Tue, 12 Mar 2019 13:09:57 GMT</lastBuildDate><atom:link href="http://cpro95.asuscomm.com:2369/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[MacOS에서 chunkwm 사용하기]]></title><description><![CDATA[<h1 id="-i3">리눅스의 타일링 윈도우 매니저 i3</h1><p>어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.</p><p>프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어, 구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.</p><h1 id="-brew-">맥은</h1>]]></description><link>http://cpro95.asuscomm.com:2369/macoseseo-chunkwm-sayonghagi/</link><guid isPermaLink="false">5c87ad9b37a04c7d095abbb5</guid><category><![CDATA[macos]]></category><category><![CDATA[programming]]></category><category><![CDATA[tutorial]]></category><dc:creator><![CDATA[Manki Kim]]></dc:creator><pubDate>Tue, 12 Mar 2019 13:01:39 GMT</pubDate><content:encoded><![CDATA[<h1 id="-i3">리눅스의 타일링 윈도우 매니저 i3</h1><p>어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.</p><p>프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어, 구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.</p><h1 id="-brew-">맥은 brew 죠</h1><p>우분투에 apt-get, 아치리눅스 pacman이 있듯이 맥에서는 brew란 설치 스크립트를 이용하는데 역시나 chunkwm가 brew로 설치 할 수 있더라구요.</p><!--kg-card-begin: code--><pre><code># clone tap
+brew tap koekeishiya/formulae
+
+# install latest stable version
+brew install chunkwm
+</code></pre><!--kg-card-end: code--><p>일단 chunkwm 을 설치하면 아래와 같이 설정파일을 홈폴더에 복사해야 된다.</p><!--kg-card-begin: code--><pre><code>cp /usr/local/Cellar/chunkwm/0.4.7/share/chunkwm/examples/chunkwmrc ~/.chunkwmrc
+</code></pre><!--kg-card-end: code--><p>설치가 끝나고 일단 터미널 상에서 chunkwm 을 실행해 봤는데 윈도우가 타일링 형식으로 정렬되더라구요. 근데 문제가 있습니다. 유투브에서처럼 단축기로 윈도우를 제어하지 못하더라구요. 그래서 좀더 구글링 해보니까 chunkwm 은 순수하게 윈도우 매니저만 하고 맥오에스상의 키보드 제어는 다른 프로그램이 한다고 합니다. 이름하여 skhd란 어플입니다.</p><!--kg-card-begin: code--><pre><code>brew install koekeishiya/formulae/skhd
+# 역시나 설정파일을 홈 폴더 밑에 복사해야 됩니다.
+cp /usr/local/Cellar/skhd/0.3.0/share/skhd/examples/skhdrc ~/.skhdrc
+</code></pre><!--kg-card-end: code--><p>자 skhd까지 실행하면 키 인풋으로 윈도우를 제어할 수 있습니다.</p><p>그런데 문제가 있습니다. 언제까지 터미널에서 chunkwm 이나 skhd 를 실행할 수 없겠더라구요. 그래서 좀더 알아보니까 brew 에도 백그라운드 서비스에 등록할 수 있는 명령어가 있더라구요. 백그라운드 서비스에 등록하면 맥오에스 구동시 자동으로 실행됩니다.</p><!--kg-card-begin: code--><pre><code>brew services restart chunkwm
+brew services restart skhd
+</code></pre><!--kg-card-end: code--><p>맥오에스 재시동해도 자동으로 잘 실행됩니다.</p><p>.skhdrc를 열어보면 키 설정을 할 수 있는데 맥오에스 기본 단축키랑 충돌되는 거는 피하고 새로 설정할 필요가 있더라구요.</p><p>2시간의 삽질로 드디어 리눅스의 i3 같은 타일링 윈도우 매니저를 내 해킨토시에서도 사용할 수 있게되어 매우 기쁘네요.</p><p>그럼 이만.</p>]]></content:encoded></item><item><title><![CDATA[Github Pages 사용법]]></title><description><![CDATA[<h2 id="github-pages-">Github Pages 사용법</h2><h3 id="-">나만의 홈페이지 만들기</h3><p>NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 <a href="http://netlify.com/">netlify.com</a>입니다. 무료이고 속도도 제일 빠르더라구요.</p><p>netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인 퍼블리싱 할 수 있습니다..</p><p>물론 상업적으로 론칭할려면 AWS</p>]]></description><link>http://cpro95.asuscomm.com:2369/github-pages-sayongbeob/</link><guid isPermaLink="false">5c87ad6837a04c7d095abbab</guid><category><![CDATA[github]]></category><category><![CDATA[programming]]></category><category><![CDATA[tutorial]]></category><dc:creator><![CDATA[Manki Kim]]></dc:creator><pubDate>Tue, 12 Mar 2019 13:00:40 GMT</pubDate><content:encoded><![CDATA[<h2 id="github-pages-">Github Pages 사용법</h2><h3 id="-">나만의 홈페이지 만들기</h3><p>NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 <a href="http://netlify.com/">netlify.com</a>입니다. 무료이고 속도도 제일 빠르더라구요.</p><p>netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인 퍼블리싱 할 수 있습니다..</p><p>물론 상업적으로 론칭할려면 AWS 같은 유료 호스팅 서비스로 가야겠지만요.</p><h2 id="--1">나만의 홈페이지인데 블로그를 만들고 싶다면</h2><p>Node나 React를 배우게 되면 홈페이지도 그냥 HTML로 만들기가 뭔가 손해 같은데요. 배운게 아까워서. React 진영에는 블로그로 <a href="https://gatsby.com/">Gatsby</a>가 기능도 많고 많이 사용됩니다. 그래서 배워볼 겸 사실 하나 만들어 봤습니다. netlify에 호스팅했었는데 한번 방문 해 보세요.</p><p><a href="http://cpro95.netlify.com/">cpro95.netlify.com</a></p><p>사실 Gatsby 블로그 시스템도 성능이나 속도면에서 좋지만 좀 무거운 면이 없지 않아서 다른 걸 생각했었는데 우연히 reddit을 보다가 새로 발견한게 있는데 James K Nelson의 "npx create-react-blog"입니다. React용 라우터인 Navi를 만든 사람 같은데 블로그 템플릿도 같이 만들어서 배포했더라구요. 조금 만져 보니까 가볍고 쉽다는 느낌이 들었습니다.</p><p>그래서 드디어 내 계정의 github.io에 호스팅할 블로그로 결정하게 되었습니다.</p><p><a href="https://cpro95.github.io/">cpro95.github.io</a></p><h2 id="github-pages--1">Github Pages 본격 사용법</h2><h3 id="--2">리포지터리 만들기</h3><p>일단 github.io에 정적 사이트를 호스팅 할려면 먼저 리포지터리를 만들어야 겠죠? 일단 github.com 에서 자신의 아이디로 된 리포지터리를 github pages용으로 만듭니다. 제 경우 아이디가 cpro95이기 때문에 cpro95.github.io 이란 좀 긴 리포지터리를 만들었습니다. 이제 터미널에서 클론 해보죠</p><!--kg-card-begin: code--><pre><code>git clone https://github.com/cpro95/cpro95.github.io.git
+</code></pre><!--kg-card-end: code--><p>username.github.io 의 호스팅은 master 브랜치에 저장된 데이터만 정적 호스팅됩니다. 로컬에서 데이터 수정후 remote 로 push 하면 github.io가 자동으로 호스팅 합니다.</p><p>여기서 헷갈리는게 있는데 github pages는 사용자 페이지와 프로젝트 페이지가 있습니다. 사용자 페이지는 username.github.io 와 같이 자신의 github.io 페이저 첫 부분입니다. 사용자 페이지는 master 브랜치를 통해서만 편집할 수 있구요.</p><p>프로젝트 페이지는 쉽게 설명하면 본인이 만들고 있는 웹앱이나 홈페이지가 있는데 이걸 자신의 github 프로젝트 페이지 밑에 정적으로 호스팅하고 싶을때 사용하는 페이지입니다.</p><p>예를 들어 카카오톡 링크보내기 웹앱을 만들었고 github.io에 호스팅하고 싶다면 즉, kakao-cpro95.git 이라는 프로젝트를 github pages로 정적 호스팅하고 싶다면<a href="https://cpro95.github.io/kakao-cpro95/">https://cpro95.github.io/kakao-cpro95/</a> 란 웹경로로 호스팅 됩니다.</p><p>프로젝트 페이지는 gh-pages란 브랜치를 만들고 package.json 의 homepage란을 적절히 작성하면 gh-page deploy로 바로 퍼블리싱할 수 있습니다.</p><p>gh-page란 브랜치가 자동으로 자신의 github.io 밑에 퍼블리싱되구요.</p><!--kg-card-begin: code--><pre><code>#install gh-pages package
+npm install --save gh-pages
+</code></pre><!--kg-card-end: code--><p>package.json 수정하기</p><!--kg-card-begin: code--><pre><code>...
+"homepage": "https://cpro95.github.io/kakao-cpro95",
+...
+
+"scripts" : {
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build"
+}
+</code></pre><!--kg-card-end: code--><p>gh-pages 로 발행하고 싶을때는 npm run deploy 를 실행하면 자동으로 predeploy도 실행 되면서 자신의 프로젝트 페이지 밑에 사용자 페이지가 만들어 집니다.</p>]]></content:encoded></item><item><title><![CDATA[Git 공부하기]]></title><description><![CDATA[<h1 id="git-tutorial">Git Tutorial</h1><h2 id="dvcs-">DVCS(분산 버전 관리 시스템)</h2><!--kg-card-begin: code--><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
+</code></pre><!--kg-card-end: code--><p>클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="-">파일의 상태</h2><h4 id="tracked-">TRACKED 파일의 세 가지 상태</h4><!--kg-card-begin: image--><figure class="kg-card kg-image-card"><img src="https://wikidocs.net/images/page/11069/areas.png" class="kg-image" alt="git_status"></figure><!--kg-card-end: image--><!--kg-card-begin: code--><pre><code>modified: 파일을 수정했지만 아직 커밋하지 않은 상태
+staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태
+committed: 데이터가</code></pre>]]></description><link>http://cpro95.asuscomm.com:2369/git-gongbuhagi/</link><guid isPermaLink="false">5c87ad3f37a04c7d095abba0</guid><category><![CDATA[git]]></category><category><![CDATA[tutorial]]></category><category><![CDATA[programming]]></category><dc:creator><![CDATA[Manki Kim]]></dc:creator><pubDate>Tue, 12 Mar 2019 13:00:05 GMT</pubDate><content:encoded><![CDATA[<h1 id="git-tutorial">Git Tutorial</h1><h2 id="dvcs-">DVCS(분산 버전 관리 시스템)</h2><!--kg-card-begin: code--><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
+</code></pre><!--kg-card-end: code--><p>클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="-">파일의 상태</h2><h4 id="tracked-">TRACKED 파일의 세 가지 상태</h4><!--kg-card-begin: image--><figure class="kg-card kg-image-card"><img src="https://wikidocs.net/images/page/11069/areas.png" class="kg-image" alt="git_status"></figure><!--kg-card-end: image--><!--kg-card-begin: code--><pre><code>modified: 파일을 수정했지만 아직 커밋하지 않은 상태
+staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태
+committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="--1">파일의 라이프사이클</h2><!--kg-card-begin: image--><figure class="kg-card kg-image-card"><img src="https://wikidocs.net/images/page/11069/lifecycle.png" class="kg-image" alt="stage_img"></figure><!--kg-card-end: image--><h5 id="-working-directory-">작업 디렉토리(Working Directory)의 파일</h5><!--kg-card-begin: code--><pre><code>Untracked = 버전 관리 대상이 아닌 파일
+Tracked = 버전 관리 대상 파일
+      Unmodified = 수정 안 한 파일
+      Modified = 수정한 파일
+      Staged = 커밋 직전의 파일 = Changes to be committed
+</code></pre><!--kg-card-end: code--><p>Untracked, Modified 파일을 추가(add)한다는 것은 다음에 커밋할(Staged) 파일 목록에 추가한다고 생각해야 한다. 프로젝트에 파일을 추가한다는 뜻이 아니다. 그리고 Untracked 파일은 Staged 파일이 되기 때문에 자연스럽게 Tracked 파일이 된다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="--2">설정</h2><h4 id="--3">설정 파일</h4><!--kg-card-begin: code--><pre><code>/etc/gitconfig</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>~/.gitconfig</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>.git/config</code></pre><!--kg-card-end: code--><p>설정의 우선순위는 역순이다.</p><h4 id="--4">사용자 정보</h4><!--kg-card-begin: code--><pre><code>$ git config --global user.name "John Doe" $ git config --global user.email "johondoe@example.com"</code></pre><!--kg-card-end: code--><p><code><code>git config --global</code> 옵션으로 명령했기 때문에 우분투의 경우 사용자 설정 파일 <code>~/.gitconfig</code> 에 다음 내용으로 저장된다.</code></p><!--kg-card-begin: code--><pre><code>cat .gitconfig [user] name = John Doe email = johondoe@example.com</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="--5">저장소 만들기</h2><h4 id="-git-">로컬 현재 디렉토리를 GIT 저장소로 만들기</h4><!--kg-card-begin: code--><pre><code>git init
+</code></pre><!--kg-card-end: code--><h4 id="-clone-">원격 저장소를 로컬로 복제(CLONE)하기</h4><!--kg-card-begin: code--><pre><code>git clone https://github.com/libgit2/libgit2
+// 원격 저장소를 원격 저장소의 이름으로 복제한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>git clone https://github.com/libgit2/libgit2 mylibgit
+// 원격 저장소를 mylibgit 새로운 이름으로 복제한다.
+</code></pre><!--kg-card-end: code--><h6 id="--6">참고 사항</h6><p>원격 저장소의 이름은 기본값이 origin이다. 권한이 없는 원격 저장소를 clone할 수 있고 오픈소스를 fork한 원격 저장소를 clone할 수도 있다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h3 id="--7">여러 가지 예시</h3><h6 id="-untracked-staged-committed-">새 파일 저장소에 저장하기 (UNTRACKED -&gt; STAGED -&gt; COMMITTED)</h6><p>*.c와 LICENSE 새로운 파일을 만들어서 저장소에 저장하는 것은 2단계로 나눌 수 있다.</p><p>1단계 (Untracked -&gt; Staged)</p><!--kg-card-begin: code--><pre><code>$ git add *.c
+$ git add LICENSE
+</code></pre><!--kg-card-end: code--><p>2단계 (Staged -&gt; Committed)</p><!--kg-card-begin: code--><pre><code>$ git commit -m 'initial project version'
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="-unmodified-modified-staged-committed-">파일을 수정하고 저장소에 저장하기 (UNMODIFIED -&gt; MODIFIED -&gt; STAGED -&gt; COMMITTED)</h6><p>처음 저장소를 Clone하면 모든 파일은 Tracked이면서 Unmodified 상태이다.</p><p>1단계: 파일 수정 (Unmodified -&gt; Modified)</p><!--kg-card-begin: code--><pre><code>에디터로 hello.c 파일을 편집한다.
+</code></pre><!--kg-card-end: code--><p>2단계: 파일 추가 (Modified -&gt; Staged)</p><!--kg-card-begin: code--><pre><code>$ git add hello.c
+</code></pre><!--kg-card-end: code--><p>3단계: 파일 커밋 (Staged -&gt; Committed)</p><!--kg-card-begin: code--><pre><code>$ git commit -m 'greeting message changed'
+</code></pre><!--kg-card-end: code--><p>git add 명령어는 Untracked 파일을 Staged 파일로 만들 때도 쓰고 Modified 파일을 Staged 파일로 만들 때도 사용한다.</p><p>git add의 의미는 프로젝트에 파일을 추가한다기보다 다음에 커밋할 파일의 목록에 추가하는 것으로 이해한다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="--8">작업 디렉토리의 파일의 상태 확인</h6><!--kg-card-begin: code--><pre><code>$ git status
+</code></pre><!--kg-card-end: code--><h6 id="--9">파일 무시하기</h6><!--kg-card-begin: code--><pre><code>.gitignore
+// 위 파일을 만들어 버전 관리하지 않고 무시할 파일 목록을 만든다.
+</code></pre><!--kg-card-end: code--><h6 id="--10">파일 비교</h6><!--kg-card-begin: code--><pre><code>$ git diff
+// Modified 파일을 Committed 파일과 비교하여 보여준다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git diff --staged
+// Staged 파일을 Committed 파일과 비교하여 보여준다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="--11">변경사항 커밋하기</h6><!--kg-card-begin: code--><pre><code>$ git commit
+// 커밋 메시지를 에디터로 입력 후 커밋한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git commit -m "Story 182: Fix benchmarks for speed"
+// 커밋 메시지를 옵션으로 지정하고 커밋한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git commit -am "added new benchmarks"
+// Staging Area 생략 후 바로 커밋할 수도 있다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="--12">파일을 삭제하기</h6><!--kg-card-begin: code--><pre><code>$ git rm 파일이름
+</code></pre><!--kg-card-end: code--><h6 id="--13">파일 이름 바꾸기</h6><!--kg-card-begin: code--><pre><code>$ git mv 옛파일이름 새로운파일이름
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h3 id="--14">되돌리기</h3><h6 id="--15">마지막 커밋 내용을 되돌리기</h6><p>이미 커밋을 했지만 파일을 깜빡하고 추가하지 않은 파일이 있거나 커밋 메시지를 수정하고 싶을 때 git commit —amend 명령어를 이용한다.</p><!--kg-card-begin: code--><pre><code>$ git commit -m 'initial commit'
+$ git add forgotten_file
+$ git commit --amend
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="staged-unstaged">STAGED -&gt; UNSTAGED</h6><p>git reset HEAD [파일 이름] 명령어로 특정 파일을 Staged 상태에서 Unstaged 상태로 변경한다.</p><!--kg-card-begin: code--><pre><code>$ git reset HEAD CONTRIBUTION.md
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h6 id="modified-unmodified">MODIFIED -&gt; UNMODIFIED</h6><p>git checkout — [파일 이름] 명령으로 애초에 저장소에 저장된 버전을 다시 꺼내온다.</p><!--kg-card-begin: code--><pre><code>$ git checkout -- CONTRIBUTION.md
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="-remote-repository-">원격 저장소(REMOTE REPOSITORY)</h2><h4 id="--16">원격 저장소 = 인터넷이나 네트워크 어딘가에 존재하는 저장소</h4><h4 id="--17">원격 저장소 확인</h4><p>원격 저장소를 clone하면 origin 이름으로 원격 저장소가 자동으로 등록된다.</p><!--kg-card-begin: code--><pre><code>$ git remote
+// 원격 저장소의 이름을 확인한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git remote -v
+// 원격 저장소의 이름과 URL을 함께 확인한다.
+</code></pre><!--kg-card-end: code--><h4 id="-git-remote-add-url-">원격 저장소 추가<code>\$ git remote add [원격 저장소 이름][url]</code> 명령으로 아래는 예시이다.</h4><!--kg-card-begin: code--><pre><code>$ git remote add pb https://github.com/paulboone/ticgit
+</code></pre><!--kg-card-end: code--><p>위와 같이 등록하고 실제로 로컬 저장소에는 없지만 pb 원격 저장소에 있는 것을 가져오려면 아래와 같이 명령한다.</p><!--kg-card-begin: code--><pre><code>$ git fetch pb
+</code></pre><!--kg-card-end: code--><p>git fetch 명령은 원격 저장소의 데이터를 모두 로컬로 가져오지만 자동으로 Merge하지는 않는다.</p><h4 id="-push-git-push-push-">원격 저장소에 PUSH하기<code>git push [원격 저장소 이름][브랜치 이름] </code>명령으로 Push할 수 있다.</h4><!--kg-card-begin: code--><pre><code>$ git push origin master
+// origin 원격 저장소의 master 브랜치에 Push한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git push origin HEAD
+// 원격 저장소에 현재 로컬 브랜치와 동일한 이름의 브랜치에 Push한다.
+// 원격 저장소의 다른 브랜치에 잘못 커밋하는 실수를 줄여줄 수 있다.
+</code></pre><!--kg-card-end: code--><h4 id="--18">원격 저장소 이름을 바꾸거나 삭제하기</h4><!--kg-card-begin: code--><pre><code>$ git remote rename pb paul
+// 원격 저장소의 이름을 변경할 수 있다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git remote rm paul
+//원격 저장소를 삭제할 수 있다.
+</code></pre><!--kg-card-end: code--><h2 id="--19">원격 저장소 이름 규칙</h2><p>전형적인 원격 저장소의 이름이다.<code>origin</code>: Github 내 저장소의 이름(Fork한 경우 포함)<code>upstream</code>: Fork한 경우 원본 프로젝트의 저장소의 이름(디폴트 이름은 아니지만 통상적인 이름) 참고로 master는 브랜치 이름이다.<code>master</code>: git init으로 저장소 생성 시 디폴트 브랜치 이름</p><h2 id="--20">브랜치</h2><h4 id="--21">브랜치 만들기</h4><!--kg-card-begin: code--><pre><code>$ git branch testing
+// git branch [브랜치 이름] 명령으로 아래와 같이 testing 브랜치를 만든다.
+</code></pre><!--kg-card-end: code--><h4 id="--22">브랜치 변경</h4><!--kg-card-begin: code--><pre><code>$ git checkout testing
+// git checkout 명령어로 작업하려는 testing 브랜치로 이동할 수 있다.
+</code></pre><!--kg-card-end: code--><p>브랜치를 이동(변경)하면 작업 디렉토리의 파일 내용도 변경된다.</p><!--kg-card-begin: code--><pre><code>$ git checkout -b testing
+// git checkout -b 명령어로 두 번 입력하지 않고
+// 한 번에 브랜치를 만들고 바로 이동할 수도 있다.
+</code></pre><!--kg-card-end: code--><h4 id="-push-">로컬 브랜치를 원격 저장소에 PUSH하기</h4><!--kg-card-begin: code--><pre><code>$ git push -u origin testing
+// git push -u origin [브랜치 이름] 명령으로
+// 로컬 브랜치를 원격 저장소에도 반영할 수 있다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h4 id="merge">MERGE</h4><h6 id="--23">이슈 처리를 위해 브랜치 적용 시나리오</h6><!--kg-card-begin: code--><pre><code>$ git checkout -b issue53
+// 어떤 이슈 처리를 위한 issue53 토픽 브랜치를 만든다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ vim index.html
+// 소스파일을 수정한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git commit -am 'fixed the broken email address'
+// 수정한 파일을 로컬 저장소로 커밋한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git checkout master
+// master 브랜치로 다시 이동한다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git merge issue53
+// issue53 브랜치의 내용을 master 브랜치에 반영하여 합친다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git branch -d issue53
+// 브랜치가 불필요해지면 삭제한다.
+</code></pre><!--kg-card-end: code--><h4 id="remote-clone-branch-pull">REMOTE CLONE &amp; BRANCH PULL</h4><h6 id="-clone-branch-clone-">리모트 CLONE 후 BRANCH 도 CLONE 하는 방법</h6><!--kg-card-begin: code--><pre><code>$ git clone http://github.com/username/project.git
+// 원하는 repository를 clone 하고
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git branch -a
+// 모든 branch 확인
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git checkout -b branch-name origin/branch-name
+// 원하는 BRANCH로 -b 옵션으로 checkout 하면 로컬에서 해당 branch 가능
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="--24">기타 유용한 명령어</h2><h4 id="1-git-stash">1. git stash</h4><p>커밋 후 깨끗한 상태에서 나름 작업했던 것을 커밋하지 않고 임시로 stash(안전한 곳에 넣어두다)할 수 있다. 나중에 stash한 상태의 코드를 다시 불러 올 수 있다.</p><!--kg-card-begin: code--><pre><code>$ git stash save "mystash"
+// 현재 작업을 저장해두고 branch를 head로 돌린다. (git reset -hard)
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git stash list
+// 저장되어 있는 stash들 보기
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git stash pop
+// stash들은 스택에 저장된다. 따라서 pop 명령은 가장 최근에 stash 한 상태를 현재 branch에 적용하고,
+// stash가 저장되어 있는 stack 에서 삭제된다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git stash apply
+// pop 과 비슷한 명령이지만 stash list에서 삭제하기 않고 그냥 적용만 시킨다.
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git stash drop
+// 필요없는 stash를 삭제
+</code></pre><!--kg-card-end: code--><!--kg-card-begin: code--><pre><code>$ git stash clear
+// 전체 stash list를 삭제
+</code></pre><!--kg-card-end: code-->]]></content:encoded></item><item><title><![CDATA[FFMpeg 사용법]]></title><description><![CDATA[<h1 id="-">동영상 자막 입히기</h1><ol><li>ASS 자막으로 변환하기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.srt movie.ass
+//ass 자막은 Fontname, Fontsize 변경 가능하다
+</code></pre><!--kg-card-end: code--><ol><li>자막 입히기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv -vf subtitles=subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf "ass=sustitle.ass" out.mkv
+
+ffmpeg -i movie.mkv -vf subtitles=movie.mkv out.mkv</code></pre>]]></description><link>http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/</link><guid isPermaLink="false">5c87ac0537a04c7d095abb86</guid><category><![CDATA[ffmpeg]]></category><category><![CDATA[video]]></category><category><![CDATA[tutorial]]></category><dc:creator><![CDATA[Manki Kim]]></dc:creator><pubDate>Tue, 12 Mar 2019 12:54:40 GMT</pubDate><content:encoded><![CDATA[<h1 id="-">동영상 자막 입히기</h1><ol><li>ASS 자막으로 변환하기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.srt movie.ass
+//ass 자막은 Fontname, Fontsize 변경 가능하다
+</code></pre><!--kg-card-end: code--><ol><li>자막 입히기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv -vf subtitles=subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf "ass=sustitle.ass" out.mkv
+
+ffmpeg -i movie.mkv -vf subtitles=movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf subtitles=movie.mkv:si=1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+</code></pre><!--kg-card-end: code--><ol><li>자막 추출</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv out.srt
+// 간단히 out.srt 라고 지정해도 자막이 추출된다.
+
+ffmpeg -i movie.mkv -map 0:15 out.srt
+// 자막이 여러개 있을 경우 map 명령어로 STREAM을 지정할 수 있다.
+</code></pre><!--kg-card-end: code--><h1 id="--1">동영상 변환</h1><ol><li>동영상 코덱 관리</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv -vcodec h264 -acodec aac out.mkv
+// 비디오 코덱은 h264, 오디오 코덱은 aac 를 지정한 경우
+
+ffmpeg -i sample.mkv -c:v h264 -c:a aac out.mkv
+// 비디오 코덱은 h265, 오디오 코덱은 aac 를 지정한 경우
+
+ffmpeg -i sample.mkv -c:v copy -c:a aac out.mkv
+// 비디오 코덱은 copy(기존꺼 그대로), 오디오 코덱은 aac 를 지정한 경우
+// 인코딩 속도가 빨라짐.
+</code></pre><!--kg-card-end: code-->]]></content:encoded></item></channel></rss>

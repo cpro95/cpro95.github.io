@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>FFMpeg 사용법</title>
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=fc46b6093f" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=fc46b6093f" />
+
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="cpro95 dev blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="FFMpeg 사용법" />
+    <meta property="og:description" content="동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는" />
+    <meta property="og:url" content="http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" />
+    <meta property="article:published_time" content="2019-03-12T12:54:40.000Z" />
+    <meta property="article:modified_time" content="2019-03-12T12:54:40.000Z" />
+    <meta property="article:tag" content="ffmpeg" />
+    <meta property="article:tag" content="video" />
+    <meta property="article:tag" content="tutorial" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
+    <meta property="article:author" content="https://www.facebook.com/cpro95" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="FFMpeg 사용법" />
+    <meta name="twitter:description" content="동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는" />
+    <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Manki Kim" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="ffmpeg, video, tutorial" />
+    <meta name="twitter:site" content="@tryghost" />
+    <meta name="twitter:creator" content="@cpro95" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "cpro95 dev blog",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://cpro95.asuscomm.com:2369/favicon.ico",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Manki Kim",
+        "url": "http://cpro95.asuscomm.com:2369/author/manki/",
+        "sameAs": [
+            "https://www.facebook.com/cpro95",
+            "https://twitter.com/cpro95"
+        ]
+    },
+    "headline": "FFMpeg 사용법",
+    "url": "http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/",
+    "datePublished": "2019-03-12T12:54:40.000Z",
+    "dateModified": "2019-03-12T12:54:40.000Z",
+    "keywords": "ffmpeg, video, tutorial",
+    "description": "동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://cpro95.asuscomm.com:2369/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.16" />
+    <link rel="alternate" type="application/rss+xml" title="cpro95 dev blog" href="../rss/index.html" />
+</head>
+
+<body class="post-template tag-ffmpeg tag-video tag-tutorial">
+	<section id="wrapper">
+		<div id="ajax-container">
+			<nav id="nav" class="nav">
+				<div class="nav-logo">
+					<a href="../index.html">
+						<span class="name">cpro95 dev blog</span>
+					</a>
+				</div>
+				<div class="nav-menu">
+					<a class="menu" data-action="menu" data-target="menu"><i class="icon-menu"></i></a>
+				</div>
+			</nav>			
+			
+
+<main class="content" role="main">
+	<article class="post tag-ffmpeg tag-video tag-tutorial">
+		<div class="inner">
+
+			<div id="push">
+
+			<header class="post-header">
+				<span class="post-meta">
+					<span class="post-meta-author"><a href="../author/manki/index.html">Manki Kim</a></span> | <span class="post-meta-date">12 Mar 2019</span> | <span class="post-meta-reading-time">1 min read</span>
+				</span>
+				<div class="clear"></div>
+				<h1 class="post-title">FFMpeg 사용법</h1>
+			</header>
+
+			<section class="post-content">
+				<h1 id="-">동영상 자막 입히기</h1><ol><li>ASS 자막으로 변환하기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.srt movie.ass
+//ass 자막은 Fontname, Fontsize 변경 가능하다
+</code></pre><!--kg-card-end: code--><ol><li>자막 입히기</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv -vf subtitles=subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf "ass=sustitle.ass" out.mkv
+
+ffmpeg -i movie.mkv -vf subtitles=movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf subtitles=movie.mkv:si=1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+</code></pre><!--kg-card-end: code--><ol><li>자막 추출</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv out.srt
+// 간단히 out.srt 라고 지정해도 자막이 추출된다.
+
+ffmpeg -i movie.mkv -map 0:15 out.srt
+// 자막이 여러개 있을 경우 map 명령어로 STREAM을 지정할 수 있다.
+</code></pre><!--kg-card-end: code--><h1 id="--1">동영상 변환</h1><ol><li>동영상 코덱 관리</li></ol><!--kg-card-begin: code--><pre><code>ffmpeg -i movie.mkv -vcodec h264 -acodec aac out.mkv
+// 비디오 코덱은 h264, 오디오 코덱은 aac 를 지정한 경우
+
+ffmpeg -i sample.mkv -c:v h264 -c:a aac out.mkv
+// 비디오 코덱은 h265, 오디오 코덱은 aac 를 지정한 경우
+
+ffmpeg -i sample.mkv -c:v copy -c:a aac out.mkv
+// 비디오 코덱은 copy(기존꺼 그대로), 오디오 코덱은 aac 를 지정한 경우
+// 인코딩 속도가 빨라짐.
+</code></pre><!--kg-card-end: code-->
+			</section>
+
+			<footer class="post-footer">
+
+				<div class="post-tags">
+					<a href="../tag/ffmpeg/index.html">ffmpeg</a> <a href="../tag/video/index.html">video</a> <a href="../tag/tutorial/index.html">tutorial</a>
+				</div>
+
+				<div class="post-share">
+					<a class="icon-twitter" href="https://twitter.com/share?text=FFMpeg 사용법&url=http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+						<span>Twitter</span>
+					</a>
+					<a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+						<span>Facebook</span>
+					</a>
+					<a class="icon-gplus" href="https://plus.google.com/share?url=http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+						<span>Google+</span>
+					</a>
+				</div>
+
+			</footer>
+
+			<aside class="post-author">
+				<figure class="post-author-avatar avatar">
+				</figure>
+				<div class="post-author-bio">
+					<h4 class="post-author-name"><a href="../author/manki/index.html">Manki Kim</a></h4>
+					<p class="post-author-meta">
+						<span class="post-author-meta-twitter"><i class="icon-twitter"></i> <a target="_blank" href="https://twitter.com/@cpro95">Twitter</a></span>
+						<span class="post-author-meta-facebook"><i class="icon-facebook"></i> <a target="_blank" href="https://facebook.com/cpro95">Facebook</a></span>
+					</p>
+						<p class="post-author-about">코딩하는 직작인.</p>
+				</div>
+				<div class="clear"></div>
+			</aside>
+
+
+			<aside class="post-comments">
+				<div id="disqus_thread"></div>
+			</aside>
+
+			</div>
+
+			<nav class="post-nav">
+					<a class="post-nav-item post-nav-next" href="../git-gongbuhagi/index.html">
+						<section class="post-nav-teaser">
+							<span class="post-nav-icon"><i class="icon-arrow-left"></i></span>
+							<span class="post-nav-info">
+								<h4 class="post-nav-title">Git 공부하기</h4>
+								<p class="post-nav-excerpt">Git TutorialDVCS(분산 버전 관리 시스템)git = 분산 버전 관리 시스템(Distributed&hellip;</p>
+							</span>
+						</section>
+					</a>
+				<div class="clear"></div>
+			</nav>
+
+		</div>
+	</article>
+</main>
+
+			<div id="body-class" style="display: none;" class="post-template tag-ffmpeg tag-video tag-tutorial"></div>
+			<footer id="footer">
+				<section class="credits">
+					<span class="credits-theme">Theme <a href="https://github.com/zutrinken/bleak" target="_blank" rel="nofollow">Bleak</a> by <a href="http://zutrinken.com" target="_blank" rel="nofollow">zutrinken</a></span>
+					<span class="credits-software">Published with <a href="http://ghost.org" target="_blank" rel="nofollow">Ghost</a></span>
+				</section>
+			</footer>
+			<div id="menu" data-target="menu">
+	<div class="menu-header">
+		<span class="menu-label">Menu</span>
+		<a class="menu-close" data-action="menu" data-target="menu"></a>
+	</div>
+	<ul class="menu-list">
+		<li class="menu-list-item">
+			<a class="home" href="../index.html">Home</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="tag" href="../tag/tutorial/index.html">Tag</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="author" href="http://cpro95.asuscomm.com:2369/author/manki-kim/">Author</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="about" href="../about-me/index.html">About</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="projects" href="../my-projects/index.html">Projects</a>
+		</li>
+		<li class="menu-list-item menu-list-item-follow">
+			<a class="twitter" href="https://twitter.com/tryghost" title="@tryghost"><i class="icon-twitter"></i></a>
+			<a class="facebook" href="https://www.facebook.com/ghost" title="ghost"><i class="icon-facebook"></i></a>
+			<a class="rss" href="../rss/index.html"><i class="icon-rss"></i></a>
+		</li>
+	</ul>
+</div>
+<div class="overlay"></div>
+		</div>
+	</section>
+	
+	
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=fc46b6093f"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=fc46b6093f"></script>
+</body>
+</html>

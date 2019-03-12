@@ -1,0 +1,4 @@
+User-agent: *
+Sitemap: http://cpro95.asuscomm.com:2369/sitemap.xml
+Disallow: /ghost/
+Disallow: /p/
