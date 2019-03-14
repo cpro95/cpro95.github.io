@@ -15,10 +15,10 @@
     <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Git 공부하기" />
-    <meta property="og:description" content="Git TutorialDVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게" />
+    <meta property="og:description" content="Git Tutorialwiki 참조했으며, 필요한 부분 추가했습니다. DVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태 파일의 라이프사이클작업 디렉토리(" />
     <meta property="og:url" content="http://cpro95.asuscomm.com:2369/git-gongbuhagi/" />
     <meta property="article:published_time" content="2019-03-12T13:00:05.000Z" />
-    <meta property="article:modified_time" content="2019-03-12T13:00:05.000Z" />
+    <meta property="article:modified_time" content="2019-03-13T02:38:13.000Z" />
     <meta property="article:tag" content="git" />
     <meta property="article:tag" content="tutorial" />
     <meta property="article:tag" content="programming" />
@@ -27,7 +27,7 @@
     <meta property="article:author" content="https://www.facebook.com/cpro95" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Git 공부하기" />
-    <meta name="twitter:description" content="Git TutorialDVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게" />
+    <meta name="twitter:description" content="Git Tutorialwiki 참조했으며, 필요한 부분 추가했습니다. DVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태 파일의 라이프사이클작업 디렉토리(" />
     <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/git-gongbuhagi/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Manki Kim" />
@@ -62,9 +62,9 @@
     "headline": "Git 공부하기",
     "url": "http://cpro95.asuscomm.com:2369/git-gongbuhagi/",
     "datePublished": "2019-03-12T13:00:05.000Z",
-    "dateModified": "2019-03-12T13:00:05.000Z",
+    "dateModified": "2019-03-13T02:38:13.000Z",
     "keywords": "git, tutorial, programming",
-    "description": "Git TutorialDVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게",
+    "description": "Git Tutorialwiki 참조했으며, 필요한 부분 추가했습니다. DVCS(분산 버전 관리 시스템)git &#x3D; 분산 버전 관리 시스템(Distributed Version Control System) 파일의 상태TRACKED 파일의 세 가지 상태modified: 파일을 수정했지만 아직 커밋하지 않은 상태 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태 committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태 파일의 라이프사이클작업 디렉토리(",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://cpro95.asuscomm.com:2369/"
@@ -104,8 +104,8 @@
             </header>
             <section class="post-content">
 
-                <h1 id="git-tutorial">Git Tutorial</h1><h2 id="dvcs-">DVCS(분산 버전 관리 시스템)</h2><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
-</code></pre><p>클라이언트가 저장소 통채로 복제 클라이언트가 마지막 스냅샷을 체크아웃하는 것이 아니다.</p><hr></hr><h2 id="-">파일의 상태</h2><h4 id="tracked-">TRACKED 파일의 세 가지 상태</h4><figure class="kg-card kg-image-card"><amp-img src="https://wikidocs.net/images/page/11069/areas.png" class="kg-image" alt="git_status" width="800" height="441" layout="responsive"></amp-img></figure><pre><code>modified: 파일을 수정했지만 아직 커밋하지 않은 상태
+                <h1 id="git-tutorial">Git Tutorial</h1><p></p><p>wiki 참조했으며, 필요한 부분 추가했습니다. </p><h2 id="dvcs-">DVCS(분산 버전 관리 시스템)</h2><pre><code>git = 분산 버전 관리 시스템(Distributed Version Control System)
+</code></pre><hr></hr><h2 id="-">파일의 상태</h2><h4 id="tracked-">TRACKED 파일의 세 가지 상태</h4><figure class="kg-card kg-image-card"><amp-img src="https://wikidocs.net/images/page/11069/areas.png" class="kg-image" alt="git_status" width="800" height="441" layout="responsive"></amp-img></figure><pre><code>modified: 파일을 수정했지만 아직 커밋하지 않은 상태
 staged: 파일을 수정해서 곧 커밋할 것이라고 표시한 상태
 committed: 데이터가 로컬 데이터베이스에 안전하게 저장된 상태
 </code></pre><hr></hr><h2 id="--1">파일의 라이프사이클</h2><figure class="kg-card kg-image-card"><amp-img src="https://wikidocs.net/images/page/11069/lifecycle.png" class="kg-image" alt="stage_img" width="800" height="330" layout="responsive"></amp-img></figure><h5 id="-working-directory-">작업 디렉토리(Working Directory)의 파일</h5><pre><code>Untracked = 버전 관리 대상이 아닌 파일
