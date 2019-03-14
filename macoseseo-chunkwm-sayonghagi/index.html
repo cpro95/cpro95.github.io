@@ -9,8 +9,8 @@
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=1ccb0ded9d" />
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=1ccb0ded9d" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=104573d492" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=104573d492" />
 
 	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
@@ -20,7 +20,26 @@
     <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="MacOS에서 chunkwm 사용하기" />
-    <meta property="og:description" content="리눅스의 타일링 윈도우 매니저 i3어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어, 구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.맥은 brew" />
+    <meta property="og:description" content="리눅스의 타일링 윈도우 매니저 i3
+어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.
+
+프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어,
+구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.
+
+맥은 brew 죠
+우분투에 apt-get, 아치리눅스 pacman이 있듯이 맥에서는 brew란 설치 스크립트를 이용하는데 역시나 chunkwm가 brew로 설치
+할 수 있더라구요.
+
+# clone tap
+brew tap koekeishiya/formulae
+
+# install latest stable version
+brew install chunkwm
+
+
+일단 chunkwm 을 설치하면 아래와 같이 설정파일을 홈폴더에 복사해야 된다.
+
+cp /usr/local/Cellar/chunkwm/0.4.7/share/" />
     <meta property="og:url" content="http://cpro95.asuscomm.com:2369/macoseseo-chunkwm-sayonghagi/" />
     <meta property="article:published_time" content="2019-03-12T13:01:39.000Z" />
     <meta property="article:modified_time" content="2019-03-12T13:01:39.000Z" />
@@ -32,7 +51,26 @@
     <meta property="article:author" content="https://www.facebook.com/cpro95" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="MacOS에서 chunkwm 사용하기" />
-    <meta name="twitter:description" content="리눅스의 타일링 윈도우 매니저 i3어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어, 구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.맥은 brew" />
+    <meta name="twitter:description" content="리눅스의 타일링 윈도우 매니저 i3
+어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.
+
+프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어,
+구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.
+
+맥은 brew 죠
+우분투에 apt-get, 아치리눅스 pacman이 있듯이 맥에서는 brew란 설치 스크립트를 이용하는데 역시나 chunkwm가 brew로 설치
+할 수 있더라구요.
+
+# clone tap
+brew tap koekeishiya/formulae
+
+# install latest stable version
+brew install chunkwm
+
+
+일단 chunkwm 을 설치하면 아래와 같이 설정파일을 홈폴더에 복사해야 된다.
+
+cp /usr/local/Cellar/chunkwm/0.4.7/share/" />
     <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/macoseseo-chunkwm-sayonghagi/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Manki Kim" />
@@ -69,7 +107,7 @@
     "datePublished": "2019-03-12T13:01:39.000Z",
     "dateModified": "2019-03-12T13:01:39.000Z",
     "keywords": "macos, programming, tutorial",
-    "description": "리눅스의 타일링 윈도우 매니저 i3어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어, 구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.맥은 brew",
+    "description": "리눅스의 타일링 윈도우 매니저 i3\n어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는 유투버를 봤는데 아치리눅스상에서 i3란 타일링 윈도우 매니저를 사용하더라구요.\n\n프로그래머라면 마우스보단 터미널 상에서 키보드를 많이 쓰는데 이 때 아주 잘 활용할 수 있겠다 싶고 또 내 해킨토시에 깔아 보고 싶어,\n구글링해보고 일단 성공했습니다. 적응하는데 시간이 좀 걸리네요.\n\n맥은 brew 죠\n우분투에 apt-get, 아치리눅스 pacman이 있듯이 맥에서는 brew란 설치 스크립트를 이용하는데 역시나 chunkwm가 brew로 설치\n할 수 있더라구요.\n\n# clone tap\nbrew tap koekeishiya/formulae\n\n# install latest stable version\nbrew install chunkwm\n\n\n일단 chunkwm 을 설치하면 아래와 같이 설정파일을 홈폴더에 복사해야 된다.\n\ncp /usr/local/Cellar/chunkwm/0.4.7/share/",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://cpro95.asuscomm.com:2369/"
@@ -181,6 +219,15 @@ brew services restart skhd
 			</div>
 
 			<nav class="post-nav">
+					<a class="post-nav-item post-nav-next" href="../ghost-beulrogeu-mandeulgi/index.html">
+						<section class="post-nav-teaser">
+							<span class="post-nav-icon"><i class="icon-arrow-left"></i></span>
+							<span class="post-nav-info">
+								<h4 class="post-nav-title">Ghost 블로그 만들기</h4>
+								<p class="post-nav-excerpt">평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총&hellip;</p>
+							</span>
+						</section>
+					</a>
 					<a class="post-nav-item post-nav-prev" href="../github-pages-sayongbeob/index.html">
 						<section class="post-nav-teaser">
 							<span class="post-nav-icon"><i class="icon-arrow-right"></i></span>
@@ -220,7 +267,7 @@ brew services restart skhd
 			<a class="author" href="../author/manki/index.html">Author</a>
 		</li>
 		<li class="menu-list-item">
-			<a class="tag" href="../tag/tutorial/index.html">Tag</a>
+			<a class="tags" href="../tags/index.html">Tags</a>
 		</li>
 		<li class="menu-list-item">
 			<a class="about" href="../about-me/index.html">About</a>
@@ -237,7 +284,7 @@ brew services restart skhd
 	</section>
 	
 	
-	<script type="text/javascript" src="../assets/js/dependencies.js?v=1ccb0ded9d"></script>
-	<script type="text/javascript" src="../assets/js/script.js?v=1ccb0ded9d"></script>
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=104573d492"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=104573d492"></script>
 </body>
 </html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Ghost 블로그 만들기</title>
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=104573d492" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=104573d492" />
+
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Ghost 블로그 만들기" />
+    <meta property="og:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
+
+  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
+만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
+
+  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
+봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
+판단되어 직접 구축해 보기로 결정했습니다.
+
+  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
+가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
+
+그래서, " />
+    <meta property="og:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
+    <meta property="article:published_time" content="2019-03-14T12:53:28.000Z" />
+    <meta property="article:modified_time" content="2019-03-14T12:53:28.000Z" />
+    <meta property="article:tag" content="ghost" />
+    <meta property="article:tag" content="tutorial" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/cpro95" />
+    <meta property="article:author" content="https://www.facebook.com/cpro95" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Ghost 블로그 만들기" />
+    <meta name="twitter:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
+
+  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
+만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
+
+  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
+봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
+판단되어 직접 구축해 보기로 결정했습니다.
+
+  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
+가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
+
+그래서, " />
+    <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Manki Kim" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="ghost, tutorial" />
+    <meta name="twitter:site" content="@cpro95" />
+    <meta name="twitter:creator" content="@cpro95" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "&lt;cpro95 /&gt;",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://cpro95.asuscomm.com:2369/favicon.ico",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Manki Kim",
+        "url": "http://cpro95.asuscomm.com:2369/author/manki/",
+        "sameAs": [
+            "https://www.facebook.com/cpro95",
+            "https://twitter.com/cpro95"
+        ]
+    },
+    "headline": "Ghost 블로그 만들기",
+    "url": "http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/",
+    "datePublished": "2019-03-14T12:53:28.000Z",
+    "dateModified": "2019-03-14T12:53:28.000Z",
+    "keywords": "ghost, tutorial",
+    "description": "  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. \n\n  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를\n만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.\n\n  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음\n봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고\n판단되어 직접 구축해 보기로 결정했습니다.\n\n  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만\n가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.\n\n그래서, ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://cpro95.asuscomm.com:2369/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.16" />
+    <link rel="alternate" type="application/rss+xml" title="&lt;cpro95 /&gt;" href="../rss/index.html" />
+    <script>var disqus="cpro95-github.io";</script>
+</head>
+
+<body class="post-template tag-ghost-tag tag-tutorial">
+	<section id="wrapper">
+		<div id="ajax-container">
+			<nav id="nav" class="nav">
+				<div class="nav-logo">
+					<a href="../index.html">
+						<span class="name">&lt;cpro95 /&gt;</span>
+					</a>
+				</div>
+				<div class="nav-menu">
+					<a class="menu" data-action="menu" data-target="menu"><i class="icon-menu"></i></a>
+				</div>
+			</nav>			
+			
+
+<main class="content" role="main">
+	<article class="post tag-ghost-tag tag-tutorial">
+		<div class="inner">
+
+			<div id="push">
+
+			<header class="post-header">
+				<span class="post-meta">
+					<span class="post-meta-author"><a href="../author/manki/index.html">Manki Kim</a></span> | <span class="post-meta-date">14 Mar 2019</span> | <span class="post-meta-reading-time">2 min read</span>
+				</span>
+				<div class="clear"></div>
+				<h1 class="post-title">Ghost 블로그 만들기</h1>
+			</header>
+
+			<section class="post-content">
+				<p> 평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. </p><p> 그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를 만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.</p><p> 매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고 판단되어 직접 구축해 보기로 결정했습니다.</p><p> Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만 가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.</p><p>그래서, 개인적으로 돌리고 있는 라즈베리파이에 올려 보기로 했습니다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="-ghost-"> <strong>라즈베리파이에 Ghost 설치하기</strong></h2><p></p><p> 먼저 ghost를 전역으로 설정합니다.</p><p>   <code>npm install -g ghost-cli</code></p><p> 그리고 작업 디렉토리를 선택합니다. 저는 Home 디렉토리 밑에 Coding 이란 폴더에 ghost-blog란 폴더를 만들었습니다. 그리고 ghost-cli 를 실행합니다.</p><p> <code>cd ~/Coding/ghost-blog</code></p><p><code>ghost install local</code></p><p> local이란 옵션은 기본적으로 DB 는 sqlite3 를 사용하고, 외부 도메인 설정을 하지 않습니다. 에러 없이 설치가 완료되면 ghost 서버 주소가 나타나는데 보통</p><p> <code>http://localhost:2368/ghost</code></p><p>입니다. 상기 주소로 처음 접속하면 admin 계정을 만들라고 합니다.</p><p> 다음 시간에 마저 작성토록 할게요.</p><p> </p>
+			</section>
+
+			<footer class="post-footer">
+
+				<div class="post-tags">
+					<a href="../tag/ghost-tag/index.html">ghost</a> <a href="../tag/tutorial/index.html">tutorial</a>
+				</div>
+
+				<div class="post-share">
+					<a class="icon-twitter" href="https://twitter.com/share?text=Ghost 블로그 만들기&url=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+						<span>Twitter</span>
+					</a>
+					<a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+						<span>Facebook</span>
+					</a>
+					<a class="icon-gplus" href="https://plus.google.com/share?url=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+						<span>Google+</span>
+					</a>
+				</div>
+
+			</footer>
+
+			<aside class="post-author">
+				<figure class="post-author-avatar avatar">
+				</figure>
+				<div class="post-author-bio">
+					<h4 class="post-author-name"><a href="../author/manki/index.html">Manki Kim</a></h4>
+					<p class="post-author-meta">
+						<span class="post-author-meta-location"><i class="icon-location"></i> Seoul, South Korea</span>
+						<span class="post-author-meta-twitter"><i class="icon-twitter"></i> <a target="_blank" href="https://twitter.com/@cpro95">Twitter</a></span>
+						<span class="post-author-meta-facebook"><i class="icon-facebook"></i> <a target="_blank" href="https://facebook.com/cpro95">Facebook</a></span>
+					</p>
+						<p class="post-author-about">코딩하는 직장인.</p>
+				</div>
+				<div class="clear"></div>
+			</aside>
+
+
+			<aside class="post-comments">
+				<div id="disqus_thread"></div>
+				<script>
+					var disqus_config = function() {
+						this.page.url = "http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/";
+						this.page.identifier = "ghost-5c8a4ab1ab76bb127c22d344"
+					};
+					(function() {
+					var d = document, s=d.createElement('script');
+					s.src = '//cpro95-github-io.disqus.com/embed.js';
+					s.setAttribute('data-timestamp', +new Date());
+					(d.head || d.body).appendChild(s);
+					})();
+				</script>
+			</aside>
+
+			</div>
+
+			<nav class="post-nav">
+					<a class="post-nav-item post-nav-prev" href="../macoseseo-chunkwm-sayonghagi/index.html">
+						<section class="post-nav-teaser">
+							<span class="post-nav-icon"><i class="icon-arrow-right"></i></span>
+							<span class="post-nav-info">
+								<h4 class="post-nav-title">MacOS에서 chunkwm 사용하기</h4>
+								<p class="post-nav-excerpt">리눅스의 타일링 윈도우 매니저 i3어제 오늘 유투브를 보다가 리눅스를 아주 능수능란하게 사용하는&hellip;</p>
+							</span>
+						</section>
+					</a>
+				<div class="clear"></div>
+			</nav>
+
+		</div>
+	</article>
+</main>
+
+			<div id="body-class" style="display: none;" class="post-template tag-ghost-tag tag-tutorial"></div>
+			<footer id="footer">
+				<section class="credits">
+					<span class="credits-theme">Theme <a href="https://github.com/zutrinken/bleak" target="_blank" rel="nofollow">Bleak</a> by <a href="http://zutrinken.com" target="_blank" rel="nofollow">zutrinken</a></span>
+					<span class="credits-software">Published with <a href="http://ghost.org" target="_blank" rel="nofollow">Ghost</a></span>
+				</section>
+			</footer>
+			<div id="menu" data-target="menu">
+	<div class="menu-header">
+		<span class="menu-label">Menu</span>
+		<a class="menu-close" data-action="menu" data-target="menu"></a>
+	</div>
+	<ul class="menu-list">
+		<li class="menu-list-item">
+			<a class="home" href="../index.html">Home</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="projects" href="../my-projects/index.html">Projects</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="author" href="../author/manki/index.html">Author</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="tags" href="../tags/index.html">Tags</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="about" href="../about-me/index.html">About</a>
+		</li>
+		<li class="menu-list-item menu-list-item-follow">
+			<a class="twitter" href="https://twitter.com/cpro95" title="@cpro95"><i class="icon-twitter"></i></a>
+			<a class="facebook" href="https://www.facebook.com/cpro95" title="cpro95"><i class="icon-facebook"></i></a>
+			<a class="rss" href="../rss/index.html"><i class="icon-rss"></i></a>
+		</li>
+	</ul>
+</div>
+<div class="overlay"></div>
+		</div>
+	</section>
+	
+	
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=104573d492"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=104573d492"></script>
+</body>
+</html>

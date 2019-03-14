@@ -9,8 +9,8 @@
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=1ccb0ded9d" />
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=1ccb0ded9d" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=104573d492" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=104573d492" />
 
 	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
@@ -20,7 +20,33 @@
     <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="FFMpeg 사용법" />
-    <meta property="og:description" content="동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는" />
+    <meta property="og:description" content="동영상 자막 입히기
+ 1. ASS 자막으로 변환하기
+
+ffmpeg -i movie.srt movie.ass
+//ass 자막은 Fontname, Fontsize 변경 가능하다
+
+
+ 1. 자막 입히기
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv:si&#x3D;1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+
+
+ 1. 자막 추출
+
+ffmpeg -i movie.mkv out.srt
+// 간단히 out.srt 라고 지정해도 자막이 추출된다.
+
+ffmpeg -i movie.mkv -map 0:15 out.srt
+//" />
     <meta property="og:url" content="http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" />
     <meta property="article:published_time" content="2019-03-12T12:54:40.000Z" />
     <meta property="article:modified_time" content="2019-03-12T12:54:40.000Z" />
@@ -32,7 +58,33 @@
     <meta property="article:author" content="https://www.facebook.com/cpro95" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="FFMpeg 사용법" />
-    <meta name="twitter:description" content="동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는" />
+    <meta name="twitter:description" content="동영상 자막 입히기
+ 1. ASS 자막으로 변환하기
+
+ffmpeg -i movie.srt movie.ass
+//ass 자막은 Fontname, Fontsize 변경 가능하다
+
+
+ 1. 자막 입히기
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv
+
+ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv
+// 동영상이 자막을 포함하는 경우
+
+ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv:si&#x3D;1 out.mkv
+// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻
+
+
+ 1. 자막 추출
+
+ffmpeg -i movie.mkv out.srt
+// 간단히 out.srt 라고 지정해도 자막이 추출된다.
+
+ffmpeg -i movie.mkv -map 0:15 out.srt
+//" />
     <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/ffmpeg-sayongbeob/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Manki Kim" />
@@ -69,7 +121,7 @@
     "datePublished": "2019-03-12T12:54:40.000Z",
     "dateModified": "2019-03-12T12:54:40.000Z",
     "keywords": "ffmpeg, video, tutorial",
-    "description": "동영상 자막 입히기ASS 자막으로 변환하기ffmpeg -i movie.srt movie.ass //ass 자막은 Fontname, Fontsize 변경 가능하다 자막 입히기ffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv ffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv ffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv // 동영상이 자막을 포함하는",
+    "description": "동영상 자막 입히기\n 1. ASS 자막으로 변환하기\n\nffmpeg -i movie.srt movie.ass\n//ass 자막은 Fontname, Fontsize 변경 가능하다\n\n\n 1. 자막 입히기\n\nffmpeg -i movie.mkv -vf subtitles&#x3D;subtitle.ass out.mkv\n\nffmpeg -i movie.mkv -vf &quot;ass&#x3D;sustitle.ass&quot; out.mkv\n\nffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv out.mkv\n// 동영상이 자막을 포함하는 경우\n\nffmpeg -i movie.mkv -vf subtitles&#x3D;movie.mkv:si&#x3D;1 out.mkv\n// 이 명령어는 mkv 동영상에서 두번째 자막을 선택하라는 뜻\n\n\n 1. 자막 추출\n\nffmpeg -i movie.mkv out.srt\n// 간단히 out.srt 라고 지정해도 자막이 추출된다.\n\nffmpeg -i movie.mkv -map 0:15 out.srt\n//",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://cpro95.asuscomm.com:2369/"
@@ -234,7 +286,7 @@ ffmpeg -i sample.mkv -c:v copy -c:a aac out.mkv
 			<a class="author" href="../author/manki/index.html">Author</a>
 		</li>
 		<li class="menu-list-item">
-			<a class="tag" href="../tag/tutorial/index.html">Tag</a>
+			<a class="tags" href="../tags/index.html">Tags</a>
 		</li>
 		<li class="menu-list-item">
 			<a class="about" href="../about-me/index.html">About</a>
@@ -251,7 +303,7 @@ ffmpeg -i sample.mkv -c:v copy -c:a aac out.mkv
 	</section>
 	
 	
-	<script type="text/javascript" src="../assets/js/dependencies.js?v=1ccb0ded9d"></script>
-	<script type="text/javascript" src="../assets/js/script.js?v=1ccb0ded9d"></script>
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=104573d492"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=104573d492"></script>
 </body>
 </html>

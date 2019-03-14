@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Github Pages 사용법</title>
+    <title>Ghost 블로그 만들기</title>
 
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
@@ -14,53 +14,48 @@
     
     <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Github Pages 사용법" />
-    <meta property="og:description" content="Github Pages 사용법
-나만의 홈페이지 만들기
-NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 netlify.com
-[http://netlify.com/]입니다. 무료이고 속도도 제일 빠르더라구요.
+    <meta property="og:title" content="Ghost 블로그 만들기" />
+    <meta property="og:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
 
-netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인
-퍼블리싱 할 수 있습니다..
+  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
+만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
 
-물론 상업적으로 론칭할려면 AWS 같은 유료 호스팅 서비스로 가야겠지만요.
+  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
+봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
+판단되어 직접 구축해 보기로 결정했습니다.
 
-나만의 홈페이지인데 블로그를 만들고 싶다면
-Node나 React를 배우게 되면 홈페이지도 그냥 HTML로 만들기가 뭔가 손해 같은데요. 배운게 아까워서. React 진영에는 블로그로 
-Gatsby [https://gatsby.com/]가 기능도 많고 많이 사용됩니다. 그래서 배워볼 겸 사실 하나 만들어 봤습니다.
-netlify에 호스팅했었는데 한번 방문 해 보세요.
-" />
-    <meta property="og:url" content="http://cpro95.asuscomm.com:2369/github-pages-sayongbeob/" />
-    <meta property="article:published_time" content="2019-03-12T13:00:40.000Z" />
-    <meta property="article:modified_time" content="2019-03-12T13:00:40.000Z" />
-    <meta property="article:tag" content="github" />
-    <meta property="article:tag" content="programming" />
+  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
+가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
+
+그래서, " />
+    <meta property="og:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
+    <meta property="article:published_time" content="2019-03-14T12:53:28.000Z" />
+    <meta property="article:modified_time" content="2019-03-14T12:53:28.000Z" />
+    <meta property="article:tag" content="ghost" />
     <meta property="article:tag" content="tutorial" />
     
     <meta property="article:publisher" content="https://www.facebook.com/cpro95" />
     <meta property="article:author" content="https://www.facebook.com/cpro95" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Github Pages 사용법" />
-    <meta name="twitter:description" content="Github Pages 사용법
-나만의 홈페이지 만들기
-NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 netlify.com
-[http://netlify.com/]입니다. 무료이고 속도도 제일 빠르더라구요.
+    <meta name="twitter:title" content="Ghost 블로그 만들기" />
+    <meta name="twitter:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
 
-netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인
-퍼블리싱 할 수 있습니다..
+  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
+만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
 
-물론 상업적으로 론칭할려면 AWS 같은 유료 호스팅 서비스로 가야겠지만요.
+  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
+봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
+판단되어 직접 구축해 보기로 결정했습니다.
 
-나만의 홈페이지인데 블로그를 만들고 싶다면
-Node나 React를 배우게 되면 홈페이지도 그냥 HTML로 만들기가 뭔가 손해 같은데요. 배운게 아까워서. React 진영에는 블로그로 
-Gatsby [https://gatsby.com/]가 기능도 많고 많이 사용됩니다. 그래서 배워볼 겸 사실 하나 만들어 봤습니다.
-netlify에 호스팅했었는데 한번 방문 해 보세요.
-" />
-    <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/github-pages-sayongbeob/" />
+  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
+가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
+
+그래서, " />
+    <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Manki Kim" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="github, programming, tutorial" />
+    <meta name="twitter:data2" content="ghost, tutorial" />
     <meta name="twitter:site" content="@cpro95" />
     <meta name="twitter:creator" content="@cpro95" />
     
@@ -87,12 +82,12 @@ netlify에 호스팅했었는데 한번 방문 해 보세요.
             "https://twitter.com/cpro95"
         ]
     },
-    "headline": "Github Pages 사용법",
-    "url": "http://cpro95.asuscomm.com:2369/github-pages-sayongbeob/",
-    "datePublished": "2019-03-12T13:00:40.000Z",
-    "dateModified": "2019-03-12T13:00:40.000Z",
-    "keywords": "github, programming, tutorial",
-    "description": "Github Pages 사용법\n나만의 홈페이지 만들기\nNodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 netlify.com\n[http://netlify.com/]입니다. 무료이고 속도도 제일 빠르더라구요.\n\nnetlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인\n퍼블리싱 할 수 있습니다..\n\n물론 상업적으로 론칭할려면 AWS 같은 유료 호스팅 서비스로 가야겠지만요.\n\n나만의 홈페이지인데 블로그를 만들고 싶다면\nNode나 React를 배우게 되면 홈페이지도 그냥 HTML로 만들기가 뭔가 손해 같은데요. 배운게 아까워서. React 진영에는 블로그로 \nGatsby [https://gatsby.com/]가 기능도 많고 많이 사용됩니다. 그래서 배워볼 겸 사실 하나 만들어 봤습니다.\nnetlify에 호스팅했었는데 한번 방문 해 보세요.\n",
+    "headline": "Ghost 블로그 만들기",
+    "url": "http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/",
+    "datePublished": "2019-03-14T12:53:28.000Z",
+    "dateModified": "2019-03-14T12:53:28.000Z",
+    "keywords": "ghost, tutorial",
+    "description": "  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. \n\n  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를\n만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.\n\n  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음\n봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고\n판단되어 직접 구축해 보기로 결정했습니다.\n\n  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만\n가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.\n\n그래서, ",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://cpro95.asuscomm.com:2369/"
@@ -124,26 +119,15 @@ netlify에 호스팅했었는데 한번 방문 해 보세요.
         <article class="post">
 
             <header class="post-header">
-                <h1 class="post-title">Github Pages 사용법</h1>
+                <h1 class="post-title">Ghost 블로그 만들기</h1>
                 <section class="post-meta">
                     <p class="author">by <a href="../../author/manki/index.html">Manki Kim</a></p>
-                    <time class="post-date" datetime="2019-03-12">2019-03-12</time>
+                    <time class="post-date" datetime="2019-03-14">2019-03-14</time>
                 </section>
             </header>
             <section class="post-content">
 
-                <h2 id="github-pages-">Github Pages 사용법</h2><h3 id="-">나만의 홈페이지 만들기</h3><p>NodeJS, ReactJS를 만지다 보면 내가 만든 SPA앱을 온라인에 호스팅하고 싶은데요. 제가 쓰는 호스팅 도메인은 <a href="http://netlify.com/">netlify.com</a>입니다. 무료이고 속도도 제일 빠르더라구요.</p><p>netlify는 heroku와 함께 프론트엔드, 백엔드 무료 서비스의 대주자라고 생각하는데요. 잘 이용하시면 나만의 웹앱을 꽁짜로 온라인 퍼블리싱 할 수 있습니다..</p><p>물론 상업적으로 론칭할려면 AWS 같은 유료 호스팅 서비스로 가야겠지만요.</p><h2 id="--1">나만의 홈페이지인데 블로그를 만들고 싶다면</h2><p>Node나 React를 배우게 되면 홈페이지도 그냥 HTML로 만들기가 뭔가 손해 같은데요. 배운게 아까워서. React 진영에는 블로그로 <a href="https://gatsby.com/">Gatsby</a>가 기능도 많고 많이 사용됩니다. 그래서 배워볼 겸 사실 하나 만들어 봤습니다. netlify에 호스팅했었는데 한번 방문 해 보세요.</p><p><a href="http://cpro95.netlify.com/">cpro95.netlify.com</a></p><p>사실 Gatsby 블로그 시스템도 성능이나 속도면에서 좋지만 좀 무거운 면이 없지 않아서 다른 걸 생각했었는데 우연히 reddit을 보다가 새로 발견한게 있는데 James K Nelson의 "npx create-react-blog"입니다. React용 라우터인 Navi를 만든 사람 같은데 블로그 템플릿도 같이 만들어서 배포했더라구요. 조금 만져 보니까 가볍고 쉽다는 느낌이 들었습니다.</p><p>그래서 드디어 내 계정의 github.io에 호스팅할 블로그로 결정하게 되었습니다.</p><p><a href="https://cpro95.github.io/">cpro95.github.io</a></p><h2 id="github-pages--1">Github Pages 본격 사용법</h2><h3 id="--2">리포지터리 만들기</h3><p>일단 github.io에 정적 사이트를 호스팅 할려면 먼저 리포지터리를 만들어야 겠죠? 일단 github.com 에서 자신의 아이디로 된 리포지터리를 github pages용으로 만듭니다. 제 경우 아이디가 cpro95이기 때문에 cpro95.github.io 이란 좀 긴 리포지터리를 만들었습니다. 이제 터미널에서 클론 해보죠</p><pre><code>git clone https://github.com/cpro95/cpro95.github.io.git
-</code></pre><p>username.github.io 의 호스팅은 master 브랜치에 저장된 데이터만 정적 호스팅됩니다. 로컬에서 데이터 수정후 remote 로 push 하면 github.io가 자동으로 호스팅 합니다.</p><p>여기서 헷갈리는게 있는데 github pages는 사용자 페이지와 프로젝트 페이지가 있습니다. 사용자 페이지는 username.github.io 와 같이 자신의 github.io 페이저 첫 부분입니다. 사용자 페이지는 master 브랜치를 통해서만 편집할 수 있구요.</p><p>프로젝트 페이지는 쉽게 설명하면 본인이 만들고 있는 웹앱이나 홈페이지가 있는데 이걸 자신의 github 프로젝트 페이지 밑에 정적으로 호스팅하고 싶을때 사용하는 페이지입니다.</p><p>예를 들어 카카오톡 링크보내기 웹앱을 만들었고 github.io에 호스팅하고 싶다면 즉, kakao-cpro95.git 이라는 프로젝트를 github pages로 정적 호스팅하고 싶다면<a href="https://cpro95.github.io/kakao-cpro95/">https://cpro95.github.io/kakao-cpro95/</a> 란 웹경로로 호스팅 됩니다.</p><p>프로젝트 페이지는 gh-pages란 브랜치를 만들고 package.json 의 homepage란을 적절히 작성하면 gh-page deploy로 바로 퍼블리싱할 수 있습니다.</p><p>gh-page란 브랜치가 자동으로 자신의 github.io 밑에 퍼블리싱되구요.</p><pre><code>#install gh-pages package
-npm install --save gh-pages
-</code></pre><p>package.json 수정하기</p><pre><code>...
-"homepage": "https://cpro95.github.io/kakao-cpro95",
-...
-
-"scripts" : {
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
-}
-</code></pre><p>gh-pages 로 발행하고 싶을때는 npm run deploy 를 실행하면 자동으로 predeploy도 실행 되면서 자신의 프로젝트 페이지 밑에 사용자 페이지가 만들어 집니다.</p>
+                <p> 평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. </p><p> 그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를 만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.</p><p> 매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고 판단되어 직접 구축해 보기로 결정했습니다.</p><p> Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만 가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.</p><p>그래서, 개인적으로 돌리고 있는 라즈베리파이에 올려 보기로 했습니다.</p><hr></hr><h2 id="-ghost-"> <strong>라즈베리파이에 Ghost 설치하기</strong></h2><p></p><p> 먼저 ghost를 전역으로 설정합니다.</p><p>   <code>npm install -g ghost-cli</code></p><p> 그리고 작업 디렉토리를 선택합니다. 저는 Home 디렉토리 밑에 Coding 이란 폴더에 ghost-blog란 폴더를 만들었습니다. 그리고 ghost-cli 를 실행합니다.</p><p> <code>cd ~/Coding/ghost-blog</code></p><p><code>ghost install local</code></p><p> local이란 옵션은 기본적으로 DB 는 sqlite3 를 사용하고, 외부 도메인 설정을 하지 않습니다. 에러 없이 설치가 완료되면 ghost 서버 주소가 나타나는데 보통</p><p> <code>http://localhost:2368/ghost</code></p><p>입니다. 상기 주소로 처음 접속하면 admin 계정을 만들라고 합니다.</p><p> 다음 시간에 마저 작성토록 할게요.</p><p> </p>
 
             </section>
 
