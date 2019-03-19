@@ -4,13 +4,13 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Ghost 블로그 만들기</title>
+	<title>라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편</title>
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=104573d492" />
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=104573d492" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=b0281433e9" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=b0281433e9" />
 
 	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
@@ -19,43 +19,39 @@
     
     <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Ghost 블로그 만들기" />
-    <meta property="og:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
+    <meta property="og:title" content="라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편" />
+    <meta property="og:description" content="유명 포털의 블로그 시스템을 이용하기 보다 직접 만들고 싶다는 마음때문에 React로 이것 저것 만들어 봤는데요
+그중에 NextJS, GatsbyJS, Navi 등 전문적인 Static Site Generator 프레임웍을 이용해 봤습니다.
+그런데, 매번 가시지 않는 불만은 결국 CMS(Content Management System) 이었습니다.
 
-  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
-만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
+매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을
+때 바로 이거라고 생각했습니다.
+사실 Strapi CMS 툴을 처음 접했었는데 좀더 구글링 해본 결과 고스트(GhostJS) 시스템이 가장 완성도가 높다고 판단되어 직접 구축해
+보기로 결정했습니다.
 
-  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
-봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
-판단되어 직접 구축해 보기로 결정했습니다.
-
-  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
-가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
-
-그래서, " />
+고스트(GhostJS)는 직접 web server를 제공해주고, REST API까지 보유한 완벽한 프레임웍인데 집 컴퓨터에 설치시 로컬에서만
+블로그 작성이 가능해서 외부에서 설정 변경등 수정사항을 반영" />
     <meta property="og:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
     <meta property="article:published_time" content="2019-03-14T12:53:28.000Z" />
-    <meta property="article:modified_time" content="2019-03-14T12:53:28.000Z" />
+    <meta property="article:modified_time" content="2019-03-19T11:23:31.000Z" />
     <meta property="article:tag" content="ghost" />
     <meta property="article:tag" content="tutorial" />
     
     <meta property="article:publisher" content="https://www.facebook.com/cpro95" />
     <meta property="article:author" content="https://www.facebook.com/cpro95" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Ghost 블로그 만들기" />
-    <meta name="twitter:description" content="  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. 
+    <meta name="twitter:title" content="라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편" />
+    <meta name="twitter:description" content="유명 포털의 블로그 시스템을 이용하기 보다 직접 만들고 싶다는 마음때문에 React로 이것 저것 만들어 봤는데요
+그중에 NextJS, GatsbyJS, Navi 등 전문적인 Static Site Generator 프레임웍을 이용해 봤습니다.
+그런데, 매번 가시지 않는 불만은 결국 CMS(Content Management System) 이었습니다.
 
-  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를
-만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.
+매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을
+때 바로 이거라고 생각했습니다.
+사실 Strapi CMS 툴을 처음 접했었는데 좀더 구글링 해본 결과 고스트(GhostJS) 시스템이 가장 완성도가 높다고 판단되어 직접 구축해
+보기로 결정했습니다.
 
-  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음
-봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고
-판단되어 직접 구축해 보기로 결정했습니다.
-
-  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만
-가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.
-
-그래서, " />
+고스트(GhostJS)는 직접 web server를 제공해주고, REST API까지 보유한 완벽한 프레임웍인데 집 컴퓨터에 설치시 로컬에서만
+블로그 작성이 가능해서 외부에서 설정 변경등 수정사항을 반영" />
     <meta name="twitter:url" content="http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Manki Kim" />
@@ -87,12 +83,12 @@
             "https://twitter.com/cpro95"
         ]
     },
-    "headline": "Ghost 블로그 만들기",
+    "headline": "라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편",
     "url": "http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/",
     "datePublished": "2019-03-14T12:53:28.000Z",
-    "dateModified": "2019-03-14T12:53:28.000Z",
+    "dateModified": "2019-03-19T11:23:31.000Z",
     "keywords": "ghost, tutorial",
-    "description": "  평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. \n\n  그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를\n만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.\n\n  매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음\n봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고\n판단되어 직접 구축해 보기로 결정했습니다.\n\n  Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만\n가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.\n\n그래서, ",
+    "description": "유명 포털의 블로그 시스템을 이용하기 보다 직접 만들고 싶다는 마음때문에 React로 이것 저것 만들어 봤는데요\n그중에 NextJS, GatsbyJS, Navi 등 전문적인 Static Site Generator 프레임웍을 이용해 봤습니다.\n그런데, 매번 가시지 않는 불만은 결국 CMS(Content Management System) 이었습니다.\n\n매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을\n때 바로 이거라고 생각했습니다.\n사실 Strapi CMS 툴을 처음 접했었는데 좀더 구글링 해본 결과 고스트(GhostJS) 시스템이 가장 완성도가 높다고 판단되어 직접 구축해\n보기로 결정했습니다.\n\n고스트(GhostJS)는 직접 web server를 제공해주고, REST API까지 보유한 완벽한 프레임웍인데 집 컴퓨터에 설치시 로컬에서만\n블로그 작성이 가능해서 외부에서 설정 변경등 수정사항을 반영",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://cpro95.asuscomm.com:2369/"
@@ -128,14 +124,63 @@
 
 			<header class="post-header">
 				<span class="post-meta">
-					<span class="post-meta-author"><a href="../author/manki/index.html">Manki Kim</a></span> | <span class="post-meta-date">14 Mar 2019</span> | <span class="post-meta-reading-time">2 min read</span>
+					<span class="post-meta-author"><a href="../author/manki/index.html">Manki Kim</a></span> | <span class="post-meta-date">14 Mar 2019</span> | <span class="post-meta-reading-time">5 min read</span>
 				</span>
 				<div class="clear"></div>
-				<h1 class="post-title">Ghost 블로그 만들기</h1>
+				<h1 class="post-title">라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편</h1>
 			</header>
 
 			<section class="post-content">
-				<p> 평소 나만의 블로그를 갖고 싶어 고민을 했었는데, 결국 알고 있는 지식을 총 동원해 하나 만들어 보기로 했습니다. </p><p> 그래서 NextJS, GatsbyJS, Navi 등을 이용해 Github.io에 static site로 push 해서 여러가지 블로그 형태를 만들어 보았는데, 매번 가시지 않는 불만은 결국 CMS였습니다.</p><p> 매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을 때 이거라고 생각했습니다. 사실 Strapi 블로깅 킷을 처음 접했었는데 좀더 구글링 해본 결과 Ghost 시스템이 가장 완성도가 높다고 판단되어 직접 구축해 보기로 결정했습니다.</p><p> Ghost는 직접 web을 serve까지 해주고 REST API 까지 제공해 주는 완벽한 툴인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성만 가능해서 외부에서 언제든지 접근할 수 있게 서버에 설치할 욕심이 생겼습니다.</p><p>그래서, 개인적으로 돌리고 있는 라즈베리파이에 올려 보기로 했습니다.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="-ghost-"> <strong>라즈베리파이에 Ghost 설치하기</strong></h2><p></p><p> 먼저 ghost를 전역으로 설정합니다.</p><p>   <code>npm install -g ghost-cli</code></p><p> 그리고 작업 디렉토리를 선택합니다. 저는 Home 디렉토리 밑에 Coding 이란 폴더에 ghost-blog란 폴더를 만들었습니다. 그리고 ghost-cli 를 실행합니다.</p><p> <code>cd ~/Coding/ghost-blog</code></p><p><code>ghost install local</code></p><p> local이란 옵션은 기본적으로 DB 는 sqlite3 를 사용하고, 외부 도메인 설정을 하지 않습니다. 에러 없이 설치가 완료되면 ghost 서버 주소가 나타나는데 보통</p><p> <code>http://localhost:2368/ghost</code></p><p>입니다. 상기 주소로 처음 접속하면 admin 계정을 만들라고 합니다.</p><p> 다음 시간에 마저 작성토록 할게요.</p><p> </p>
+				<p>유명 포털의 블로그 시스템을 이용하기 보다 직접 만들고 싶다는 마음때문에 React로 이것 저것 만들어 봤는데요<br>그중에 NextJS, GatsbyJS, Navi 등 전문적인 Static Site Generator 프레임웍을 이용해 봤습니다.<br>그런데, 매번 가시지 않는 불만은 결국 CMS(Content Management System) 이었습니다.</p><p>매번 블로그를 갱신할때 마다 npm build하고 github master에 merge하고 불편했었는데, Ghost 블로깅 시스템을 처음 봤을 때 바로 이거라고 생각했습니다.<br>사실 Strapi CMS 툴을 처음 접했었는데 좀더 구글링 해본 결과 고스트(GhostJS) 시스템이 가장 완성도가 높다고 판단되어 직접 구축해 보기로 결정했습니다.</p><p>고스트(GhostJS)는 직접 web server를 제공해주고, REST API까지 보유한 완벽한 프레임웍인데 집 컴퓨터에 설치시 로컬에서만 블로그 작성이 가능해서 외부에서 설정 변경등 수정사항을 반영시키기 어렵다고 판단해서 결론적으로 언제든지 접근할 수 있는 개인 서버에 설치했습니다.</p><p>집에서 간단히 ftp, torrent, minidlna 서버로 돌리고 있는 라즈베리파이에 올려 보기로 했습니다.</p><h2 id="-ghostjs-">라즈베리파이에 고스트(GhostJS) 설치하기</h2><p>먼저 고스트(GhostJS)가 지원하는 NodeJS가 설치 됐다고 생각하고 진행하겠습니다.</p><p>npm을 이용해 고스트(GhostJS)를 전역으로 설치합니다.</p><!--kg-card-begin: code--><pre><code>  npm install -g ghost-cli</code></pre><!--kg-card-end: code--><p>그리고 작업 폴더를 선택합니다. 저는 Home 디렉토리 밑에 Coding 이란 폴더에 ghost-blog란 폴더를 만들었습니다.<br>그리고 ghost-cli를 실행합니다.</p><!--kg-card-begin: code--><pre><code>mkdir Coding/ghost-blog &amp;&amp; cd ~/Coding/ghost-blog
+ghost install local</code></pre><!--kg-card-end: code--><p>위에서 local이란 옵션은 가장 기본적인 옵션으로 DB는 sqlite3를 사용하고, 외부 도메인 설정을 하지 않는다는 조건입니다.<br>에러 없이 설치가 완료되면 ghost 데몬이 돌고 있는 주소가 나타나는데 보통</p><!--kg-card-begin: code--><pre><code>http://localhost:2368/ghost</code></pre><!--kg-card-end: code--><p>입니다.</p><p>웹브라우저를 열고 위 주소로 연결해 보면 Admin계정을 만들라고 합니다. Admin계정은 말 그대로 관리자 계정으로 설치한 해당 블로그 시스템의 관리자란 뜻입니다. 고스트 블로그는 Author(작가)를 추가할 수 있어 각 작가가 글을 올리면 Admin계정이 퍼블리싱을 하는 시스템입니다.<br>근데 제 혼자 쓰는 시스템이라 저는 Admin이면서 Author(작가)가 되는 거라 Admin계정을 글 작성에 그냥 이용하면 됩니다.</p><h2 id="-">고스트 설정파일 건들기</h2><p>Admin(관리자) 계정까지 만들었으면 본격적인 블로그 작성전에 고스트(GhostJS) 설정을 마저 마무리할 필요가 있습니다.<br>먼저 ghost 데몬이 실행되고 있는지 살펴 봅시다.</p><!--kg-card-begin: code--><pre><code>ghost ls
+┌───────────────┬─────────────────────┬─────────┬──────────────────────┬──────────────────────────────────┬──────┬─────────────────┐
+│ Name          │ Location            │ Version │ Status               │ URL                              │ Port │ Process Manager │
+├───────────────┼─────────────────────┼─────────┼──────────────────────┼──────────────────────────────────┼──────┼─────────────────┤
+│ ghost-local-1 │ ~/Coding/ghost-blog │ 2.16.4  │ running(development) │ http://xxxxxx.asuscomm.com:2369/ │ 2368 │ local           │
+└───────────────┴─────────────────────┴─────────┴──────────────────────┴──────────────────────────────────┴──────┴─────────────────┘</code></pre><!--kg-card-end: code--><p>잘 실행되고 있네요. 이제 잠시 고스트 서버를 중지해 봅시다.</p><!--kg-card-begin: code--><pre><code>ghost stop</code></pre><!--kg-card-end: code--><p>이제 고스트 서버가 정지되어 있으니까 본격적으로 고스트 설정파일을 건들어 봅시다.</p><p>먼저 고스트(GhostJS)가 설치된 디렉토리로 이동합니다.<br>설치된 파일을 보면 몇가지가 안됩니다.<br>기본적으로 설정파일은 json 파일인데 config.development.json입니다.<br>파일을 열어보겠습니다.</p><!--kg-card-begin: code--><pre><code>cat config.development.json
+
+{
+  "url": "http://localhost:2368/",
+  "server": {
+    "port": 2368,
+    "host": "127.0.0.1"
+  },
+  "database": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "/home/username/Coding/ghost-blog/content/data/ghost-local.db"
+    }
+  },
+  "mail": {
+    "transport": "Direct"
+  },
+  "logging": {
+    "transports": [
+      "file",
+      "stdout"
+    ]
+  },
+  "process": "local",
+  "paths": {
+    "contentPath": "/home/username/Coding/ghost-blog/content"
+  }
+}</code></pre><!--kg-card-end: code--><p>여기서 변경할 부분은 url, server 부분입니다.<br>url은 현재 라즈베리파이가 이용하고 있는 ip 주소를 이용하면 됩니다. 저는 라우터에 159번으로 라즈베리파이가 물려 있어서 다음과 같이 변경했습니다.</p><!--kg-card-begin: code--><pre><code>{
+  "url": "http://192.168.29.159:2368/",
+  "server": {
+    "port": 2369,
+    "host": "192.168.29.159"
+  },
+  ......
+  ......
+}</code></pre><!--kg-card-end: code--><p>또한 라우터 DDNS나 포트포워딩을 이용하면 외부네트웍에서도 접속할 수 있습니다. 이 때 url 부분을 DDNS로 설정한 주소를 입력하면 됩니다.</p><!--kg-card-begin: code--><pre><code>{
+  "url": "http://username.asuscomm.com:2368/",
+  "server": {
+    "port": 2369,
+    "host": "192.168.29.159"
+  },
+  ......
+  ......
+}</code></pre><!--kg-card-end: code--><p>이제 설정이 마무리 된거 같은데 config.development.json 파일을 저장하고 다시 고스트를 실행하면 development 상태라고 warning을 주는데 이게 보기 싫다면 config.development.json파일을 config.production.json파일로 복사하면 고스트 실행이 production 모드로 이루어집니다.</p><p>이제 다시 고스트 서버를 실행해서 블로그 작성을 하면 되는데 다음편에는 테마나 Disqus 댓글창을 설치해 보도록 하겠습니다.</p>
 			</section>
 
 			<footer class="post-footer">
@@ -145,7 +190,7 @@
 				</div>
 
 				<div class="post-share">
-					<a class="icon-twitter" href="https://twitter.com/share?text=Ghost 블로그 만들기&url=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+					<a class="icon-twitter" href="https://twitter.com/share?text=라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편&url=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
 						<span>Twitter</span>
 					</a>
 					<a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://cpro95.asuscomm.com:2369/ghost-beulrogeu-mandeulgi/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
@@ -249,7 +294,7 @@
 	</section>
 	
 	
-	<script type="text/javascript" src="../assets/js/dependencies.js?v=104573d492"></script>
-	<script type="text/javascript" src="../assets/js/script.js?v=104573d492"></script>
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=b0281433e9"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=b0281433e9"></script>
 </body>
 </html>
