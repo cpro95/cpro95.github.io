@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편</title>
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" type="text/css" href="../assets/css/dependencies.css?v=6593f69aa7" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css?v=6593f69aa7" />
+
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="&lt;cpro95 /&gt;" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편" />
+    <meta property="og:description" content="  지난 시간에 이어 고스트 블로그 설치를 계속해 보겠습니다.
+
+1편에서는 설치후 실행까지 살펴보았는데 이제는 본격적으로 사용하는 방법에 대해 알아보겠습니다.
+
+테마 설정하기
+기본 테마보다는 좀더 멋있는 테마를 적용해 볼려고 하는 마음은 개발자라도 다 똑같지 않을 까 싶은데요,
+고스트 무료 테마를 구글링 해본 결과 저는 Bleack 테마가 가장 마음에 들더라구요.
+Bleak 테마 주소는 https://github.com/zutrinken/bleak  입니다. MIT 라이센스로 꽁짜로 쓸 수 있습니다.
+
+사용 방법은 github에서 zip형태로 다운받고 고스트 Admin화면에서 업로드하면 바로 적용됩니다.
+
+바로가기 메뉴 설정
+고스트 블로그 메인 화면에는 바로가기 메뉴가 있는데 기본적으로 Home, Tags, Author이 있습니다.
+고스트 Admin화면에서는 Design &gt; Navigation 에서 본인 입맞에 맞게 설정할 수 있습니다.
+
+저는 기본적으로 있는 Home, Author" />
+    <meta property="og:url" content="http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/" />
+    <meta property="article:published_time" content="2019-05-03T13:58:48.000Z" />
+    <meta property="article:modified_time" content="2019-05-03T14:00:33.000Z" />
+    <meta property="article:publisher" content="https://www.facebook.com/profile.php?id&#x3D;100000490495577" />
+    <meta property="article:author" content="https://www.facebook.com/profile.php?id&#x3D;100000490495577" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편" />
+    <meta name="twitter:description" content="  지난 시간에 이어 고스트 블로그 설치를 계속해 보겠습니다.
+
+1편에서는 설치후 실행까지 살펴보았는데 이제는 본격적으로 사용하는 방법에 대해 알아보겠습니다.
+
+테마 설정하기
+기본 테마보다는 좀더 멋있는 테마를 적용해 볼려고 하는 마음은 개발자라도 다 똑같지 않을 까 싶은데요,
+고스트 무료 테마를 구글링 해본 결과 저는 Bleack 테마가 가장 마음에 들더라구요.
+Bleak 테마 주소는 https://github.com/zutrinken/bleak  입니다. MIT 라이센스로 꽁짜로 쓸 수 있습니다.
+
+사용 방법은 github에서 zip형태로 다운받고 고스트 Admin화면에서 업로드하면 바로 적용됩니다.
+
+바로가기 메뉴 설정
+고스트 블로그 메인 화면에는 바로가기 메뉴가 있는데 기본적으로 Home, Tags, Author이 있습니다.
+고스트 Admin화면에서는 Design &gt; Navigation 에서 본인 입맞에 맞게 설정할 수 있습니다.
+
+저는 기본적으로 있는 Home, Author" />
+    <meta name="twitter:url" content="http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Manki Kim" />
+    <meta name="twitter:site" content="@cpro95" />
+    <meta name="twitter:creator" content="@cpro95" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "&lt;cpro95 /&gt;",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://192.168.29.159:2369/favicon.ico",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Manki Kim",
+        "url": "http://192.168.29.159:2369/author/manki/",
+        "sameAs": [
+            "http://cpro95.github.io",
+            "https://www.facebook.com/profile.php?id=100000490495577",
+            "https://twitter.com/cpro95"
+        ]
+    },
+    "headline": "라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편",
+    "url": "http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/",
+    "datePublished": "2019-05-03T13:58:48.000Z",
+    "dateModified": "2019-05-03T14:00:33.000Z",
+    "description": "  지난 시간에 이어 고스트 블로그 설치를 계속해 보겠습니다.\n\n1편에서는 설치후 실행까지 살펴보았는데 이제는 본격적으로 사용하는 방법에 대해 알아보겠습니다.\n\n테마 설정하기\n기본 테마보다는 좀더 멋있는 테마를 적용해 볼려고 하는 마음은 개발자라도 다 똑같지 않을 까 싶은데요,\n고스트 무료 테마를 구글링 해본 결과 저는 Bleack 테마가 가장 마음에 들더라구요.\nBleak 테마 주소는 https://github.com/zutrinken/bleak  입니다. MIT 라이센스로 꽁짜로 쓸 수 있습니다.\n\n사용 방법은 github에서 zip형태로 다운받고 고스트 Admin화면에서 업로드하면 바로 적용됩니다.\n\n바로가기 메뉴 설정\n고스트 블로그 메인 화면에는 바로가기 메뉴가 있는데 기본적으로 Home, Tags, Author이 있습니다.\n고스트 Admin화면에서는 Design &gt; Navigation 에서 본인 입맞에 맞게 설정할 수 있습니다.\n\n저는 기본적으로 있는 Home, Author",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://192.168.29.159:2369/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.16" />
+    <link rel="alternate" type="application/rss+xml" title="&lt;cpro95 /&gt;" href="../rss/index.html" />
+    <script>var disqus="cpro95-github.io";</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136510457-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136510457-1');
+</script>
+</head>
+
+<body class="post-template">
+	<section id="wrapper">
+		<div id="ajax-container">
+			<nav id="nav" class="nav">
+				<div class="nav-logo">
+					<a href="../index.html">
+						<span class="name">&lt;cpro95 /&gt;</span>
+					</a>
+				</div>
+				<div class="nav-menu">
+					<a class="menu" data-action="menu" data-target="menu"><i class="icon-menu"></i></a>
+				</div>
+			</nav>			
+			
+
+<main class="content" role="main">
+	<article class="post">
+		<div class="inner">
+
+			<div id="push">
+
+			<header class="post-header">
+				<span class="post-meta">
+					<span class="post-meta-author"><a href="../author/manki/index.html">Manki Kim</a></span> | <span class="post-meta-date">03 May 2019</span> | <span class="post-meta-reading-time">7 min read</span>
+				</span>
+				<div class="clear"></div>
+				<h1 class="post-title">라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편</h1>
+			</header>
+
+			<section class="post-content">
+				<p> 지난 시간에 이어 고스트 블로그 설치를 계속해 보겠습니다.</p><p>1편에서는 설치후 실행까지 살펴보았는데 이제는 본격적으로 사용하는 방법에 대해 알아보겠습니다.</p><h2 id="-">테마 설정하기</h2><p>기본 테마보다는 좀더 멋있는 테마를 적용해 볼려고 하는 마음은 개발자라도 다 똑같지 않을 까 싶은데요,<br>고스트 무료 테마를 구글링 해본 결과 저는 Bleack 테마가 가장 마음에 들더라구요.<br>Bleak 테마 주소는 <a href="https://github.com/zutrinken/bleak">https://github.com/zutrinken/bleak</a> 입니다. MIT 라이센스로 꽁짜로 쓸 수 있습니다.</p><p>사용 방법은 github에서 zip형태로 다운받고 고스트 Admin화면에서 업로드하면 바로 적용됩니다.</p><h2 id="--1">바로가기 메뉴 설정</h2><p>고스트 블로그 메인 화면에는 바로가기 메뉴가 있는데 기본적으로 Home, Tags, Author이 있습니다.<br>고스트 Admin화면에서는 Design &gt; Navigation 에서 본인 입맞에 맞게 설정할 수 있습니다.</p><p>저는 기본적으로 있는 Home, Author, Tags 외에 About, Projects란 바로가기 메뉴를 만들었는데요,<br>About, Projects 바로가기는 일반적인 블로그 포스트가 아니라 Page란 개념으로 만들어야 합니다.<br>왼쪽 메뉴에 Pages에 들어가셔서 글을 작성하면 됩니다.<br>저는 About Me란 글을 작성했는데 이 글의 설정을 보시면 지정된 url이 나와 있습니다.<br>주소는 about-me 라고 지정되어 있네요.</p><p>Pages에 있는 글은 블로그 리스트가 아니기 때문에 바로가기 메뉴에서 지정해주면 됩니다.<br><a href="http://xxxx.xxxx.xxx/about-me/">http://xxxx.xxxx.xxx/about-me/</a> 주소로 지정하면 됩니다.<br>그럼 블로그 메인에서 바로가기에 보입니다.</p><p>Projects란 페이지도 똑같이 바로가기 지정하면 됩니다.</p><p> 그럼. 대충 블로그 테마와 바로가기가 갖추어졌습니다. 이제 Posts에서 글을 작성하고 Publish 하면 첫번째 글이 블로깅 될겁니다. 그런데 글을 쓸때는 분류를 편하게 하기 위해서 태그(Tags)를 입력하는데 이 태그를 클릭하면 해당 태그의 글 전부를 리스트 해서 보여 줘야겠죠? 근데 Ghost 블로그 기본 세팅이 태그를 클릭시 그 해당하는 태그의 첫번째 글만 바로 보여줍니다. </p><p> 보통 생각했던 UI랑 달라서 제가 원했던 해당 태그 전체 리스트를 볼수 있게 테마를 수정해 보겠습니다. 역시 구글링하면 안 나오는게 없네요.</p><p> 먼저 설정한 테마가 있는 폴더로 이동합니다. 저는 bleak 테마라 아래와 같이 이동했습니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">cd content/themes/bleak-master
+ls -l
+</code></pre>
+<!--kg-card-end: markdown--><p> 파일이 뭐가 있나 보면 태그관련은 tag.hbs 란 파일이 보입니다. 이 파일을 잘 살펴보면 태그를 클릭시 해당 태그의 글 리스트만 보여주는데 제가 원하는 건 태그 리스트를 보여주면서 태그당 몇개의 글이 있고 해당 태그를 누르면 그에 해당하는 글만 보이게 만들고 싶었습니다. 그래서 일단 tag.hbs 파일의 내용을 다음과 같이 고치십시요.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">{{!&lt; default}}
+
+&lt;header id=&quot;header&quot; class=&quot;header{{#if tag.feature_image}} has-cover{{else}}{{#if @blog.cover_image}} has-cover{{/if}}{{/if}}&quot;&gt;
+        &lt;div class=&quot;inner&quot;&gt;
+                &lt;span class=&quot;header-title&quot;&gt;
+                        &lt;h1 class=&quot;header-name&quot;&gt;{{tag.name}} &lt;em&gt;{{pagination.total}}&lt;/em&gt;&lt;/h1&gt;
+                        {{#if tag.description}}
+                                &lt;span class=&quot;header-description&quot;&gt;{{tag.description}}&lt;/span&gt;
+                        {{/if}}
+                &lt;/span&gt;
+        &lt;/div&gt;
+        {{#if tag.feature_image}}
+        &lt;div class=&quot;header-cover&quot; style=&quot;background-image: url('{{img_url tag.feature_image}}');&quot;&gt;&lt;/div&gt;
+        {{else}}
+        {{#if @blog.cover_image}}
+        &lt;div class=&quot;header-cover&quot; style=&quot;background-image: url('{{img_url @blog.cover_image}}');&quot;&gt;&lt;/div&gt;
+        {{/if}}
+        {{/if}}
+&lt;/header&gt;
+
+&lt;div id=&quot;post-index&quot; class=&quot;container&quot;&gt;
+
+        &lt;main class=&quot;content&quot; role=&quot;main&quot;&gt;
+
+                {{&gt; &quot;loop&quot;}}
+
+        &lt;/main&gt;
+
+&lt;/div&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p> 그리고 전체 태그를 보여주는 화면은 mysite.com/tags 란 주소로 하기 위해 세팅화면에서 Page를 하나 만듭니다. Page 이름은 Tags 라고 하고 내용은 빈칸으로 둡니다.</p><p> 그리고 아까 테마가 위치한 폴더에서 page-tags.hbs란 파일을 다음과 같이 만듭니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">{{!&lt; default}}
+
+{{#post}}
+
+&lt;header id=&quot;header&quot; class=&quot;header&quot;&gt;
+        &lt;div class=&quot;inner&quot;&gt;
+                &lt;span class=&quot;header-title&quot;&gt;
+                &lt;h1 class=&quot;header-name&quot;&gt;
+                        {{title}}
+                &lt;/h1&gt;
+                &lt;/span&gt;
+        &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main id=&quot;site-main&quot; class=&quot;site-main outer&quot; role=&quot;main&quot;&gt;
+  &lt;div class=&quot;inner&quot;&gt;
+    {{#get 'tags' limit='all' include='count.posts' order='count.posts desc'}}
+    {{#foreach tags}}
+        &lt;a href='{{ url }}'&gt;
+        &lt;h2&gt;{{ name }} &lt;small&gt;({{ count.posts }})&lt;/small&gt;&lt;/h2&gt;
+        &lt;/a&gt;
+    {{/foreach}}
+    {{/get}}
+  &lt;/div&gt;
+&lt;/main&gt;
+
+{{/post}}
+</code></pre>
+<!--kg-card-end: markdown--><p> 이 파일의 목적은 태그리스트를 전체로 보여주면서 각 태그별 몇개의 글이 있고 해당 태그를 누르면 관련된 태그 전체 글 목록으로 넘어갑니다.</p><p> 이제 태그까지 만들었고 다음은 Disqus 댓글창을 만들어 봅시다.</p><p> 디스커스 댓글 시스템 가입 및 페이지 세팅이 되어 있다는 조건에서 다음과 같이 합니다.  post.hbs를 편집기로 열어서 다음 코드를 해당 위치에 삽입하시면 됩니다.  위치는 </p><p>&lt;div id="disqus_thread"&gt;&lt;/div&gt; 바로 아래에 넣으면 됩니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">&lt;script&gt;
+ var disqus_config = function() {
+     this.page.url = &quot;{{url absolute=true}}&quot;;
+     this.page.identifier = &quot;ghost-{{comment_id}}&quot;
+ };
+    (function() {
+    var d = document, s=d.createElement('script');
+    s.src = '//YOUR-SITE-CODE.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+&lt;/script&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p> 그리고 Code Injection 부분에 disqus 코드를 삽입하면 됩니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">&lt;script&gt;var disqus=&quot;YOUR-SITE-CODE&quot;;&lt;/script&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p> 그러면 잘 작동됩니다.</p><p> 여기 Code Injection 부분에 구글애널리틱스 코드도 같이 넣으면 됩니다.</p><p> 이상 Ghost 블로그를 세팅했는데요, 원하는 글을 쓰고 Github.io 에 스태틱 호스팅 하는 방법을 알아 보겠습니다.</p><p> Ghost 설정으로 라이브 서버에 연동할 수 있겠으나 보통 로컬에서 돌아가게 됩니다. 그래서 무료 호스팅 서비스에 업로드해야 되는데 보통 github.io를 많이 이용합니다. 그래서 정적사이트 제너레이트를 많이 이용하는데 그중에 고스트버스트(ghost-butster)란 파이썬 프로그램이 많이 쓰입니다. 설치는 pip install buster 라고 하면 되고, 사용법은 아래와 같습니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">buster generate --domain=http://192.168.29.159:2369
+</code></pre>
+<!--kg-card-end: markdown--><p> 로컬 서버로 돌리고 있는 주소를 --domain 옵션에 적으면 됩니다. 그러면 static/ 폴더에 저장되는데 이걸 자신의 github.io repository에 git push 하면 됩니다. buster는 git push를 자동으로 해주는 옵션이 있는데 아래와 같이 하면 됩니다.</p><!--kg-card-begin: markdown--><pre><code class="language-bash">buster deploy
+</code></pre>
+<!--kg-card-end: markdown--><p> 그리고 나서, 자신의 github 사이트에 가보면 git push 가 잘 되어 있을겁니다.</p><p> 이상. 고스트 블로에 대해 알아봤습니다. 첫번째 글을 쓰고 나서  좀 귀찮아서 두번째를 마무리 못했는데 그 사이 어떻게 했는지 다 까먹어서 제대로 썼는지 모르겠네요. 아무튼 많은 도움이 됐으면 합니다.</p>
+			</section>
+
+			<footer class="post-footer">
+
+				<div class="post-tags">
+					
+				</div>
+
+				<div class="post-share">
+					<a class="icon-twitter" href="https://twitter.com/share?text=라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 2편&url=http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+						<span>Twitter</span>
+					</a>
+					<a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+						<span>Facebook</span>
+					</a>
+					<a class="icon-gplus" href="https://plus.google.com/share?url=http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+						<span>Google+</span>
+					</a>
+				</div>
+
+			</footer>
+
+			<aside class="post-author">
+				<figure class="post-author-avatar avatar">
+				</figure>
+				<div class="post-author-bio">
+					<h4 class="post-author-name"><a href="../author/manki/index.html">Manki Kim</a></h4>
+					<p class="post-author-meta">
+						<span class="post-author-meta-location"><i class="icon-location"></i> Seoul, South Korea</span>
+						<span class="post-author-meta-website"><i class="icon-link"></i> <a href="http://cpro95.github.io">Website</a></span>
+						<span class="post-author-meta-twitter"><i class="icon-twitter"></i> <a target="_blank" href="https://twitter.com/@cpro95">Twitter</a></span>
+						<span class="post-author-meta-facebook"><i class="icon-facebook"></i> <a target="_blank" href="https://facebook.com/profile.php?id&#x3D;100000490495577">Facebook</a></span>
+					</p>
+						<p class="post-author-about">코딩하는 직장인.</p>
+				</div>
+				<div class="clear"></div>
+			</aside>
+
+
+			<aside class="post-comments">
+				<div id="disqus_thread"></div>
+				<script>
+					var disqus_config = function() {
+						this.page.url = "http://192.168.29.159:2369/rajeuberipaie-goseuteu-ghostjs-beulrogeu-seolcihagi-2pyeon/";
+						this.page.identifier = "ghost-5c93207ab011bb3f272511e5"
+					};
+					(function() {
+					var d = document, s=d.createElement('script');
+					s.src = '//cpro95-github-io.disqus.com/embed.js';
+					s.setAttribute('data-timestamp', +new Date());
+					(d.head || d.body).appendChild(s);
+					})();
+				</script>
+			</aside>
+
+			</div>
+
+			<nav class="post-nav">
+					<a class="post-nav-item post-nav-prev" href="../ghost-beulrogeu-mandeulgi/index.html">
+						<section class="post-nav-teaser">
+							<span class="post-nav-icon"><i class="icon-arrow-right"></i></span>
+							<span class="post-nav-info">
+								<h4 class="post-nav-title">라즈베리파이에 고스트(GhostJS) 블로그 설치하기 - 1편</h4>
+								<p class="post-nav-excerpt">유명 포털의 블로그 시스템을 이용하기 보다 직접 만들고 싶다는 마음때문에 React로 이것&hellip;</p>
+							</span>
+						</section>
+					</a>
+				<div class="clear"></div>
+			</nav>
+
+		</div>
+	</article>
+</main>
+
+			<div id="body-class" style="display: none;" class="post-template"></div>
+			<footer id="footer">
+				<section class="credits">
+					<span class="credits-theme">Theme <a href="https://github.com/zutrinken/bleak" target="_blank" rel="nofollow">Bleak</a> by <a href="http://zutrinken.com" target="_blank" rel="nofollow">zutrinken</a></span>
+					<span class="credits-software">Published with <a href="http://ghost.org" target="_blank" rel="nofollow">Ghost</a></span>
+				</section>
+			</footer>
+			<div id="menu" data-target="menu">
+	<div class="menu-header">
+		<span class="menu-label">Menu</span>
+		<a class="menu-close" data-action="menu" data-target="menu"></a>
+	</div>
+	<ul class="menu-list">
+		<li class="menu-list-item">
+			<a class="home" href="../index.html">Home</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="projects" href="../my-projects/index.html">Projects</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="author" href="../author/manki/index.html">Author</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="tags" href="../tags/index.html">Tags</a>
+		</li>
+		<li class="menu-list-item">
+			<a class="about" href="../about-me/index.html">About</a>
+		</li>
+		<li class="menu-list-item menu-list-item-follow">
+			<a class="twitter" href="https://twitter.com/cpro95" title="@cpro95"><i class="icon-twitter"></i></a>
+			<a class="facebook" href="https://www.facebook.com/profile.php?id&#x3D;100000490495577" title="profile.php?id&#x3D;100000490495577"><i class="icon-facebook"></i></a>
+			<a class="rss" href="../rss/index.html"><i class="icon-rss"></i></a>
+		</li>
+	</ul>
+</div>
+<div class="overlay"></div>
+		</div>
+	</section>
+	
+	
+	<script type="text/javascript" src="../assets/js/dependencies.js?v=6593f69aa7"></script>
+	<script type="text/javascript" src="../assets/js/script.js?v=6593f69aa7"></script>
+</body>
+</html>

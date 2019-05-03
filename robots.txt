@@ -1,4 +1,4 @@
 User-agent: *
-Sitemap: http://cpro95.github.io/sitemap.xml
+Sitemap: http://192.168.29.159:2369/sitemap.xml
 Disallow: /ghost/
 Disallow: /p/
