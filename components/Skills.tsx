@@ -3,10 +3,10 @@ import Skill from "./Skill";
 
 type Props = {};
 
-type skillType = {
-  skillImage: string;
-  skillEffiency: string;
-};
+// type skillType = {
+//   skillImage: string;
+//   skillEffiency: string;
+// };
 
 const mySkills = [
   {
@@ -32,10 +32,6 @@ const mySkills = [
   {
     skillImage: "/react.png",
     skillEffiency: "90%",
-  },
-  {
-    skillImage: "/svelte.png",
-    skillEffiency: "85%",
   },
   {
     skillImage: "/nextjs.png",
