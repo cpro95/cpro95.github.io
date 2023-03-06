@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 type Props = {};
 
@@ -10,14 +11,6 @@ type Project = {
 
 const myProjects: Project[] = [
   {
-    project_title: "cpro95.tistory.com",
-    project_image: "/project-tistory.png",
-    project_desc: `Blog of Tistory.
-    Early form of blog, using daum tistory service.
-    When I taught myself Remix Framework, I started to host my own blog site.
-    `,
-  },
-  {
     project_title: "mycodings.fly.dev",
     project_image: "/project-mycodings.png",
     project_desc: `Blog of myCodings.fly.dev
@@ -25,6 +18,24 @@ const myProjects: Project[] = [
     especially with Speed Metal Stack.
     It uses github for mark down file saving,
     is serving with Fly.io.
+    `,
+  },
+  {
+    project_title: "mykpop.fly.dev",
+    project_image: "/project-mykpop.png",
+    project_desc: `mykpop.fly.dev
+    This site was built with Remix Framework,
+    especially with Indie Stack.
+    It uses YOUTUBE API with backend data,
+    and is serving with Fly.io.
+    `,
+  },
+  {
+    project_title: "cpro95.tistory.com",
+    project_image: "/project-tistory.png",
+    project_desc: `Blog of Tistory.
+    Early form of blog, using daum tistory service.
+    When I taught myself Remix Framework, I started to host my own blog site.
     `,
   },
   {
@@ -68,16 +79,17 @@ function Projects({}: Props) {
               src={project.project_image}
               className="w-56"
             /> */}
+            <Link href={`https://${project.project_title}`}>
+              <div className="space-y-10 px-0 md:px-10 max-w-6xl">
+                <h4 className="text-4xl font-semibold text-center">
+                  {project.project_title}
+                </h4>
 
-            <div className="space-y-10 px-0 md:px-10 max-w-6xl">
-              <h4 className="text-4xl font-semibold text-center">
-                {project.project_title}
-              </h4>
-
-              <p className="text-lg text-center md:text-left">
-                {project.project_desc}
-              </p>
-            </div>
+                <p className="text-lg text-center md:text-left">
+                  {project.project_desc}
+                </p>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
