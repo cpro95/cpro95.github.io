@@ -26,7 +26,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/cpro95/cpro95.github.io",
+    href: "https://github.com/cpro95",
     linkTitle: ` ${SITE.title} on Github`,
     active: true,
   },
