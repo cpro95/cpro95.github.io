@@ -13,7 +13,8 @@
     "cz": "cz",
     "prepare": "husky install",
     "lint": "eslint .",
-    "deploy-gh-pages": "rm -rf node_modules/.cache && astro check && astro build && jampack ./dist && touch dist/.nojekyll && git add -f dist/ && git checkout -b temp-for-deploy-gh-pages && git commit -m \"Deploy AstroJS to gh-pages\" && git subtree split --prefix dist -b gh-pages && git push -f origin gh-pages:gh-pages && git branch -D gh-pages && git checkout main && git branch -D temp-for-deploy-gh-pages"
+    "deploy-gh-pages": "rm -rf node_modules/.cache && astro check && astro build && jampack ./dist && touch dist/.nojekyll && git add -f dist/ && git checkout -b temp-for-deploy-gh-pages && git commit -m \"Deploy AstroJS to gh-pages\" && git subtree split --prefix dist -b gh-pages && git push -f origin gh-pages:gh-pages && git branch -D gh-pages && git checkout main && git branch -D temp-for-deploy-gh-pages",
+    "new:blog": "node -r esbuild-register ./new-blog.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
@@ -40,9 +41,12 @@
     "astro-eslint-parser": "^0.16.2",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
+    "esbuild-register": "^3.5.0",
     "eslint": "^8.56.0",
     "eslint-plugin-astro": "^0.31.3",
+    "fs-extra": "^11.2.0",
     "husky": "^8.0.3",
+    "inquirer": "^9.2.13",
     "lint-staged": "^15.2.0",
     "prettier": "^3.2.4",
     "prettier-plugin-astro": "^0.13.0",

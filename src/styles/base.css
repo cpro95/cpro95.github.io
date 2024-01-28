@@ -123,6 +123,13 @@
   pre > code {
     white-space: pre;
   }
+  
+  body {
+    font-family: "RIDIBatang", "Noto Sans", "Nanum Gothic", Arial, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", Dotum, '돋움', Helvetica, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 }
 
 @layer components {
@@ -132,4 +139,11 @@
   .focus-outline {
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
   }
+}
+
+@font-face {
+  font-family: 'RIDIBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }

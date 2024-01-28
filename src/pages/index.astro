@@ -23,7 +23,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mingalaba</h1>
+      <h1>All About Codings!</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -42,19 +42,40 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+        안녕하세요?
+        <br />
+        <br />
+        코딩 관련 도움이 될만한 자료와 개발 경험담을 공유하고 싶어 github.io 블로그를
+        개설했습니다.
+        <br />
+        <br />
       </p>
       <p>
-        Read the blog posts or check
+        다른 사이트 둘러보기 :
         <LinkButton
           className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
+          href="https://mycodings.fly.dev"
         >
-          README
-        </LinkButton> for more info.
+          myCodings
+        </LinkButton>
+        <LinkButton
+          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+          href="https://cpro95.tistory.com"
+        >
+          Tistory
+        </LinkButton>
+        <LinkButton
+          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+          href="https://mymovies.fly.dev"
+        >
+          myMovies
+        </LinkButton>
+        <LinkButton
+          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+          href="https://mylotto.pages.dev"
+        >
+          myLotto
+        </LinkButton>
       </p>
       {
         // only display if at least one social link is enabled
