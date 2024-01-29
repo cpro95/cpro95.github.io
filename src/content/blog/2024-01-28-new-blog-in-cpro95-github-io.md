@@ -6,7 +6,6 @@ featured: true
 draft: false
 tags:
   - blog
-  - github
 description: github.io 정적사이트에 코딩 관련 새로운 블로그 오픈했습니다.
 ---
 
