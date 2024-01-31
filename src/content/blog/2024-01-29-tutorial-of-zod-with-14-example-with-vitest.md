@@ -10,8 +10,6 @@ tags:
 description: 튜토리얼로 배우는 Zod 라이브러리 (타입스크립트 스키마 선언 및 검증)
 ---
 
-# 튜토리얼로 배우는 Zod 라이브러리 (타입스크립트 스키마 선언 및 검증)
-
 ![](https://blogger.googleusercontent.com/img/a/AVvXsEgisu5_JxzT8x3APgiGdtD_wjJKyEXsmkh2q90A3esNF9Db6yWkfL9SKGlSrRXJ0gIOrPNaUaCdNPrCG2F9HFUkorBf0XWDCcgAFsGqncvVXf3t_AfnaFIHjxVs1mbVSAxZGx80C3lI4hecduPyte0frzQKBN-N5Ufl22Vu-A0goEDKXC7bknJ3_PbYB8w)
 
 안녕하세요?
