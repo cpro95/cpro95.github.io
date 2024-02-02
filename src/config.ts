@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "cpro95.github.io",
   ogImage: "og.png",
   lightAndDarkMode: true,
-  postPerPage: 3,
+  postPerPage: 10,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
 };
 
