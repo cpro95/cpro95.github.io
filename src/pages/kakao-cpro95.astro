@@ -1,3 +1,19 @@
 ---
-Astro.redirect("https://kakaoweb.netlify.app");
+import { getCollection } from "astro:content";
+import { SITE } from "@config";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
 ---
+
+<Layout title={`kakaoweb | ${SITE.title}`}>
+  <Header activeNav="search" />
+  <Main pageTitle="Kakao Web Version">
+    <div class="mb-4">Kakao Web 버전으로 가시려면 아래 링크를 눌러주세요.</div>
+    <a class="text-2xl underline" href="https://kakaoweb.netlify.app"
+      >kakaoweb.netlify.app</a
+    >
+  </Main>
+  <Footer />
+</Layout>
