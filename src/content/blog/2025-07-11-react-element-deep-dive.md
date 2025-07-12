@@ -1,6 +1,6 @@
 ---
 title: React Element 완전 정복 - 컴포넌트와 인스턴스는 무엇이 다른가?
-pubDatetime: 2025-07-12T11:51:11.746Z
+pubDatetime: 2025-07-11T11:51:11.746Z
 postSlug: 2025-07-11-react-element-deep-dive
 featured: false
 draft: false

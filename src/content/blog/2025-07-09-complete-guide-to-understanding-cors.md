@@ -1,6 +1,6 @@
 ---
 title: CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드)
-pubDatetime: 2025-07-12T11:43:10.519Z
+pubDatetime: 2025-07-09T11:43:10.519Z
 postSlug: 2025-07-09-complete-guide-to-understanding-cors
 featured: false
 draft: false

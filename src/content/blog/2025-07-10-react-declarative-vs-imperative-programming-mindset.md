@@ -1,6 +1,6 @@
 ---
 title: React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?
-pubDatetime: 2025-07-12T11:48:28.564Z
+pubDatetime: 2025-07-10T11:48:28.564Z
 postSlug: 2025-07-10-react-declarative-vs-imperative-programming-mindset
 featured: false
 draft: false
