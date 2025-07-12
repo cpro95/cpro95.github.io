@@ -1,6 +1,6 @@
 ---
 title: React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)
-pubDatetime: 2025-07-12T11:51:11.079Z
+pubDatetime: 2025-07-08T11:51:11.079Z
 postSlug: react-usesyncexternalstore-guide-with-localstorage
 featured: false
 draft: false
@@ -15,8 +15,6 @@ tags:
   - React 훅
 description: React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.
 ---
-
-# React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)<br />
 
 React 애플리케이션을 개발하다 보면, 애플리케이션 상태를 외부 데이터 소스와 동기화해야 할 필요가 종종 생깁니다.<br /><br />
 특히 사용자의 테마 설정이나 장바구니 정보처럼, 브라우저 세션 간에 유지되어야 하는 데이터를 'LocalStorage'에 저장하는 경우가 대표적이죠.<br /><br />
