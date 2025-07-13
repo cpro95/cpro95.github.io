@@ -2,6 +2,26 @@ import fs from 'fs-extra'
 import path from 'path'
 import inquirer from 'inquirer'
 
+//inquirer import 아래에 이 함수를 추가하세요.
+
+function getLocalISOString(date: Date): string {
+  const offset = -date.getTimezoneOffset();
+  const offsetSign = offset >= 0 ? '+' : '-';
+  const pad = (num: number) => num.toString().padStart(2, '0');
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hour = pad(date.getHours());
+  const minute = pad(date.getMinutes());
+  const second = pad(date.getSeconds());
+  
+  const tzHour = pad(Math.floor(Math.abs(offset) / 60));
+  const tzMinute = pad(Math.abs(offset) % 60);
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}${offsetSign}${tzHour}:${tzMinute}`;
+}
+
 async function go() {
   console.log("\nLet's create a new blog 💿\n")
 
@@ -102,7 +122,7 @@ async function go() {
 
   const data = `---
 title: ${title}
-pubDatetime: ${new Date().toISOString()}
+pubDatetime: ${getLocalISOString(new Date())}
 postSlug: ${slug}
 featured: ${featured}
 draft: ${draft}
@@ -115,6 +135,8 @@ description: ${description}
 ---
 
 `
+// 상기 코드의 pubDatetime의 에전 코드입니다.
+// pubDatetime: ${getLocalISOString(new Date())}
 
   let relativePath = ''
 

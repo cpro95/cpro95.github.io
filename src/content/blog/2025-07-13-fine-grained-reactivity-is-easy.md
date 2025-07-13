@@ -1,6 +1,6 @@
 ---
 title: React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기
-pubDatetime: 2025-07-13T11:01:16.072Z
+pubDatetime: 2025-07-13T07:48:08+09:00
 postSlug: 2025-07-13-fine-grained-reactivity-is-easy
 featured: false
 draft: false

@@ -1,6 +1,6 @@
 ---
 title: React useEffect 완전 정복 - 동기화 관점으로 레벨업하기
-pubDatetime: 2025-07-13T11:47:55.346Z
+pubDatetime: 2025-07-13T09:48:08+09:00
 postSlug: 2025-07-13-mastering-react-useeffect-the-synchronization-mindset
 featured: false
 draft: false

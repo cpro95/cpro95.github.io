@@ -1,6 +1,6 @@
 ---
 title: React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기
-pubDatetime: 2025-07-13T11:50:33.254Z
+pubDatetime: 2025-07-13T10:48:08+09:00
 postSlug: 2025-07-13-mastering-react-usereducer-for-structured-state-management
 featured: false
 draft: false
