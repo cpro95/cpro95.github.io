@@ -1,7 +1,7 @@
 ---
 title: React Context API 완전 정복 - Prop Drilling을 넘어 최적화와 상태 관리 철학까지
-pubDatetime: 2025-07-16T12:52:26.337Z
-postSlug: 2025-07-16-mastering-react-context-api-deep-dive
+pubDatetime: 2025-07-13T11:52:26.337Z
+postSlug: 2025-07-13-mastering-react-context-api-deep-dive
 featured: false
 draft: false
 tags:
