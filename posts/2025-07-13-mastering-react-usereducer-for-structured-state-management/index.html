@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="ko" class="scroll-smooth"><head><meta charset="UTF-8"><style>:where(img){height:auto}</style><meta name="viewport" content="width=device-width"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="canonical" href="https://cpro95.github.io/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/"><meta name="generator" content="Astro v4.2.1"><!-- General Meta Tags --><title>React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기 | cpro95.github.io</title><meta name="title" content="React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기 | cpro95.github.io"><meta name="description" content="useState만으로 상태 관리가 힘들어질 때, useReducer가 어떻게 구원투수가 되는지 알아봅니다. 쇼핑 카트 예제를 통해 상태 로직을 중앙에서 관리하고, 예측 가능하며 테스트하기 쉬운 코드를 작성하는 방법을 깊이 있게 탐구합니다."><meta name="author" content="cpro95"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기 | cpro95.github.io"><meta property="og:description" content="useState만으로 상태 관리가 힘들어질 때, useReducer가 어떻게 구원투수가 되는지 알아봅니다. 쇼핑 카트 예제를 통해 상태 로직을 중앙에서 관리하고, 예측 가능하며 테스트하기 쉬운 코드를 작성하는 방법을 깊이 있게 탐구합니다."><meta property="og:url" content="https://cpro95.github.io/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/"><meta property="og:image" content="https://cpro95.github.io/posts/react-usereducer-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---usestate%EC%9D%98-%ED%95%9C%EA%B3%84%EB%A5%BC-%EB%84%98%EC%96%B4-%EA%B5%AC%EC%A1%B0%EC%A0%81%EC%9D%B8-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-07-13T01:48:08.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://cpro95.github.io/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/"><meta property="twitter:title" content="React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기 | cpro95.github.io"><meta property="twitter:description" content="useState만으로 상태 관리가 힘들어질 때, useReducer가 어떻게 구원투수가 되는지 알아봅니다. 쇼핑 카트 예제를 통해 상태 로직을 중앙에서 관리하고, 예측 가능하며 테스트하기 쉬운 코드를 작성하는 방법을 깊이 있게 탐구합니다."><meta property="twitter:image" content="https://cpro95.github.io/posts/react-usereducer-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---usestate%EC%9D%98-%ED%95%9C%EA%B3%84%EB%A5%BC-%EB%84%98%EC%96%B4-%EA%B5%AC%EC%A1%B0%EC%A0%81%EC%9D%B8-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content=""><!-- NaverSiteVerification --><meta name="naver-site-verification" content="eeeccabde48a3844cbb9220e7a9073651cd183e7"><!-- googleSiteVerification --><meta name="google-site-verification" content="9op9qYSSLeQr3-EP1Xgu8IlVUf0unPypVRw8y92_MpM"><!-- Google tag (gtag.js) --><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XSCP6QR275"></script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script src="/toggle-theme.js"></script><style>.breadcrumb:where(.astro-ilhxcym7){width:100%;max-width:48rem;margin:2rem auto .25rem;padding-left:1rem;padding-right:1rem}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7){display:inline}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) a:where(.astro-ilhxcym7){text-transform:capitalize;opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) span:where(.astro-ilhxcym7){opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7):not(:last-child) a:where(.astro-ilhxcym7):hover{opacity:1}#main-content:where(.astro-hsp6otuf){width:100%;max-width:48rem;margin-left:auto;margin-right:auto;padding-bottom:1rem;padding-left:1rem;padding-right:1rem}#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.5rem;font-weight:600;line-height:2rem}@media (min-width:640px){#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.875rem;line-height:2.25rem}}#main-content:where(.astro-hsp6otuf) p:where(.astro-hsp6otuf){margin-top:.5rem;margin-bottom:1.5rem;font-style:italic}</style>
+<link rel="stylesheet" href="/_astro/index.CZwYe-2R.css">
+<style>a:where(.astro-blwjyjpt){position:relative;text-decoration-line:underline;text-decoration-style:dashed}a:where(.astro-blwjyjpt):hover{top:-.125rem;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}a:where(.astro-blwjyjpt):focus-visible{padding:.25rem}a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){margin-right:-1.25rem;height:1.5rem;width:1.5rem;--tw-scale-x: .95;--tw-scale-y: .95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity));opacity:.8}.group:where(.astro-blwjyjpt):hover a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){fill:rgb(var(--color-accent))}
+.pagination-wrapper:where(.astro-d776pwuy){margin-bottom:2rem;margin-top:auto;display:flex;justify-content:center}.disabled:where(.astro-d776pwuy){pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;opacity:.5}.disabled:where(.astro-d776pwuy):hover{--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity))}.group:where(.astro-d776pwuy):hover .disabled:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))}.group:where(.astro-d776pwuy):hover .disabled-svg:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))!important}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0}}@keyframes astroFadeOut{to{opacity:0}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+main:where(.astro-vj4tpspi){margin-left:auto;margin-right:auto;width:100%;max-width:48rem;padding-left:1rem;padding-right:1rem;padding-bottom:3rem}.post-title:where(.astro-vj4tpspi){font-size:1.5rem;line-height:2rem;font-weight:600;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}
+</style><script type="module" src="/_astro/hoisted.9gLigZQW.js"></script><style>[data-astro-transition-scope=astro-plk3gbjq-1]{view-transition-name:react-usereducer-__-__---usestate_-___-__-____-__-}@layer astro{::view-transition-old(react-usereducer-__-__---usestate_-___-__-____-__-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react-usereducer-__-__---usestate_-___-__-____-__-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react-usereducer-__-__---usestate_-___-__-____-__-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react-usereducer-__-__---usestate_-___-__-____-__-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-2]{view-transition-name:react}@layer astro{::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-3]{view-transition-name:usereducer}@layer astro{::view-transition-old(usereducer){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(usereducer){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(usereducer){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(usereducer){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-4]{view-transition-name:usestate}@layer astro{::view-transition-old(usestate){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(usestate){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(usestate){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(usestate){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-6"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-7"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-8"] { view-transition-name: ; }@layer astro { ::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <header class="astro-3ef6ksr2"> <a id="skip-to-content" href="#main-content" class="astro-3ef6ksr2">Skip to content</a> <div class="astro-3ef6ksr2 nav-container"> <div class="astro-3ef6ksr2 top-nav-wrap"> <a href="/" class="astro-3ef6ksr2 logo whitespace-nowrap"> cpro95.github.io </a> <nav id="nav-menu" class="astro-3ef6ksr2"> <button class="astro-3ef6ksr2 focus-outline hamburger-menu" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="astro-3ef6ksr2 menu-icon"> <line x1="7" y1="12" x2="21" y2="12" class="line astro-3ef6ksr2"></line> <line x1="3" y1="6" x2="21" y2="6" class="line astro-3ef6ksr2"></line> <line x1="12" y1="18" x2="21" y2="18" class="line astro-3ef6ksr2"></line> <line x1="18" y1="6" x2="6" y2="18" class="astro-3ef6ksr2 close"></line> <line x1="6" y1="6" x2="18" y2="18" class="astro-3ef6ksr2 close"></line> </svg> </button> <ul id="menu-items" class="astro-3ef6ksr2 display-none sm:flex"> <li class="astro-3ef6ksr2"> <a href="/posts/" class="astro-3ef6ksr2">
+Posts
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/tags/" class="astro-3ef6ksr2">
+Tags
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/search/" class="astro-3ef6ksr2 focus-outline flex group hover:text-skin-accent inline-block p-3 sm:p-1" aria-label="search" title="Search"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-3ef6ksr2 scale-125 sm:scale-100"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" class="astro-3ef6ksr2"></path> </svg> <span class="astro-3ef6ksr2 sr-only">Search</span> </a> </li> <li class="astro-3ef6ksr2"> <button id="theme-btn" class="astro-3ef6ksr2 focus-outline" title="Toggles light &amp; dark" aria-label="auto" aria-live="polite"> <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg" class="astro-3ef6ksr2"> <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" class="astro-3ef6ksr2"></path> </svg> <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg" class="astro-3ef6ksr2"> <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" class="astro-3ef6ksr2"></path> </svg> </button> </li> </ul> </nav> </div> </div> <div class="max-w-3xl mx-auto px-4"> <hr class="border-skin-line" aria-hidden="true"> </div> </header>   <div class="astro-vj4tpspi flex justify-start max-w-3xl mx-auto px-2 w-full"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> </div> <main id="main-content" class="astro-vj4tpspi"> <h1 class="astro-vj4tpspi post-title" data-astro-transition-scope="astro-plk3gbjq-1">React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기</h1> <div class="astro-vj4tpspi flex items-center my-2 opacity-80 space-x-2"><svg xmlns="http://www.w3.org/2000/svg" class="inline-block fill-skin-base h-6 min-w-[1.375rem] scale-100 w-6" aria-hidden="true"><path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path><path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path></svg><span class="sr-only">Published:</span><span class="italic text-base"><time datetime="2025-07-13T01:48:08.000Z">2025년 7월 13일</time><span aria-hidden="true"> | </span><span class="sr-only">&nbsp;at&nbsp;</span><span class="text-nowrap">오전 10:48</span></span></div> <article id="article" role="article" class="astro-vj4tpspi max-w-3xl mx-auto mt-8 prose"> <p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.<br><br>
+이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.<br><br></p>
+<h2 id="서론-상태-관리가-복잡해질-때">서론: 상태 관리가 복잡해질 때<br></h2>
+<p>상태 관리는 React 애플리케이션 개발의 근본적인 측면 중 하나입니다.<br><br>
+지난 시리즈 글에서 우리는 함수형 컴포넌트에서 지역 상태를 관리하는 가장 기본적인 방법인 <code>useState</code> 훅을 탐구했습니다.<br><br>
+하지만 컴포넌트가 복잡해지고 상태 로직이 정교해지면서, <code>useState</code>는 금세 그 한계를 드러내기 시작합니다.<br><br>
+바로 이 지점에서 <code>useReducer</code> 훅이 등장합니다.<br><br>
+이 훅은 복잡한 상태를 관리하기 위한 더 구조적인 접근 방식을 제공하며, 특히 상태 업데이트가 이전 상태에 의존하거나 상태의 다른 부분들이 서로 상호 의존적일 때 강력한 힘을 발휘합니다.<br><br>
+Redux 패턴에서 영감을 받은 <code>useReducer</code>는 비즈니스 로직이 더 엄격한 구성을 요구하는 시나리오에서 <code>useState</code>의 강력한 대안이 됩니다.<br><br></p>
+<h2 id="usestate의-한계-쇼핑-카트-예제"><code>useState</code>의 한계: 쇼핑 카트 예제<br></h2>
+<p><code>useReducer</code>의 가치를 이해하기 위해, 먼저 <code>useState</code>의 한계를 구체적인 예제, 즉 이커머스 쇼핑 카트를 관리하는 경우를 통해 살펴보겠습니다.<br><br>
+만약 <code>useState</code>만으로 쇼핑 카트를 구현한다면, 코드는 대략 이런 모습일 것입니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> ShoppingCartWithUseState</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 여러 상태들이 흩어져 있습니다.</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">items</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setItems</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">([]);</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">total</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setTotal</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">itemCount</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setItemCount</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">discount</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setDiscount</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">isCheckingOut</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setIsCheckingOut</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">false</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 아이템을 추가하는 함수</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> addItem</span><span style="color:#56B6C2"> =</span><span style="color:#E06C75;font-style:italic"> product</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // ... 아이템 추가 로직 ...</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newItems</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> updateItems</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">items</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">product</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setItems</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 관련된 다른 상태들도 '수동으로' 모두 업데이트해야 합니다.</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newTotal</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">discount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newItemCount</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newTotal</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItemCount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 아이템을 제거하는 함수</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> removeItem</span><span style="color:#56B6C2"> =</span><span style="color:#E06C75;font-style:italic"> productId</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // ... 아이템 제거 로직 ...</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newItems</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> filterItems</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">items</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">productId</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setItems</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 여기서도 관련된 모든 상태를 다시 계산하고 업데이트해야 합니다.</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newTotal</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">discount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">    const</span><span style="color:#E5C07B"> newItemCount</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newTotal</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">newItemCount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ... 기타 다른 함수들 (할인 적용, 결제 등)</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 코드에는 몇 가지 심각한 문제가 있습니다.<br><br></p>
+<ul>
+<li>‘분산된 비즈니스 로직’: 장바구니 관리 로직이 <code>addItem</code>, <code>removeItem</code> 등 여러 함수에 흩어져 있고, <code>total</code>과 <code>itemCount</code>를 다시 계산하는 코드가 중복됩니다.<br><br></li>
+<li>‘누락의 위험’: 각 함수는 여러 상태(<code>items</code>, <code>total</code>, <code>itemCount</code>)를 수동으로 업데이트해야 하므로, 실수로 하나라도 빠뜨리면 버그가 발생합니다.<br><br></li>
+<li>‘산발적인 업데이트 로직’: 할인 적용 같은 계산 규칙이 여러 곳에 흩어져 있어 일관성을 유지하기 어렵습니다.<br><br></li>
+<li>‘중앙 관리의 부재’: 가능한 모든 상태 전환을 한눈에 파악하기가 어렵습니다.<br><br></li>
+<li>‘테스트의 어려움’: 비즈니스 로직이 이벤트 핸들링과 섞여 있어 테스트가 복잡해집니다.<br><br></li>
+</ul>
+<h2 id="usereducer-이해하기-지휘-센터-만들기"><code>useReducer</code> 이해하기: 지휘 센터 만들기<br></h2>
+<p><code>useReducer</code> 훅은 상태 로직을 ‘리듀서(reducer)‘라고 불리는 순수 함수에 중앙 집중화하여 이러한 문제들을 해결합니다.<br><br>
+마치 복잡한 교통 시스템을 통제하는 ‘중앙 관제소’를 만드는 것과 같습니다.<br><br></p>
+<h3 id="usereducer란-무엇인가"><code>useReducer</code>란 무엇인가?<br></h3>
+<p><code>useReducer</code>의 기본 구문은 다음과 같습니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">state</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">dispatch</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useReducer</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">reducer</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">initialState</span><span style="color:#ABB2BF">);</span></span></code></pre>
+<p><br><br></p>
+<ul>
+<li><code>state</code>: 모든 데이터를 단일 객체에 그룹화한 현재 상태입니다.<br><br></li>
+<li><code>dispatch</code>: 리듀서에 ‘액션(action)‘을 보내는 함수입니다.<br><br>
+마치 관제소에 “사고 발생!” 또는 “도로 개통!” 같은 ‘사건’을 보고하는 무전기와 같습니다.<br><br></li>
+<li><code>reducer</code>: 현재 상태와 액션을 받아 ‘새로운 상태’를 반환하는 순수 함수입니다.<br><br>
+관제소의 핵심 두뇌 역할을 합니다.<br><br></li>
+<li><code>initialState</code>: 초기 상태입니다.<br><br></li>
+</ul>
+<h3 id="리듀서-패턴">리듀서 패턴<br></h3>
+<p><code>useReducer</code>의 핵심은 리듀서 함수입니다.<br><br>
+이 함수는 <code>(state, action) =&gt; newState</code>라는 형태를 가지며, 반드시 ‘순수 함수’여야 합니다.<br><br>
+즉, 원본 상태를 직접 수정해서는 안 되며(불변성 원칙), 부수 효과가 없어야 합니다.<br><br>
+‘액션’은 일반적으로 수행할 작업의 종류를 나타내는 <code>type</code> 속성과, 필요한 데이터를 담는 <code>payload</code> 속성을 가진 객체입니다.<br><br></p>
+<h2 id="usereducer로-리팩터링하기-쇼핑-카트-예제"><code>useReducer</code>로 리팩터링하기: 쇼핑 카트 예제<br></h2>
+<p>이제 <code>useReducer</code>로 쇼핑 카트를 어떻게 리팩터링하는지 보겠습니다.<br><br></p>
+<h3 id="1단계-타입과-초기-상태-그리고-리듀서-정의">1단계: 타입과 초기 상태, 그리고 리듀서 정의<br></h3>
+<p>먼저 필요한 모든 타입과 초기 상태, 그리고 모든 로직을 담을 리듀서 함수를 정의합니다.<br><br>
+이들은 컴포넌트 외부에 위치할 수 있어, 로직과 뷰의 분리가 명확해집니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// 타입 정의</span></span>
+<span class="line"><span style="color:#C678DD">type</span><span style="color:#E5C07B"> CartState</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> { </span><span style="color:#7F848E;font-style:italic">/* ... */</span><span style="color:#ABB2BF"> };</span></span>
+<span class="line"><span style="color:#C678DD">type</span><span style="color:#E5C07B"> CartAction</span><span style="color:#56B6C2"> =</span></span>
+<span class="line"><span style="color:#ABB2BF">  | { </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"ADD_ITEM"</span><span style="color:#ABB2BF">; </span><span style="color:#E06C75">payload</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">Product</span><span style="color:#ABB2BF"> }</span></span>
+<span class="line"><span style="color:#ABB2BF">  | { </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"REMOVE_ITEM"</span><span style="color:#ABB2BF">; </span><span style="color:#E06C75">payload</span><span style="color:#ABB2BF">: { </span><span style="color:#E06C75">id</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">string</span><span style="color:#ABB2BF"> } }</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ... 기타 액션 타입</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">// 초기 상태</span></span>
+<span class="line"><span style="color:#C678DD">const</span><span style="color:#E5C07B"> initialState</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">CartState</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> { </span><span style="color:#7F848E;font-style:italic">/* ... */</span><span style="color:#ABB2BF"> };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">// 중앙 관제소: 리듀서 함수</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> cartReducer</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">state</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">CartState</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75;font-style:italic">action</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">CartAction</span><span style="color:#ABB2BF">): </span><span style="color:#E5C07B">CartState</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#C678DD">  switch</span><span style="color:#ABB2BF"> (</span><span style="color:#E5C07B">action</span><span style="color:#ABB2BF">.</span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">) {</span></span>
+<span class="line"><span style="color:#C678DD">    case</span><span style="color:#98C379"> "ADD_ITEM"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // ... 아이템 추가 로직 ...</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> updatedItems</span><span style="color:#56B6C2"> =</span><span style="color:#7F848E;font-style:italic"> /* ... */</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // 관련된 모든 파생 상태를 여기서 한 번에 계산합니다.</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> newTotal</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">state</span><span style="color:#ABB2BF">.</span><span style="color:#E06C75">discount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> newItemCount</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // '새로운 상태' 객체를 반환합니다.</span></span>
+<span class="line"><span style="color:#C678DD">      return</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#ABB2BF">        ...</span><span style="color:#E06C75">state</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        items</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        total</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">newTotal</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        itemCount</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">newItemCount</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#ABB2BF">      };</span></span>
+<span class="line"><span style="color:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#C678DD">    case</span><span style="color:#98C379"> "REMOVE_ITEM"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // ... 아이템 제거 로직 ...</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> updatedItems</span><span style="color:#56B6C2"> =</span><span style="color:#7F848E;font-style:italic"> /* ... */</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> newTotal</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateTotal</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">state</span><span style="color:#ABB2BF">.</span><span style="color:#E06C75">discount</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">      const</span><span style="color:#E5C07B"> newItemCount</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> calculateItemCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">      return</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#ABB2BF">        ...</span><span style="color:#E06C75">state</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        items</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">updatedItems</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        total</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">newTotal</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">        itemCount</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">newItemCount</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#ABB2BF">      };</span></span>
+<span class="line"><span style="color:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // ... 다른 모든 케이스 ...</span></span>
+<span class="line"><span style="color:#C678DD">    default</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">      return</span><span style="color:#E06C75"> state</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<h3 id="2단계-컴포넌트에서-usereducer-사용하기">2단계: 컴포넌트에서 <code>useReducer</code> 사용하기<br></h3>
+<p>이제 컴포넌트는 훨씬 더 단순해집니다.<br><br>
+복잡한 상태 업데이트 로직 대신, 단지 어떤 일이 일어났는지를 설명하는 ‘액션’을 <code>dispatch</code>하기만 하면 됩니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// useReducer를 사용하는 컴포넌트</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> ShoppingCartWithReducer</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">state</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">dispatch</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useReducer</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">cartReducer</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">initialState</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> { </span><span style="color:#E5C07B">items</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">total</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">itemCount</span><span style="color:#ABB2BF"> } </span><span style="color:#56B6C2">=</span><span style="color:#E06C75"> state</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 제품 추가</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> addToCart</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> (</span><span style="color:#E06C75;font-style:italic">product</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">Product</span><span style="color:#ABB2BF">) </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // "ADD_ITEM 액션이 발생했어!"라고 보고합니다.</span></span>
+<span class="line"><span style="color:#61AFEF">    dispatch</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"ADD_ITEM"</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">payload</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">product</span><span style="color:#ABB2BF"> });</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 제품 제거</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> removeFromCart</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> (</span><span style="color:#E06C75;font-style:italic">id</span><span style="color:#ABB2BF">: </span><span style="color:#E5C07B">string</span><span style="color:#ABB2BF">) </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    dispatch</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"REMOVE_ITEM"</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">payload</span><span style="color:#ABB2BF">: { </span><span style="color:#E06C75">id</span><span style="color:#ABB2BF"> } });</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 결제 처리</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> checkout</span><span style="color:#56B6C2"> =</span><span style="color:#C678DD"> async</span><span style="color:#ABB2BF"> () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    dispatch</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"CHECKOUT_START"</span><span style="color:#ABB2BF"> });</span></span>
+<span class="line"><span style="color:#C678DD">    try</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#C678DD">      await</span><span style="color:#61AFEF"> processPayment</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">items</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">total</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">      dispatch</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"CHECKOUT_SUCCESS"</span><span style="color:#ABB2BF"> });</span></span>
+<span class="line"><span style="color:#ABB2BF">    } </span><span style="color:#C678DD">catch</span><span style="color:#ABB2BF"> (</span><span style="color:#E06C75">error</span><span style="color:#ABB2BF">) {</span></span>
+<span class="line"><span style="color:#61AFEF">      dispatch</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75">type</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"CHECKOUT_FAILURE"</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">payload</span><span style="color:#ABB2BF">: { </span><span style="color:#E06C75">error</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"Payment failed"</span><span style="color:#ABB2BF"> } });</span></span>
+<span class="line"><span style="color:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ... 컴포넌트 렌더링 ...</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 접근 방식의 장점은 명확합니다.<br><br></p>
+<ul>
+<li>‘비즈니스 로직 중앙화’: 모든 장바구니 관련 작업이 단일 리듀서 함수에 그룹화됩니다.<br><br></li>
+<li>‘명시적인 액션’: 각 작업이 <code>ADD_ITEM</code>처럼 명시적으로 이름 붙은 액션으로 표현되어 코드가 스스로를 문서화합니다.<br><br></li>
+<li>‘계산 일관성’: 파생된 계산(총액, 아이템 수)이 항상 같은 방식으로 수행되어 데이터 일관성이 보장됩니다.<br><br></li>
+<li>‘향상된 테스트 용이성’: 리듀서 함수는 순수 함수이므로, 컴포넌트와 독립적으로 매우 쉽게 테스트할 수 있습니다.<br><br></li>
+</ul>
+<h2 id="usereducer-모범-사례"><code>useReducer</code> 모범 사례<br></h2>
+<p><code>useReducer</code>를 더 효과적으로 사용하기 위한 몇 가지 팁이 있습니다.<br><br></p>
+<ol>
+<li>‘TypeScript와 함께 사용하기’: ‘판별된 유니온(discriminated unions)‘을 사용하여 액션 타입을 정의하면, <code>switch</code> 문 내에서 TypeScript가 <code>action.payload</code>의 타입을 정확하게 추론하여 코드 안정성을 높여줍니다.<br><br></li>
+<li>‘액션 생성자 만들기’: <code>dispatch({ type: "ADD_ITEM", payload: product })</code>처럼 매번 객체를 만드는 대신, <code>dispatch(addItem(product))</code>와 같이 호출할 수 있는 함수(액션 생성자)를 만들면 코드가 더 깔끔해지고 오류가 줄어듭니다.<br><br></li>
+<li>‘리듀서 단순화하기’: 리듀서가 너무 비대해지는 것을 막기 위해, 복잡한 계산 로직은 별도의 유틸리티 함수로 추출하는 것이 좋습니다.<br><br></li>
+<li><code>useContext</code>와 결합하기: <code>useReducer</code>와 <code>useContext</code>를 결합하면, Redux와 유사한 전역 상태 관리 시스템을 직접 만들 수 있습니다.<br><br>
+이를 통해 앱 전체에서 상태(<code>state</code>)와 <code>dispatch</code> 함수를 props drilling 없이 사용할 수 있습니다.<br><br></li>
+</ol>
+<h2 id="결론">결론<br></h2>
+<p><code>useReducer</code> 훅은 상태 로직이 복잡하고 비즈니스 지향적인 상황에 특히 적합한, 강력하고 구조적인 상태 관리 접근 방식을 나타냅니다.<br><br>
+상태 전환을 순수 리듀서 함수에 중앙 집중화함으로써, 여러 가지 주요 이점을 제공합니다.<br><br>
+<code>useState</code>가 간단한 경우에 선호되는 옵션으로 남아 있지만, 쇼핑 카트, 예약 시스템 또는 상태의 다른 부분들이 서로 상호 작용하는 다른 로직을 모델링해야 할 때 <code>useReducer</code>는 이상적인 해결책으로 부상합니다.<br><br>
+<code>useReducer</code>를 마스터하는 것은 복잡한 상태를 다루는 여러분의 능력을 한 단계 끌어올리고, 더 유지보수하기 쉽고, 예측 가능하며, 더 잘 구조화된 React 애플리케이션을 구축할 수 있게 해줄 것입니다.<br><br></p>
+<hr> </article> <ul class="astro-vj4tpspi my-8"> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/react/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">react</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/usereducer/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">usereducer</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/usestate/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">usestate</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/상태-관리/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">상태-관리</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/리액트-훅/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-6"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">리액트-훅</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/상태-기계/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-7"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">상태-기계</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/리팩터링/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-8"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">리팩터링</span> </a> </li>  </ul> <div class="astro-vj4tpspi flex items-center flex-col gap-6 justify-between sm:flex-row sm:gap-4 sm:items-end"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> <button id="back-to-top" class="astro-vj4tpspi focus-outline hover:opacity-75 py-1 whitespace-nowrap"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi rotate-90"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg> <span class="astro-vj4tpspi">Back to Top</span> </button> <!-- <ShareLinks /> --> </div> </main> <footer class="astro-sz7xmlte mt-auto"> <div class="max-w-3xl mx-auto px-0"> <hr class="border-skin-line" aria-hidden="true"> </div> <div class="astro-sz7xmlte footer-wrapper"> <!-- <Socials centered /> --> <div class="astro-sz7xmlte copyright-wrapper"> <span class="astro-sz7xmlte">Copyright © 2025</span> <span class="astro-sz7xmlte separator">&nbsp;|&nbsp;</span> <span class="astro-sz7xmlte">All rights reserved.</span> </div> </div> </footer>     <script>function addHeadingLinks(){let c=Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));for(let d of c){d.classList.add("group");let t=document.createElement("a");t.innerText="#",t.className="heading-link hidden group-hover:inline-block ml-2",t.href="#"+d.id,t.ariaHidden="true",d.appendChild(t)}}addHeadingLinks();function attachCopyButtons(){let c="Copy",d=Array.from(document.querySelectorAll("pre"));for(let e of d){let o=document.createElement("div");o.style.position="relative";let n=document.createElement("button");n.className="copy-code absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium",n.innerHTML=c,e.setAttribute("tabindex","0"),e.appendChild(n),e?.parentNode?.insertBefore(o,e),o.appendChild(e),n.addEventListener("click",async()=>{await t(e,n)})}async function t(e,o){let i=e.querySelector("code")?.innerText;await navigator.clipboard.writeText(i??""),o.innerText="Copied",setTimeout(()=>{o.innerText=c},700)}}attachCopyButtons();function backToTop(){document.querySelector("#back-to-top")?.addEventListener("click",()=>{document.body.scrollTop=0,document.documentElement.scrollTop=0})}backToTop();
+</script></body></html>

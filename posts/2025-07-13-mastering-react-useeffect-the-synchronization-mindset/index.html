@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="ko" class="scroll-smooth"><head><meta charset="UTF-8"><style>:where(img){height:auto}</style><meta name="viewport" content="width=device-width"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="canonical" href="https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/"><meta name="generator" content="Astro v4.2.1"><!-- General Meta Tags --><title>React useEffect 완전 정복 - 동기화 관점으로 레벨업하기 | cpro95.github.io</title><meta name="title" content="React useEffect 완전 정복 - 동기화 관점으로 레벨업하기 | cpro95.github.io"><meta name="description" content="useEffect는 단순한 생명주기 훅이 아닙니다. React의 상태를 외부 세계와 동기화하는 관점에서 useEffect의 실행 주기, 의존성 배열의 함정, 클린업 함수의 정확한 타이밍, 그리고 흔한 오용 사례까지 깊이 있게 탐구합니다."><meta name="author" content="cpro95"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="React useEffect 완전 정복 - 동기화 관점으로 레벨업하기 | cpro95.github.io"><meta property="og:description" content="useEffect는 단순한 생명주기 훅이 아닙니다. React의 상태를 외부 세계와 동기화하는 관점에서 useEffect의 실행 주기, 의존성 배열의 함정, 클린업 함수의 정확한 타이밍, 그리고 흔한 오용 사례까지 깊이 있게 탐구합니다."><meta property="og:url" content="https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/"><meta property="og:image" content="https://cpro95.github.io/posts/react-useeffect-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---%EB%8F%99%EA%B8%B0%ED%99%94-%EA%B4%80%EC%A0%90%EC%9C%BC%EB%A1%9C-%EB%A0%88%EB%B2%A8%EC%97%85%ED%95%98%EA%B8%B0.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-07-13T00:48:08.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/"><meta property="twitter:title" content="React useEffect 완전 정복 - 동기화 관점으로 레벨업하기 | cpro95.github.io"><meta property="twitter:description" content="useEffect는 단순한 생명주기 훅이 아닙니다. React의 상태를 외부 세계와 동기화하는 관점에서 useEffect의 실행 주기, 의존성 배열의 함정, 클린업 함수의 정확한 타이밍, 그리고 흔한 오용 사례까지 깊이 있게 탐구합니다."><meta property="twitter:image" content="https://cpro95.github.io/posts/react-useeffect-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---%EB%8F%99%EA%B8%B0%ED%99%94-%EA%B4%80%EC%A0%90%EC%9C%BC%EB%A1%9C-%EB%A0%88%EB%B2%A8%EC%97%85%ED%95%98%EA%B8%B0.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content=""><!-- NaverSiteVerification --><meta name="naver-site-verification" content="eeeccabde48a3844cbb9220e7a9073651cd183e7"><!-- googleSiteVerification --><meta name="google-site-verification" content="9op9qYSSLeQr3-EP1Xgu8IlVUf0unPypVRw8y92_MpM"><!-- Google tag (gtag.js) --><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XSCP6QR275"></script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script src="/toggle-theme.js"></script><style>.breadcrumb:where(.astro-ilhxcym7){width:100%;max-width:48rem;margin:2rem auto .25rem;padding-left:1rem;padding-right:1rem}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7){display:inline}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) a:where(.astro-ilhxcym7){text-transform:capitalize;opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) span:where(.astro-ilhxcym7){opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7):not(:last-child) a:where(.astro-ilhxcym7):hover{opacity:1}#main-content:where(.astro-hsp6otuf){width:100%;max-width:48rem;margin-left:auto;margin-right:auto;padding-bottom:1rem;padding-left:1rem;padding-right:1rem}#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.5rem;font-weight:600;line-height:2rem}@media (min-width:640px){#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.875rem;line-height:2.25rem}}#main-content:where(.astro-hsp6otuf) p:where(.astro-hsp6otuf){margin-top:.5rem;margin-bottom:1.5rem;font-style:italic}</style>
+<link rel="stylesheet" href="/_astro/index.CZwYe-2R.css">
+<style>a:where(.astro-blwjyjpt){position:relative;text-decoration-line:underline;text-decoration-style:dashed}a:where(.astro-blwjyjpt):hover{top:-.125rem;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}a:where(.astro-blwjyjpt):focus-visible{padding:.25rem}a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){margin-right:-1.25rem;height:1.5rem;width:1.5rem;--tw-scale-x: .95;--tw-scale-y: .95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity));opacity:.8}.group:where(.astro-blwjyjpt):hover a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){fill:rgb(var(--color-accent))}
+.pagination-wrapper:where(.astro-d776pwuy){margin-bottom:2rem;margin-top:auto;display:flex;justify-content:center}.disabled:where(.astro-d776pwuy){pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;opacity:.5}.disabled:where(.astro-d776pwuy):hover{--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity))}.group:where(.astro-d776pwuy):hover .disabled:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))}.group:where(.astro-d776pwuy):hover .disabled-svg:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))!important}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0}}@keyframes astroFadeOut{to{opacity:0}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+main:where(.astro-vj4tpspi){margin-left:auto;margin-right:auto;width:100%;max-width:48rem;padding-left:1rem;padding-right:1rem;padding-bottom:3rem}.post-title:where(.astro-vj4tpspi){font-size:1.5rem;line-height:2rem;font-weight:600;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}
+</style><script type="module" src="/_astro/hoisted.9gLigZQW.js"></script><style>[data-astro-transition-scope=astro-plk3gbjq-1]{view-transition-name:react-useeffect-__-__---___-____-}@layer astro{::view-transition-old(react-useeffect-__-__---___-____-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react-useeffect-__-__---___-____-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react-useeffect-__-__---___-____-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react-useeffect-__-__---___-____-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-2]{view-transition-name:react}@layer astro{::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-3]{view-transition-name:useeffect}@layer astro{::view-transition-old(useeffect){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(useeffect){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(useeffect){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(useeffect){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-4]{view-transition-name:react-}@layer astro{::view-transition-old(react-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-6"] { view-transition-name: ; }@layer astro { ::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-7"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-8"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <header class="astro-3ef6ksr2"> <a id="skip-to-content" href="#main-content" class="astro-3ef6ksr2">Skip to content</a> <div class="astro-3ef6ksr2 nav-container"> <div class="astro-3ef6ksr2 top-nav-wrap"> <a href="/" class="astro-3ef6ksr2 logo whitespace-nowrap"> cpro95.github.io </a> <nav id="nav-menu" class="astro-3ef6ksr2"> <button class="astro-3ef6ksr2 focus-outline hamburger-menu" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="astro-3ef6ksr2 menu-icon"> <line x1="7" y1="12" x2="21" y2="12" class="line astro-3ef6ksr2"></line> <line x1="3" y1="6" x2="21" y2="6" class="line astro-3ef6ksr2"></line> <line x1="12" y1="18" x2="21" y2="18" class="line astro-3ef6ksr2"></line> <line x1="18" y1="6" x2="6" y2="18" class="astro-3ef6ksr2 close"></line> <line x1="6" y1="6" x2="18" y2="18" class="astro-3ef6ksr2 close"></line> </svg> </button> <ul id="menu-items" class="astro-3ef6ksr2 display-none sm:flex"> <li class="astro-3ef6ksr2"> <a href="/posts/" class="astro-3ef6ksr2">
+Posts
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/tags/" class="astro-3ef6ksr2">
+Tags
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/search/" class="astro-3ef6ksr2 focus-outline flex group hover:text-skin-accent inline-block p-3 sm:p-1" aria-label="search" title="Search"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-3ef6ksr2 scale-125 sm:scale-100"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" class="astro-3ef6ksr2"></path> </svg> <span class="astro-3ef6ksr2 sr-only">Search</span> </a> </li> <li class="astro-3ef6ksr2"> <button id="theme-btn" class="astro-3ef6ksr2 focus-outline" title="Toggles light &amp; dark" aria-label="auto" aria-live="polite"> <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg" class="astro-3ef6ksr2"> <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" class="astro-3ef6ksr2"></path> </svg> <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg" class="astro-3ef6ksr2"> <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" class="astro-3ef6ksr2"></path> </svg> </button> </li> </ul> </nav> </div> </div> <div class="max-w-3xl mx-auto px-4"> <hr class="border-skin-line" aria-hidden="true"> </div> </header>   <div class="astro-vj4tpspi flex justify-start max-w-3xl mx-auto px-2 w-full"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> </div> <main id="main-content" class="astro-vj4tpspi"> <h1 class="astro-vj4tpspi post-title" data-astro-transition-scope="astro-plk3gbjq-1">React useEffect 완전 정복 - 동기화 관점으로 레벨업하기</h1> <div class="astro-vj4tpspi flex items-center my-2 opacity-80 space-x-2"><svg xmlns="http://www.w3.org/2000/svg" class="inline-block fill-skin-base h-6 min-w-[1.375rem] scale-100 w-6" aria-hidden="true"><path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path><path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path></svg><span class="sr-only">Published:</span><span class="italic text-base"><time datetime="2025-07-13T00:48:08.000Z">2025년 7월 13일</time><span aria-hidden="true"> | </span><span class="sr-only">&nbsp;at&nbsp;</span><span class="text-nowrap">오전 09:48</span></span></div> <article id="article" role="article" class="astro-vj4tpspi max-w-3xl mx-auto mt-8 prose"> <p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.<br><br>
+이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.<br><br></p>
+<h2 id="서론-useeffect의-본질을-꿰뚫기">서론: <code>useEffect</code>의 본질을 꿰뚫기<br></h2>
+<p><code>useEffect</code> 훅은 현대 React의 근본적인 기둥입니다.<br><br>
+단순한 함수 그 이상으로, 컴포넌트가 변화에 반응하고 비동기 작업을 수행하면서도 UI의 일관성을 유지할 수 있게 해줍니다.<br><br>
+하지만 그 명백한 단순함 뒤에는 미묘한 에러를 유발하고 애플리케이션의 성능과 유지보수성에 영향을 미칠 수 있는 복잡성이 숨어 있습니다.<br><br>
+이번 ‘Level Up React’ 시리즈 글에서는 <code>useEffect</code>의 내부 메커니즘, 종종 오해받는 미묘함, 그리고 숙련된 개발자조차도 기다리는 흔한 함정들을 깊이 있게 탐구해 보겠습니다.<br><br>
+올바른 사용법이 어떻게 여러분의 코드를 더 예측 가능하고 성능 좋게 변화시킬 수 있는지 확인해 보겠습니다.<br><br></p>
+<h2 id="useeffect의-기본"><code>useEffect</code>의 기본<br></h2>
+<h3 id="useeffect는-왜-존재할까"><code>useEffect</code>는 왜 존재할까?<br></h3>
+<p>React는 함수형 컴포넌트에서 ‘부수 효과(side effects)‘를 효율적으로 관리하기 위해 <code>useEffect</code>를 만들었습니다.<br><br>
+이것이 도입되기 전에는, 이러한 작업들은 <code>componentDidMount</code>, <code>componentDidUpdate</code>, <code>componentWillUnmount</code>와 같은 클래스 컴포넌트의 생명주기 메서드에 예약되어 있었습니다.<br><br>
+‘부수 효과’란 React 컴포넌트 외부의 무언가를 수정하는 모든 작업을 의미합니다.<br><br>
+예를 들면 다음과 같습니다.<br><br></p>
+<ul>
+<li>API 요청 보내기<br></li>
+<li>DOM을 직접 조작하기 (예: 문서 제목 변경)<br></li>
+<li>이벤트 리스너 추가 또는 제거하기<br></li>
+<li>타이머 설정하기 (<code>setTimeout</code>, <code>setInterval</code>)<br></li>
+</ul>
+<p>가장 중요한 개념은 <code>useEffect</code>를 ‘무언가를 하기 위한’ 도구가 아니라, <strong>‘React의 상태를 외부 시스템과 동기화(synchronize)하기 위한’ 도구</strong>로 바라보는 것입니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// 부수 효과의 예: 페이지 제목 수정하기</span></span>
+<span class="line"><span style="color:#61AFEF">useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 'username'이라는 React 상태를 브라우저의 'document.title'이라는 외부 시스템과 동기화합니다.</span></span>
+<span class="line"><span style="color:#E5C07B">  document</span><span style="color:#ABB2BF">.</span><span style="color:#E06C75">title</span><span style="color:#56B6C2"> =</span><span style="color:#98C379"> `Profile of </span><span style="color:#C678DD">${</span><span style="color:#E06C75">username</span><span style="color:#C678DD">}</span><span style="color:#98C379">`</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"><span style="color:#ABB2BF">}, [</span><span style="color:#E06C75">username</span><span style="color:#ABB2BF">]);</span></span></code></pre>
+<p><br><br></p>
+<p>이 예제에서 문서 제목을 수정하는 것은 React 컴포넌트 외부의 환경에 영향을 미치기 때문에 부수 효과입니다.<br><br>
+<code>useEffect</code> 훅은 우리가 이 작업을 언제 발생해야 하는지 명시적으로 선언할 수 있게 해줍니다.<br><br></p>
+<h3 id="useeffect의-해부학"><code>useEffect</code>의 해부학<br></h3>
+<p><code>useEffect</code> 훅은 두 개의 인자를 받습니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#61AFEF">useEffect</span><span style="color:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#ABB2BF">  () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 이펙트 본문 (실행할 코드)</span></span>
+<span class="line"><span style="color:#C678DD">    return</span><span style="color:#ABB2BF"> () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // 클린업(정리) 함수 (선택 사항)</span></span>
+<span class="line"><span style="color:#ABB2BF">    };</span></span>
+<span class="line"><span style="color:#ABB2BF">  },</span></span>
+<span class="line"><span style="color:#ABB2BF">  [</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    /* 의존성 배열 */</span></span>
+<span class="line"><span style="color:#ABB2BF">  ]</span></span>
+<span class="line"><span style="color:#ABB2BF">);</span></span></code></pre>
+<p><br><br></p>
+<ul>
+<li>‘첫 번째 인자 (이펙트 함수)’: 실행할 코드를 담고 있는 함수입니다.<br><br>
+이 함수는 ‘클린업 함수’를 반환할 수 있는데, 이 클린업 함수는 다음 이펙트가 실행되기 전이나 컴포넌트가 언마운트될 때 호출됩니다.<br><br></li>
+<li>‘두 번째 인자 (의존성 배열)’: 이펙트가 언제 실행되어야 하는지를 결정합니다.<br><br>
+React는 렌더링 사이에 이 배열의 값들을 비교하여 이펙트를 다시 실행할지 여부를 결정합니다.<br><br></li>
+</ul>
+<h3 id="useeffect의-실행-주기"><code>useEffect</code>의 실행 주기<br></h3>
+<p><code>useEffect</code>는 언제 실행될까요?<br><br>
+일반적인 믿음과는 달리, <code>useEffect</code>는 컴포넌트의 렌더링 도중에 실행되지 않고, <strong>React가 DOM을 업데이트한 후에 실행됩니다.</strong><br><br>
+정확한 작업 순서는 다음과 같습니다.<br><br></p>
+<ol>
+<li>React가 컴포넌트 본문을 실행하고 표시할 JSX를 계산합니다.<br><br></li>
+<li>React가 이 JSX를 반영하도록 DOM을 업데이트합니다.<br><br></li>
+<li>React가 <code>useEffect</code>로 정의된 이펙트들을 실행합니다.<br><br></li>
+</ol>
+<p>이 순서는 이펙트 동작을 이해하는 데 매우 중요합니다.<br><br></p>
+<h2 id="의존성-배열로-실행-제어하기">의존성 배열로 실행 제어하기<br></h2>
+<p>의존성 배열은 이펙트가 언제 실행되어야 하는지를 제어하는 핵심 메커니즘입니다.<br><br>
+React는 <code>Object.is()</code> 비교 알고리즘을 사용하여 의존성이 변경되었는지 판단합니다.<br><br></p>
+<ul>
+<li>‘의존성 배열 없음’: 이펙트가 ‘모든 렌더링 후에’ 실행됩니다.<br><br>
+이는 불필요한 실행과 성능 문제를 유발할 수 있으므로 거의 사용되지 않는 구성입니다.<br><br></li>
+<li>‘빈 의존성 배열 <code>[]</code>’: 이펙트가 ‘첫 렌더링 후에만’ 한 번 실행됩니다.<br><br>
+WebSocket 연결 설정과 같은 일회성 초기화에 유용합니다.<br><br></li>
+<li>‘의존성이 있는 배열 <code>[count]</code>’: 이펙트가 첫 렌더링 후, 그리고 의존성(<code>count</code>)이 변경될 때마다 실행됩니다.<br><br></li>
+</ul>
+<h3 id="클린업-메커니즘">클린업 메커니즘<br></h3>
+<p>클린업 함수는 <code>useEffect</code>의 종종 간과되는 중요한 측면입니다.<br><br>
+이펙트가 다시 실행되거나 컴포넌트가 언마운트되기 전에 리소스를 정리하거나 구독을 취소할 수 있게 해줍니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#61AFEF">useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 인터벌 생성</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#E5C07B"> intervalId</span><span style="color:#56B6C2"> =</span><span style="color:#61AFEF"> setInterval</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#E5C07B">    console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#98C379">"Tick"</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#ABB2BF">  }, </span><span style="color:#D19A66">1000</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 클린업 함수</span></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#E5C07B">    console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#98C379">"인터벌 정리 중"</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    clearInterval</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">intervalId</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"><span style="color:#ABB2BF">}, []);</span></span></code></pre>
+<p><br><br></p>
+<p>이 예제에서 클린업 함수는 컴포넌트가 언마운트될 때 인터벌이 제대로 제거되도록 보장하여, 메모리 누수를 방지합니다.<br><br></p>
+<h2 id="흔한-함정과-피하는-방법">흔한 함정과 피하는 방법<br></h2>
+<h3 id="무한-루프">무한 루프<br></h3>
+<p>가장 빈번한 문제 중 하나는 의도치 않은 무한 루프 생성입니다.<br><br>
+이 문제는 이펙트의 의존성인 상태를 업데이트하는 데이터 페칭 시나리오에서 자주 발생합니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// ❌ 실제 사례에서 무한 루프 생성</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> NotificationCenter</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">notifications</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setNotifications</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">([]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">  useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    fetchNotifications</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">then</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">newNotifications</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // 이 업데이트는 새로운 렌더링을 유발합니다.</span></span>
+<span class="line"><span style="color:#61AFEF">      setNotifications</span><span style="color:#ABB2BF">([...</span><span style="color:#E06C75">notifications</span><span style="color:#ABB2BF">, ...</span><span style="color:#E06C75">newNotifications</span><span style="color:#ABB2BF">]);</span></span>
+<span class="line"><span style="color:#ABB2BF">    });</span></span>
+<span class="line"><span style="color:#ABB2BF">  }, [</span><span style="color:#E06C75">notifications</span><span style="color:#ABB2BF">]); </span><span style="color:#7F848E;font-style:italic">// notifications가 의존성입니다.</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 예제에서는 <code>fetchNotifications()</code>가 데이터를 반환할 때마다 <code>notifications</code> 상태를 업데이트합니다.<br><br>
+<code>notifications</code>가 우리 이펙트의 의존성이므로, 이는 이펙트의 새로운 실행을 유발하여 API 요청의 무한 루프를 만듭니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// ✅ 해결책: 함수형 업데이터 사용</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> NotificationCenter</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">notifications</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setNotifications</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">([]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">  useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    fetchNotifications</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">then</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">newNotifications</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">      // 이 형태의 setState는 현재 상태에 의존할 필요가 없습니다.</span></span>
+<span class="line"><span style="color:#61AFEF">      setNotifications</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">prevNotifications</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> [</span></span>
+<span class="line"><span style="color:#ABB2BF">        ...</span><span style="color:#E06C75">prevNotifications</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#ABB2BF">        ...</span><span style="color:#E06C75">newNotifications</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#ABB2BF">      ]);</span></span>
+<span class="line"><span style="color:#ABB2BF">    });</span></span>
+<span class="line"><span style="color:#ABB2BF">  }, []); </span><span style="color:#7F848E;font-style:italic">// 마운트 시 한 번만 실행</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<h3 id="누락되거나-불필요한-의존성">누락되거나 불필요한 의존성<br></h3>
+<p>또 다른 흔한 함정은 필요한 의존성을 생략하거나 불필요한 의존성을 포함하는 것입니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// ❌ 누락된 의존성</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> UserProfile</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75;font-style:italic">userId</span><span style="color:#ABB2BF"> }) {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">user</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setUser</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">null</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">  useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    fetchUser</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">userId</span><span style="color:#ABB2BF">).</span><span style="color:#61AFEF">then</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">data</span><span style="color:#C678DD"> =&gt;</span><span style="color:#61AFEF"> setUser</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">data</span><span style="color:#ABB2BF">));</span></span>
+<span class="line"><span style="color:#ABB2BF">  }, []); </span><span style="color:#7F848E;font-style:italic">// userId가 의존성에서 빠져 있습니다.</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 예제에서, <code>userId</code>가 변경되더라도 이펙트는 다시 실행되지 않습니다.<br><br>
+<code>eslint-plugin-react-hooks</code> 플러그인이 포함된 ESLint 도구는 이러한 문제를 자동으로 감지하는 데 매우 유용합니다.<br><br></p>
+<h3 id="객체와-함수를-의존성으로-사용하기">객체와 함수를 의존성으로 사용하기<br></h3>
+<p>렌더링 중에 생성된 객체와 함수는 각 렌더링마다 재생성되므로 새로운 값으로 간주되어 특별한 문제를 야기합니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#7F848E;font-style:italic">// ❌ 매 렌더링마다 재생성되는 객체</span></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> SearchComponent</span><span style="color:#ABB2BF">({ </span><span style="color:#E06C75;font-style:italic">term</span><span style="color:#ABB2BF"> }) {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // 이 객체는 매 렌더링마다 재생성됩니다.</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#E5C07B"> options</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> { </span><span style="color:#E06C75">caseSensitive</span><span style="color:#ABB2BF">: </span><span style="color:#D19A66">false</span><span style="color:#ABB2BF"> };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">  useEffect</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#61AFEF">    performSearch</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">term</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">options</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#ABB2BF">  }, [</span><span style="color:#E06C75">term</span><span style="color:#ABB2BF">, </span><span style="color:#E06C75">options</span><span style="color:#ABB2BF">]); </span><span style="color:#7F848E;font-style:italic">// options는 매 렌더링마다 변경됩니다.</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p><code>term</code>이 변경되지 않았더라도 <code>options</code>가 재생성되어 이펙트가 매번 실행됩니다.<br><br>
+해결책은 <code>useMemo</code>나 <code>useCallback</code>을 사용하거나, 객체나 함수를 이펙트 내부로 옮기는 것입니다.<br><br></p>
+<h2 id="useeffect를-사용하지-말아야-할-때"><code>useEffect</code>를 사용하지 말아야 할 때<br></h2>
+<p>React 공식 문서는 ‘아마 이펙트가 필요 없을지도 모릅니다(You Might Not Need an Effect)‘라는 매우 유용한 가이드를 제공합니다.<br><br></p>
+<ul>
+<li>‘파생된 값 계산하기’: 기존 상태에서 파생된 값을 계산하기 위해 <code>useEffect</code>를 사용하는 것은 흔한 실수입니다.<br><br>
+렌더링 중에 직접 계산하거나, 계산 비용이 비싸다면 <code>useMemo</code>를 사용하세요.<br><br></li>
+<li>‘사용자 이벤트에 반응하기’: 사용자 이벤트에 반응하기 위해 <code>useEffect</code>를 사용하는 것은 종종 복잡하고 유지보수하기 어려운 아키텍처로 이어집니다.<br><br>
+이벤트 핸들러에서 직접 로직을 호출하는 것이 더 간단하고 직접적입니다.<br><br></li>
+<li>‘상태 변수 초기화하기’: <code>useEffect</code>를 사용하여 상태 변수를 초기화하는 것은 종종 불필요합니다.<br><br>
+<code>useState</code>의 ‘게으른 초기화’를 사용하는 것이 더 간단하고 효율적입니다.<br><br></li>
+</ul>
+<h2 id="useeffect의-올바른-사용-사례"><code>useEffect</code>의 올바른 사용 사례<br></h2>
+<p><code>useEffect</code>는 컴포넌트를 외부 시스템과 ‘동기화’할 때 이상적입니다.<br><br></p>
+<ul>
+<li>외부 시스템과 동기화 (DOM, 서드파티 API 등)<br></li>
+<li>이벤트 구독 (키보드 단축키, <code>BroadcastChannel</code> 등)<br></li>
+<li>데이터 페칭<br><br></li>
+</ul>
+<h2 id="결론">결론<br></h2>
+<p><code>useEffect</code> 훅은 올바르게 사용하기 위해 깊은 이해가 필요한 강력하지만 미묘한 도구입니다.<br><br>
+우리가 보았듯이, 이 훅은 React 컴포넌트를 외부 시스템과 동기화할 수 있게 해주지만, 과도하거나 잘못된 사용은 성능 및 유지보수 문제를 유발할 수 있습니다.<br><br>
+기억해야 할 핵심 사항은 다음과 같습니다.<br><br></p>
+<ul>
+<li><code>useEffect</code>는 렌더링과 DOM 업데이트 후에 실행됩니다.<br><br></li>
+<li>의존성 배열은 이펙트 실행 시점을 제어하며 엄격하게 유지되어야 합니다.<br><br></li>
+<li>클린업 함수는 메모리 누수와 원치 않는 동작을 피하기 위해 필수적입니다.<br><br></li>
+<li>많은 흔한 <code>useEffect</code> 사용 사례는 더 간단하고 직접적인 접근 방식으로 대체될 수 있습니다.<br><br></li>
+</ul>
+<p><code>useEffect</code>를 사용하는 데 있어 사려 깊은 접근 방식을 채택하고 그 대안을 앎으로써, 여러분은 더 예측 가능하고, 성능이 좋으며, 유지보수하기 쉬운 React 코드를 작성할 수 있습니다.<br><br></p>
+<hr> </article> <ul class="astro-vj4tpspi my-8"> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/react/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">react</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/useeffect/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">useeffect</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/react-훅/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">react-훅</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/부수-효과/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">부수-효과</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/동기화/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-6"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">동기화</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/상태-관리/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-7"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">상태-관리</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/성능-최적화/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-8"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">성능-최적화</span> </a> </li>  </ul> <div class="astro-vj4tpspi flex items-center flex-col gap-6 justify-between sm:flex-row sm:gap-4 sm:items-end"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> <button id="back-to-top" class="astro-vj4tpspi focus-outline hover:opacity-75 py-1 whitespace-nowrap"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi rotate-90"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg> <span class="astro-vj4tpspi">Back to Top</span> </button> <!-- <ShareLinks /> --> </div> </main> <footer class="astro-sz7xmlte mt-auto"> <div class="max-w-3xl mx-auto px-0"> <hr class="border-skin-line" aria-hidden="true"> </div> <div class="astro-sz7xmlte footer-wrapper"> <!-- <Socials centered /> --> <div class="astro-sz7xmlte copyright-wrapper"> <span class="astro-sz7xmlte">Copyright © 2025</span> <span class="astro-sz7xmlte separator">&nbsp;|&nbsp;</span> <span class="astro-sz7xmlte">All rights reserved.</span> </div> </div> </footer>     <script>function addHeadingLinks(){let c=Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));for(let d of c){d.classList.add("group");let t=document.createElement("a");t.innerText="#",t.className="heading-link hidden group-hover:inline-block ml-2",t.href="#"+d.id,t.ariaHidden="true",d.appendChild(t)}}addHeadingLinks();function attachCopyButtons(){let c="Copy",d=Array.from(document.querySelectorAll("pre"));for(let e of d){let o=document.createElement("div");o.style.position="relative";let n=document.createElement("button");n.className="copy-code absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium",n.innerHTML=c,e.setAttribute("tabindex","0"),e.appendChild(n),e?.parentNode?.insertBefore(o,e),o.appendChild(e),n.addEventListener("click",async()=>{await t(e,n)})}async function t(e,o){let i=e.querySelector("code")?.innerText;await navigator.clipboard.writeText(i??""),o.innerText="Copied",setTimeout(()=>{o.innerText=c},700)}}attachCopyButtons();function backToTop(){document.querySelector("#back-to-top")?.addEventListener("click",()=>{document.body.scrollTop=0,document.documentElement.scrollTop=0})}backToTop();
+</script></body></html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="ko" class="scroll-smooth"><head><meta charset="UTF-8"><style>:where(img){height:auto}</style><meta name="viewport" content="width=device-width"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="canonical" href="https://cpro95.github.io/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/"><meta name="generator" content="Astro v4.2.1"><!-- General Meta Tags --><title>React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) | cpro95.github.io</title><meta name="title" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) | cpro95.github.io"><meta name="description" content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다."><meta name="author" content="cpro95"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) | cpro95.github.io"><meta property="og:description" content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다."><meta property="og:url" content="https://cpro95.github.io/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/"><meta property="og:image" content="https://cpro95.github.io/posts/react-usestate-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---%EB%B9%84%EB%8F%99%EA%B8%B0-%EB%8F%99%EC%9E%91%EB%B6%80%ED%84%B0-%EC%B5%9C%EC%A0%81%ED%99%94%EA%B9%8C%EC%A7%80-%EC%B4%88%EB%B3%B4%EC%9E%90%EA%B0%80-%EA%B2%AA%EB%8A%94-%EB%AA%A8%EB%93%A0-%ED%95%A8%EC%A0%95.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-07-13T02:48:08.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://cpro95.github.io/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/"><meta property="twitter:title" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) | cpro95.github.io"><meta property="twitter:description" content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다."><meta property="twitter:image" content="https://cpro95.github.io/posts/react-usestate-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5---%EB%B9%84%EB%8F%99%EA%B8%B0-%EB%8F%99%EC%9E%91%EB%B6%80%ED%84%B0-%EC%B5%9C%EC%A0%81%ED%99%94%EA%B9%8C%EC%A7%80-%EC%B4%88%EB%B3%B4%EC%9E%90%EA%B0%80-%EA%B2%AA%EB%8A%94-%EB%AA%A8%EB%93%A0-%ED%95%A8%EC%A0%95.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content=""><!-- NaverSiteVerification --><meta name="naver-site-verification" content="eeeccabde48a3844cbb9220e7a9073651cd183e7"><!-- googleSiteVerification --><meta name="google-site-verification" content="9op9qYSSLeQr3-EP1Xgu8IlVUf0unPypVRw8y92_MpM"><!-- Google tag (gtag.js) --><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XSCP6QR275"></script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script src="/toggle-theme.js"></script><style>.breadcrumb:where(.astro-ilhxcym7){width:100%;max-width:48rem;margin:2rem auto .25rem;padding-left:1rem;padding-right:1rem}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7){display:inline}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) a:where(.astro-ilhxcym7){text-transform:capitalize;opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7) span:where(.astro-ilhxcym7){opacity:.7}.breadcrumb:where(.astro-ilhxcym7) ul:where(.astro-ilhxcym7) li:where(.astro-ilhxcym7):not(:last-child) a:where(.astro-ilhxcym7):hover{opacity:1}#main-content:where(.astro-hsp6otuf){width:100%;max-width:48rem;margin-left:auto;margin-right:auto;padding-bottom:1rem;padding-left:1rem;padding-right:1rem}#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.5rem;font-weight:600;line-height:2rem}@media (min-width:640px){#main-content:where(.astro-hsp6otuf) h1:where(.astro-hsp6otuf){font-size:1.875rem;line-height:2.25rem}}#main-content:where(.astro-hsp6otuf) p:where(.astro-hsp6otuf){margin-top:.5rem;margin-bottom:1.5rem;font-style:italic}</style>
+<link rel="stylesheet" href="/_astro/index.CZwYe-2R.css">
+<style>a:where(.astro-blwjyjpt){position:relative;text-decoration-line:underline;text-decoration-style:dashed}a:where(.astro-blwjyjpt):hover{top:-.125rem;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}a:where(.astro-blwjyjpt):focus-visible{padding:.25rem}a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){margin-right:-1.25rem;height:1.5rem;width:1.5rem;--tw-scale-x: .95;--tw-scale-y: .95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity));opacity:.8}.group:where(.astro-blwjyjpt):hover a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){fill:rgb(var(--color-accent))}
+.pagination-wrapper:where(.astro-d776pwuy){margin-bottom:2rem;margin-top:auto;display:flex;justify-content:center}.disabled:where(.astro-d776pwuy){pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;opacity:.5}.disabled:where(.astro-d776pwuy):hover{--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity))}.group:where(.astro-d776pwuy):hover .disabled:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))}.group:where(.astro-d776pwuy):hover .disabled-svg:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))!important}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0}}@keyframes astroFadeOut{to{opacity:0}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+main:where(.astro-vj4tpspi){margin-left:auto;margin-right:auto;width:100%;max-width:48rem;padding-left:1rem;padding-right:1rem;padding-bottom:3rem}.post-title:where(.astro-vj4tpspi){font-size:1.5rem;line-height:2rem;font-weight:600;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}
+</style><script type="module" src="/_astro/hoisted.9gLigZQW.js"></script><style>[data-astro-transition-scope=astro-plk3gbjq-1]{view-transition-name:react-usestate-__-__---___-____-_____-____-__-__-}@layer astro{::view-transition-old(react-usestate-__-__---___-____-_____-____-__-__-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react-usestate-__-__---___-____-_____-____-__-__-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react-usestate-__-__---___-____-_____-____-__-__-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react-usestate-__-__---___-____-_____-____-__-__-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-plk3gbjq-1],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-plk3gbjq-1]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-2]{view-transition-name:react}@layer astro{::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-2],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-2]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-3]{view-transition-name:usestate}@layer astro{::view-transition-old(usestate){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(usestate){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(usestate){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(usestate){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-3],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-3]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope=astro-36ssibgs-4]{view-transition-name:react-}@layer astro{::view-transition-old(react-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}::view-transition-new(react-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-old(react-){animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back]::view-transition-new(react-){animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}}[data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=old] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=old][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeOut;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}[data-astro-transition=back][data-astro-transition-fallback=new] [data-astro-transition-scope=astro-36ssibgs-4],[data-astro-transition=back][data-astro-transition-fallback=new][data-astro-transition-scope=astro-36ssibgs-4]{animation-name:astroFadeIn;animation-duration:.18s;animation-timing-function:cubic-bezier(.76,0,.24,1);animation-fill-mode:both}</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-6"] { view-transition-name: ; }@layer astro { ::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-7"] { view-transition-name: ; }@layer astro { ::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new() { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-7"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-7"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-8"] { view-transition-name: -; }@layer astro { ::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(-) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-8"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-8"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <header class="astro-3ef6ksr2"> <a id="skip-to-content" href="#main-content" class="astro-3ef6ksr2">Skip to content</a> <div class="astro-3ef6ksr2 nav-container"> <div class="astro-3ef6ksr2 top-nav-wrap"> <a href="/" class="astro-3ef6ksr2 logo whitespace-nowrap"> cpro95.github.io </a> <nav id="nav-menu" class="astro-3ef6ksr2"> <button class="astro-3ef6ksr2 focus-outline hamburger-menu" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="astro-3ef6ksr2 menu-icon"> <line x1="7" y1="12" x2="21" y2="12" class="line astro-3ef6ksr2"></line> <line x1="3" y1="6" x2="21" y2="6" class="line astro-3ef6ksr2"></line> <line x1="12" y1="18" x2="21" y2="18" class="line astro-3ef6ksr2"></line> <line x1="18" y1="6" x2="6" y2="18" class="astro-3ef6ksr2 close"></line> <line x1="6" y1="6" x2="18" y2="18" class="astro-3ef6ksr2 close"></line> </svg> </button> <ul id="menu-items" class="astro-3ef6ksr2 display-none sm:flex"> <li class="astro-3ef6ksr2"> <a href="/posts/" class="astro-3ef6ksr2">
+Posts
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/tags/" class="astro-3ef6ksr2">
+Tags
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/search/" class="astro-3ef6ksr2 focus-outline flex group hover:text-skin-accent inline-block p-3 sm:p-1" aria-label="search" title="Search"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-3ef6ksr2 scale-125 sm:scale-100"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" class="astro-3ef6ksr2"></path> </svg> <span class="astro-3ef6ksr2 sr-only">Search</span> </a> </li> <li class="astro-3ef6ksr2"> <button id="theme-btn" class="astro-3ef6ksr2 focus-outline" title="Toggles light &amp; dark" aria-label="auto" aria-live="polite"> <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg" class="astro-3ef6ksr2"> <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" class="astro-3ef6ksr2"></path> </svg> <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg" class="astro-3ef6ksr2"> <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" class="astro-3ef6ksr2"></path> </svg> </button> </li> </ul> </nav> </div> </div> <div class="max-w-3xl mx-auto px-4"> <hr class="border-skin-line" aria-hidden="true"> </div> </header>   <div class="astro-vj4tpspi flex justify-start max-w-3xl mx-auto px-2 w-full"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> </div> <main id="main-content" class="astro-vj4tpspi"> <h1 class="astro-vj4tpspi post-title" data-astro-transition-scope="astro-plk3gbjq-1">React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)</h1> <div class="astro-vj4tpspi flex items-center my-2 opacity-80 space-x-2"><svg xmlns="http://www.w3.org/2000/svg" class="inline-block fill-skin-base h-6 min-w-[1.375rem] scale-100 w-6" aria-hidden="true"><path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path><path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path></svg><span class="sr-only">Published:</span><span class="italic text-base"><time datetime="2025-07-13T02:48:08.000Z">2025년 7월 13일</time><span aria-hidden="true"> | </span><span class="sr-only">&nbsp;at&nbsp;</span><span class="text-nowrap">오전 11:48</span></span></div> <article id="article" role="article" class="astro-vj4tpspi max-w-3xl mx-auto mt-8 prose"> <p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.<br><br>
+이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.<br><br></p>
+<h2 id="서론-상태state란-무엇인가">서론: 상태(State)란 무엇인가?<br></h2>
+<p>‘상태(State)‘는 React의 가장 핵심적인 개념 중 하나입니다.<br><br>
+이는 <strong>컴포넌트 내에서 시간이 지남에 따라 변할 수 있는 데이터</strong>를 나타냅니다.<br><br>
+부모 컴포넌트로부터 전달받아 자식 컴포넌트 입장에서는 변경할 수 없는 ‘props’와는 달리, 상태는 컴포넌트 내부에 존재하며 수정될 수 있습니다.<br><br>
+<code>useState</code> 훅은 현대 React의 함수형 컴포넌트에서 이러한 지역 상태를 관리하는 주요 해결책이며, React 애플리케이션의 모든 상호작용의 기초를 형성합니다.<br><br></p>
+<h2 id="usestate-훅의-기본"><code>useState</code> 훅의 기본<br></h2>
+<p><code>useState</code> 훅은 함수형 컴포넌트에 지역 상태를 추가할 수 있게 해주는 함수입니다.<br><br>
+간단한 예시를 통해 어떻게 작동하는지 살펴보겠습니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">import</span><span style="color:#E06C75"> React</span><span style="color:#ABB2BF">, { </span><span style="color:#E06C75">useState</span><span style="color:#ABB2BF"> } </span><span style="color:#C678DD">from</span><span style="color:#98C379"> "react"</span><span style="color:#ABB2BF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> Counter</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // "count"라는 상태 변수를 선언하고 0으로 초기화합니다.</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">count</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setCount</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> (</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;You clicked </span><span style="color:#C678DD">{</span><span style="color:#E06C75">count</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF"> times&lt;/</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">button</span><span style="color:#D19A66;font-style:italic"> onClick</span><span style="color:#56B6C2">=</span><span style="color:#C678DD">{</span><span style="color:#ABB2BF">() </span><span style="color:#C678DD">=&gt;</span><span style="color:#61AFEF"> setCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">count</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">)</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&gt;Click&lt;/</span><span style="color:#E06C75">button</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;/</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">  );</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 예시에서:<br></p>
+<ul>
+<li><code>useState(0)</code>는 상태 값을 <code>0</code>으로 초기화합니다.<br><br></li>
+<li>이 함수는 두 개의 요소를 가진 배열을 반환하며, 우리는 이를 ‘배열 구조 분해 할당’으로 받습니다.<br><br>
+<ul>
+<li><code>count</code>: 현재 상태 값입니다.<br><br></li>
+<li><code>setCount</code>: 이 상태를 업데이트하는 함수입니다.<br><br></li>
+</ul>
+</li>
+</ul>
+<p><code>setCount</code>가 호출될 때마다, React는 <code>count</code>의 새로운 값을 가지고 컴포넌트를 ‘리렌더링(re-render)‘합니다.<br><br></p>
+<h2 id="usestate의-비동기적-본질"><code>useState</code>의 비동기적 본질<br></h2>
+<p><code>useState</code>의 중요하면서도 종종 오해받는 측면은 바로 ‘비동기적’ 행동입니다.<br><br>
+여러분이 상태 업데이트 함수(setter 함수)를 호출할 때, React는 즉시 상태 값을 변경하지 않습니다.<br><br>
+대신, 이 업데이트를 ‘스케줄링’합니다.<br><br>
+이는 마치 “나중에 이 값으로 상태를 업데이트해줘”라고 React에게 요청하는 것과 같습니다.<br><br>
+이러한 동작은 예상치 못한 버그를 유발할 수 있습니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> AsynchronousExample</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">count</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setCount</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> handleClick</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 이 라인은 'count'를 즉시 수정하지 않습니다. 업데이트를 예약할 뿐입니다.</span></span>
+<span class="line"><span style="color:#61AFEF">    setCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">count</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 따라서 이 시점의 'count'는 여전히 이전 값(렌더링 시점의 값)입니다.</span></span>
+<span class="line"><span style="color:#E5C07B">    console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">count</span><span style="color:#ABB2BF">); </span><span style="color:#7F848E;font-style:italic">// 새로운 값이 아닌, 이전 'count' 값을 보여줍니다.</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> &lt;</span><span style="color:#E06C75">button</span><span style="color:#D19A66;font-style:italic"> onClick</span><span style="color:#56B6C2">=</span><span style="color:#C678DD">{</span><span style="color:#E06C75">handleClick</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&gt;Increment (</span><span style="color:#C678DD">{</span><span style="color:#E06C75">count</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">)&lt;/</span><span style="color:#E06C75">button</span><span style="color:#ABB2BF">&gt;;</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 문제를 해결하기 위해, <code>useState</code>는 ‘함수형 업데이트(functional update)‘라는 대안을 제공합니다.<br><br>
+상태 업데이트 함수에 값을 직접 전달하는 대신, 함수를 전달하는 것입니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> FunctionalUpdateExample</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">count</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setCount</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> handleClick</span><span style="color:#56B6C2"> =</span><span style="color:#ABB2BF"> () </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 이전 상태(previous state)를 인자로 받는 함수를 사용합니다.</span></span>
+<span class="line"><span style="color:#61AFEF">    setCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">prevCount</span><span style="color:#C678DD"> =&gt;</span><span style="color:#E06C75"> prevCount</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 만약 여러 업데이트를 수행해야 한다면</span></span>
+<span class="line"><span style="color:#61AFEF">    setCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">prevCount</span><span style="color:#C678DD"> =&gt;</span><span style="color:#E06C75"> prevCount</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#61AFEF">    setCount</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">prevCount</span><span style="color:#C678DD"> =&gt;</span><span style="color:#E06C75"> prevCount</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // 이 코드는 'count'를 3만큼 증가시킵니다.</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> &lt;</span><span style="color:#E06C75">button</span><span style="color:#D19A66;font-style:italic"> onClick</span><span style="color:#56B6C2">=</span><span style="color:#C678DD">{</span><span style="color:#E06C75">handleClick</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&gt;Multiple increment (</span><span style="color:#C678DD">{</span><span style="color:#E06C75">count</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">)&lt;/</span><span style="color:#E06C75">button</span><span style="color:#ABB2BF">&gt;;</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 함수형 업데이트는 React가 아직 컴포넌트를 리렌더링하지 않았더라도, 항상 가장 최신의 상태 값을 가지고 작업할 것을 보장해 줍니다.<br><br>
+여러 업데이트를 하나의 이벤트 핸들러에서 처리할 때, 항상 함수형 업데이트를 사용하는 것이 안전합니다.<br><br></p>
+<h2 id="게으른-초기화-lazy-initialization">게으른 초기화 (Lazy Initialization)<br></h2>
+<p><code>useState</code>를 사용할 때, 매개변수로 전달된 초기값이 어떻게 처리되는지 이해하는 것이 중요합니다.<br><br>
+값을 직접 전달하는 것과 초기화 함수를 전달하는 것 사이에는 결정적인 차이가 있습니다.<br><br></p>
+<h3 id="문제점-매-렌더링마다-재계산">문제점: 매 렌더링마다 재계산<br></h3>
+<p><code>useState</code>에 값이나 표현식을 직접 전달하면, 이 표현식은 컴포넌트가 렌더링될 때마다 매번 평가됩니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> ExpensiveInitExample</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ❌ 문제점: complexCalculation()이 모든 렌더링마다 실행됩니다.</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">value</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setValue</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(</span><span style="color:#61AFEF">complexCalculation</span><span style="color:#ABB2BF">());</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E5C07B">  console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#98C379">"Component rendered"</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> (</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;Value: </span><span style="color:#C678DD">{</span><span style="color:#E06C75">value</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&lt;/</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">button</span><span style="color:#D19A66;font-style:italic"> onClick</span><span style="color:#56B6C2">=</span><span style="color:#C678DD">{</span><span style="color:#ABB2BF">() </span><span style="color:#C678DD">=&gt;</span><span style="color:#61AFEF"> setValue</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">value</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">)</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&gt;Increment&lt;/</span><span style="color:#E06C75">button</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;/</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">  );</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 예제에서, 우리는 오직 초기값에만 관심이 있음에도 불구하고, <code>complexCalculation()</code> 함수는 컴포넌트가 리렌더링될 때마다 불필요하게 호출됩니다.<br><br>
+만약 이 함수가 리소스를 많이 소모한다면 성능에 심각한 영향을 미칠 수 있습니다.<br><br></p>
+<h3 id="해결책-초기화-함수">해결책: 초기화 함수<br></h3>
+<p>이 문제를 해결하기 위해, React는 <code>useState</code>에 초기화 함수를 전달하는 것을 허용합니다.<br><br>
+이 함수는 오직 <strong>첫 번째 렌더링 동안 단 한 번만 호출됩니다.</strong><br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> LazyInitExample</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ✅ 올바른 방법: 이 함수는 오직 첫 렌더링 시에만 한 번 호출됩니다.</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">value</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setValue</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">(() </span><span style="color:#C678DD">=&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#E5C07B">    console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#98C379">"비싼 계산 수행 중..."</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#C678DD">    return</span><span style="color:#61AFEF"> complexCalculation</span><span style="color:#ABB2BF">();</span></span>
+<span class="line"><span style="color:#ABB2BF">  });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E5C07B">  console</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">log</span><span style="color:#ABB2BF">(</span><span style="color:#98C379">"Component rendered"</span><span style="color:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  return</span><span style="color:#ABB2BF"> (</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;Value: </span><span style="color:#C678DD">{</span><span style="color:#E06C75">value</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&lt;/</span><span style="color:#E06C75">p</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">      &lt;</span><span style="color:#E06C75">button</span><span style="color:#D19A66;font-style:italic"> onClick</span><span style="color:#56B6C2">=</span><span style="color:#C678DD">{</span><span style="color:#ABB2BF">() </span><span style="color:#C678DD">=&gt;</span><span style="color:#61AFEF"> setValue</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75">value</span><span style="color:#56B6C2"> +</span><span style="color:#D19A66"> 1</span><span style="color:#ABB2BF">)</span><span style="color:#C678DD">}</span><span style="color:#ABB2BF">&gt;Increment&lt;/</span><span style="color:#E06C75">button</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">    &lt;/</span><span style="color:#E06C75">div</span><span style="color:#ABB2BF">&gt;</span></span>
+<span class="line"><span style="color:#ABB2BF">  );</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<p>이 버전에서는 <code>complexCalculation</code>이 오직 컴포넌트의 초기 마운트 시에만 한 번 실행됩니다.<br><br>
+React는 단순히 함수가 반환한 값을 초기화에 사용하고, 이후 렌더링에서는 이 함수를 무시합니다.<br><br>
+‘게으른 초기화(Lazy initialization)‘는 다음과 같은 상황에서 특히 유용합니다.<br><br></p>
+<ul>
+<li>비싼 계산 (대용량 데이터 처리)<br></li>
+<li><code>localStorage</code>나 Web Storage API에서 데이터 읽기<br></li>
+<li>복잡한 props 분석 또는 변환<br><br></li>
+</ul>
+<h2 id="복잡한-객체-관리-불변성의-원칙">복잡한 객체 관리: 불변성의 원칙<br></h2>
+<p>상태가 객체나 배열일 때, ‘불변성(immutability)’ 원칙을 존중하는 것이 매우 중요합니다.<br><br>
+React는 객체의 참조를 비교하여 상태가 변경되었는지 판단합니다.<br><br>
+만약 상태 객체를 직접 수정하면, React는 변경을 감지하지 못하고 컴포넌트를 리렌더링하지 않을 것입니다.<br><br></p>
+<pre class="astro-code one-dark-pro" style="color:#abb2bf;white-space:pre-wrap;word-wrap:break-word;background-color:#282c34;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#C678DD">function</span><span style="color:#61AFEF"> ObjectStateExample</span><span style="color:#ABB2BF">() {</span></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#ABB2BF"> [</span><span style="color:#E5C07B">user</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">setUser</span><span style="color:#ABB2BF">] </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> useState</span><span style="color:#ABB2BF">({</span></span>
+<span class="line"><span style="color:#E06C75">    name</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"Alice"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">    age</span><span style="color:#ABB2BF">: </span><span style="color:#D19A66">25</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">    preferences</span><span style="color:#ABB2BF">: { </span><span style="color:#E06C75">theme</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"dark"</span><span style="color:#ABB2BF"> },</span></span>
+<span class="line"><span style="color:#ABB2BF">  });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">  const</span><span style="color:#61AFEF"> updateTheme</span><span style="color:#56B6C2"> =</span><span style="color:#E06C75;font-style:italic"> newTheme</span><span style="color:#C678DD"> =&gt;</span><span style="color:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // ❌ 잘못된 방법 - 상태를 직접 수정</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // user.preferences.theme = newTheme;</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // setUser(user); // 객체 참조가 동일하므로 리렌더링을 유발하지 않음</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">    // ✅ 올바른 방법 - 새로운 객체 생성</span></span>
+<span class="line"><span style="color:#61AFEF">    setUser</span><span style="color:#ABB2BF">({</span></span>
+<span class="line"><span style="color:#ABB2BF">      ...</span><span style="color:#E06C75">user</span><span style="color:#ABB2BF">, </span><span style="color:#7F848E;font-style:italic">// 기존 user 객체의 속성을 복사</span></span>
+<span class="line"><span style="color:#E06C75">      preferences</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#ABB2BF">        ...</span><span style="color:#E5C07B">user</span><span style="color:#ABB2BF">.</span><span style="color:#E06C75">preferences</span><span style="color:#ABB2BF">, </span><span style="color:#7F848E;font-style:italic">// 중첩된 객체도 복사</span></span>
+<span class="line"><span style="color:#E06C75">        theme</span><span style="color:#ABB2BF">: </span><span style="color:#E06C75">newTheme</span><span style="color:#ABB2BF">, </span><span style="color:#7F848E;font-style:italic">// 원하는 속성만 변경</span></span>
+<span class="line"><span style="color:#ABB2BF">      },</span></span>
+<span class="line"><span style="color:#ABB2BF">    });</span></span>
+<span class="line"><span style="color:#ABB2BF">  };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic">  // ...</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre>
+<p><br><br></p>
+<h2 id="usestate-vs-usereducer"><code>useState</code> vs <code>useReducer</code><br></h2>
+<p>상태 업데이트 로직이 복잡해진다면, <code>useState</code> 대신 <code>useReducer</code>를 고려하는 것이 좋습니다.<br><br>
+<code>useReducer</code>는 상태 업데이트 로직을 컴포넌트 외부로 분리하고, 여러 다른 종류의 액션을 중앙에서 관리할 수 있게 해줍니다.<br><br>
+일반적으로 다음과 같은 경우에 <code>useReducer</code>가 더 선호됩니다.<br><br></p>
+<ul>
+<li>상태들이 서로 의존적일 때<br></li>
+<li>업데이트 로직이 복잡할 때 (예: 여러 필드를 가진 폼)<br></li>
+<li>상태를 수정하는 액션의 종류가 많을 때<br><br></li>
+</ul>
+<h2 id="성능-최적화-리렌더링-제어하기">성능 최적화: 리렌더링 제어하기<br></h2>
+<p>상태 업데이트는 리렌더링을 유발하며, 이는 성능에 영향을 줄 수 있습니다.<br><br>
+React는 선별적으로 사용할 수 있는 몇 가지 최적화 기법을 제공합니다.<br><br></p>
+<ul>
+<li><code>React.memo</code>: props가 변경되지 않았다면 컴포넌트의 리렌더링을 방지하는 고차 컴포넌트입니다.<br><br></li>
+<li><code>useCallback</code>: 렌더링 사이에 함수를 기억(메모이제이션)합니다.<br><br>
+<code>React.memo</code>로 감싸진 자식 컴포넌트에 함수를 prop으로 전달할 때 특히 유용합니다.<br><br></li>
+<li><code>useMemo</code>: 렌더링 사이에 계산 결과를 기억합니다.<br><br>
+매 렌더링마다 비싼 값을 재계산하는 것을 피하기 위해 사용됩니다.<br><br></li>
+</ul>
+<h3 id="react-19와-컴파일러에-대한-참고-사항">React 19와 컴파일러에 대한 참고 사항<br></h3>
+<p>React 19에서 도입될 ‘React 컴파일러’를 사용하면, 이러한 수동 최적화 중 일부는 이전보다 덜 필요하게 됩니다.<br><br>
+컴파일러는 <code>React.memo</code>, <code>useMemo</code>, <code>useCallback</code>이 필요했을 많은 경우를 자동으로 감지하고 최적화할 수 있습니다.<br><br>
+하지만 이러한 API들은 여전히 컴파일러가 자동으로 최적화할 수 없는 복잡한 경우에 유용하게 남을 것입니다.<br><br>
+일반적인 규칙은, 이러한 최적화 없이 시작하고, 특정한 성능 문제를 식별했을 때만 추가하는 것입니다.<br><br></p>
+<h2 id="결론">결론<br></h2>
+<p><code>useState</code> 훅은 함수형 컴포넌트가 자신만의 상태를 유지하고 관리할 수 있게 해주는, React의 가장 기본적인 도구 중 하나입니다.<br><br>
+그 명백한 단순함 뒤에는 비동기적 행동과 컴포넌트의 렌더링 주기에 대한 영향과 같은 중요한 미묘함이 숨어 있습니다.<br><br>
+<code>useState</code>를 마스터하려면 다음을 이해해야 합니다.<br><br></p>
+<ul>
+<li>비동기적 행동과 함수형 업데이트의 중요성<br></li>
+<li>복잡한 객체를 다룰 때의 불변성<br></li>
+<li>클로저 및 업데이트 배치와 관련된 함정<br></li>
+<li>상태를 여러 변수로 분리할 때와 단일 객체를 사용할 때의 장단점<br></li>
+<li>메모이제이션을 통한 성능 최적화 방법<br><br></li>
+</ul>
+<p><code>useState</code>에 대한 깊은 이해는 <code>useReducer</code>, <code>useContext</code>와 같은 더 고급 훅으로 나아가거나 자신만의 커스텀 훅을 만드는 데 필요한 단단한 기반을 제공할 것입니다.<br><br></p>
+<hr> </article> <ul class="astro-vj4tpspi my-8"> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/react/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">react</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/usestate/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">usestate</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/react-훅/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">react-훅</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/상태-관리/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">상태-관리</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/비동기/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-6"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">비동기</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/불변성/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-7"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">불변성</span> </a> </li> <li class="astro-blwjyjpt inline-block my-1 underline-offset-4"> <a href="/tags/성능-최적화/" class="astro-blwjyjpt group pr-2 text-sm" data-astro-transition-scope="astro-36ssibgs-8"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-blwjyjpt -mr-3 scale-75"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">성능-최적화</span> </a> </li>  </ul> <div class="astro-vj4tpspi flex items-center flex-col gap-6 justify-between sm:flex-row sm:gap-4 sm:items-end"> <button class="astro-vj4tpspi flex focus-outline hover:opacity-75 mb-2 mt-8" onclick='history.length===1?window.location="/":history.back();
+'> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg><span class="astro-vj4tpspi">Go back</span> </button> <button id="back-to-top" class="astro-vj4tpspi focus-outline hover:opacity-75 py-1 whitespace-nowrap"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-vj4tpspi rotate-90"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-vj4tpspi"></path> </svg> <span class="astro-vj4tpspi">Back to Top</span> </button> <!-- <ShareLinks /> --> </div> </main> <footer class="astro-sz7xmlte mt-auto"> <div class="max-w-3xl mx-auto px-0"> <hr class="border-skin-line" aria-hidden="true"> </div> <div class="astro-sz7xmlte footer-wrapper"> <!-- <Socials centered /> --> <div class="astro-sz7xmlte copyright-wrapper"> <span class="astro-sz7xmlte">Copyright © 2025</span> <span class="astro-sz7xmlte separator">&nbsp;|&nbsp;</span> <span class="astro-sz7xmlte">All rights reserved.</span> </div> </div> </footer>     <script>function addHeadingLinks(){let c=Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));for(let d of c){d.classList.add("group");let t=document.createElement("a");t.innerText="#",t.className="heading-link hidden group-hover:inline-block ml-2",t.href="#"+d.id,t.ariaHidden="true",d.appendChild(t)}}addHeadingLinks();function attachCopyButtons(){let c="Copy",d=Array.from(document.querySelectorAll("pre"));for(let e of d){let o=document.createElement("div");o.style.position="relative";let n=document.createElement("button");n.className="copy-code absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium",n.innerHTML=c,e.setAttribute("tabindex","0"),e.appendChild(n),e?.parentNode?.insertBefore(o,e),o.appendChild(e),n.addEventListener("click",async()=>{await t(e,n)})}async function t(e,o){let i=e.querySelector("code")?.innerText;await navigator.clipboard.writeText(i??""),o.innerText="Copied",setTimeout(()=>{o.innerText=c},700)}}attachCopyButtons();function backToTop(){document.querySelector("#back-to-top")?.addEventListener("click",()=>{document.body.scrollTop=0,document.documentElement.scrollTop=0})}backToTop();
+</script></body></html>
