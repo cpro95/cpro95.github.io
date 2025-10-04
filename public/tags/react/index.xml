@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>React on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/react/</link>
+    <description>Recent content in React on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 21:19:47 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 4편 (테스트, 생태계, 그리고 체념의 미학)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-4-testing-ecosystem-acceptance/</link>
+      <pubDate>Sat, 23 Aug 2025 15:51:32 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-4-testing-ecosystem-acceptance/</guid>
+      <description>리액트 테스트는 왜 고통스러울까요? 수많은 라이브러리로 이루어진 생태계 속에서 우리는 어떻게 길을 잃게 될까요? 어느 냉소적인 개발자의 리액트 입문서, 그 마지막 여정에서 우리는 마침내 체념과 평화를 얻게 됩니다.</description>
+    </item>
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</link>
+      <pubDate>Sat, 23 Aug 2025 15:45:50 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</guid>
+      <description>리액트의 useEffect가 왜 버그의 온상인지, Props Drilling이 왜 고통스러운지, 그리고 우리가 믿고 있던 성능 최적화 패턴의 배신에 대해 신랄하게 파헤칩니다. 어느 냉소적인 개발자의 리액트 입문서, 그 세 번째 이야기.</description>
+    </item>
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 2편 (JSX와 컴포넌트, 아무도 원치 않았던 그 아이)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-2-jsx-components/</link>
+      <pubDate>Sat, 23 Aug 2025 15:40:55 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-2-jsx-components/</guid>
+      <description>리액트의 JSX는 왜 HTML이 아니면서 HTML인 척할까요? 모든 것을 컴포넌트로 만들라는 리액트의 철학은 과연 합리적일까요? 한 해외 개발 서적의 신랄한 시선으로 리액트의 핵심 개념을 파헤쳐 봅니다.</description>
+    </item>
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 1편 (어느 냉소적인 개발자의 리액트 입문서)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-for-the-reluctant-developer/</link>
+      <pubDate>Sat, 23 Aug 2025 15:34:10 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-for-the-reluctant-developer/</guid>
+      <description>왜 우리는 리액트를 증오하면서도 결국 배우게 될까요? 한 해외 개발 서적의 신랄하고 유머러스한 시각을 통해 리액트의 탄생 비화, 자바스크립트 피로감, 그리고 가상돔의 진실을 파헤쳐 봅니다.</description>
+    </item>
+    <item>
+      <title>React 상태 관리 완벽 가이드 useState부터 TanStack Query까지</title>
+      <link>http://localhost:1313/posts/2025-07-18-react-state-management-complete-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:51:54 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-18-react-state-management-complete-guide/</guid>
+      <description>React의 상태 관리 기법을 useState, useReducer, Context API부터 Zustand, TanStack Query와 같은 최신 라이브러리까지 종합적으로 다룹니다. 클라이언트 상태와 서버 상태를 구분하여 올바른 도구를 선택하는 방법을 배워보세요.</description>
+    </item>
+    <item>
+      <title>왜 TanStack Router는 리액트 개발의 판도를 바꾸는가?</title>
+      <link>http://localhost:1313/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/</link>
+      <pubDate>Wed, 16 Jul 2025 21:59:21 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/</guid>
+      <description>기존 리액트 라우터의 한계를 넘어, 완전한 타입 안정성과 뛰어난 개발 경험(DX)을 제공하는 TanStack Router의 핵심 기능들을 깊이 있게 분석합니다. 이 글을 통해 왜 TanStack Router가 차세대 웹 애플리케이션의 필수 선택지가 되어가고 있는지 확인하세요.</description>
+    </item>
+    <item>
+      <title>React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)</title>
+      <link>http://localhost:1313/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/</link>
+      <pubDate>Sun, 13 Jul 2025 11:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/</guid>
+      <description>React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다.</description>
+    </item>
+    <item>
+      <title>React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기</title>
+      <link>http://localhost:1313/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</link>
+      <pubDate>Sun, 13 Jul 2025 10:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</guid>
+      <description>useState만으로 상태 관리가 힘들어질 때, useReducer가 어떻게 구원투수가 되는지 알아봅니다. 쇼핑 카트 예제를 통해 상태 로직을 중앙에서 관리하고, 예측 가능하며 테스트하기 쉬운 코드를 작성하는 방법을 깊이 있게 탐구합니다.</description>
+    </item>
+    <item>
+      <title>React useEffect 완전 정복 - 동기화 관점으로 레벨업하기</title>
+      <link>http://localhost:1313/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</link>
+      <pubDate>Sun, 13 Jul 2025 09:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</guid>
+      <description>useEffect는 단순한 생명주기 훅이 아닙니다. React의 상태를 외부 세계와 동기화하는 관점에서 useEffect의 실행 주기, 의존성 배열의 함정, 클린업 함수의 정확한 타이밍, 그리고 흔한 오용 사례까지 깊이 있게 탐구합니다.</description>
+    </item>
+    <item>
+      <title>React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기</title>
+      <link>http://localhost:1313/posts/2025-07-13-fine-grained-reactivity-is-easy/</link>
+      <pubDate>Sun, 13 Jul 2025 07:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-fine-grained-reactivity-is-easy/</guid>
+      <description>React의 반응성은 정말 어려운 걸까요? Context API가 왜 불필요한 리렌더링을 유발하는지, 그리고 단 35줄의 코드로 Zustand와 같은 선택자 기반의 진정한 반응성을 구현하는 방법을 알아봅니다.</description>
+    </item>
+    <item>
+      <title>React와 함수형 프로그래밍 - 더 나은 코드를 위한 핵심 원칙</title>
+      <link>http://localhost:1313/posts/2025-07-12-functional-programming-principles-in-react/</link>
+      <pubDate>Sat, 12 Jul 2025 12:41:31 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-12-functional-programming-principles-in-react/</guid>
+      <description>React는 단순한 라이브러리가 아니라 사고방식입니다. 순수 함수, 불변성, 고차 컴포넌트, 컴포지션 등 함수형 프로그래밍의 핵심 원칙들이 어떻게 React를 더 예측 가능하고 강력하게 만드는지 깊이 있게 탐구합니다.</description>
+    </item>
+    <item>
+      <title>React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?</title>
+      <link>http://localhost:1313/posts/2025-07-12-react-and-react-dom-architecture-deep-dive/</link>
+      <pubDate>Sat, 12 Jul 2025 11:54:50 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-12-react-and-react-dom-architecture-deep-dive/</guid>
+      <description>React가 왜 react와 react-dom 두 개의 패키지로 나뉘어 있는지, 그 심오한 설계 철학을 알아봅니다. 뇌 역할을 하는 React와 손 역할을 하는 React-DOM의 관계를 통해, 플랫폼에 구애받지 않는 React의 이식성과 미래를 탐구합니다.</description>
+    </item>
+    <item>
+      <title>React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?</title>
+      <link>http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</link>
+      <pubDate>Thu, 10 Jul 2025 11:48:28 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</guid>
+      <description>더 나은 React 개발자가 되기 위한 필수 개념, 명령형과 선언형 프로그래밍을 알아봅니다. React가 왜 선언형 패러다임을 선택했는지, 그리고 언제 명령형 접근이 필요한지 useRef 예제와 함께 깊이 있게 탐구합니다.</description>
+    </item>
+  </channel>
+</rss>

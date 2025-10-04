@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>배열 사용법 on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/%EB%B0%B0%EC%97%B4-%EC%82%AC%EC%9A%A9%EB%B2%95/</link>
+    <description>Recent content in 배열 사용법 on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 21:21:47 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%EB%B0%B0%EC%97%B4-%EC%82%AC%EC%9A%A9%EB%B2%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>웹 개발 배우기 3편 - 자바스크립트 배열 완전 정복, 여러 데이터를 한 번에 관리하기</title>
+      <link>http://localhost:1313/posts/2025-09-19-learning-web-dev-part3-javascript-arrays/</link>
+      <pubDate>Fri, 19 Sep 2025 10:07:51 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-19-learning-web-dev-part3-javascript-arrays/</guid>
+      <description>웹 개발 배우기 시리즈 3편입니다. 여러 데이터를 한 번에 관리하는 자바스크립트 배열의 개념과 사용법을 배우고, 매직 8볼 예제를 통해 실전 활용법을 익힙니다.</description>
+    </item>
+  </channel>
+</rss>

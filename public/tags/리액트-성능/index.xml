@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>리액트 성능 on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%84%B1%EB%8A%A5/</link>
+    <description>Recent content in 리액트 성능 on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 21:18:20 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%84%B1%EB%8A%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</link>
+      <pubDate>Sat, 23 Aug 2025 15:45:50 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</guid>
+      <description>리액트의 useEffect가 왜 버그의 온상인지, Props Drilling이 왜 고통스러운지, 그리고 우리가 믿고 있던 성능 최적화 패턴의 배신에 대해 신랄하게 파헤칩니다. 어느 냉소적인 개발자의 리액트 입문서, 그 세 번째 이야기.</description>
+    </item>
+  </channel>
+</rss>

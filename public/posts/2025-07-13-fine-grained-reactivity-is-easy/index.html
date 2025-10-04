@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기 - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="React의 반응성은 정말 어려운 걸까요? Context API가 왜 불필요한 리렌더링을 유발하는지, 그리고 단 35줄의 코드로 Zustand와 같은 선택자 기반의 진정한 반응성을 구현하는 방법을 알아봅니다." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-13-fine-grained-reactivity-is-easy/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기 - cpro95.github.io" />
+<meta name="twitter:description"
+  content="React의 반응성은 정말 어려운 걸까요? Context API가 왜 불필요한 리렌더링을 유발하는지, 그리고 단 35줄의 코드로 Zustand와 같은 선택자 기반의 진정한 반응성을 구현하는 방법을 알아봅니다." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기 - cpro95.github.io">
+<meta property="og:description"
+  content="React의 반응성은 정말 어려운 걸까요? Context API가 왜 불필요한 리렌더링을 유발하는지, 그리고 단 35줄의 코드로 Zustand와 같은 선택자 기반의 진정한 반응성을 구현하는 방법을 알아봅니다." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-13-fine-grained-reactivity-is-easy/" />
+<meta property="og:site_name" content="React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-13 07:48:08 &#43;0900 KST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-13-fine-grained-reactivity-is-easy/">React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sun, 13 Jul 2025 07:48:08 &#43;0900"
+                    class="no-wrap">
+                    Sun, 13 Jul 2025 07:48:08 &#43;0900</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:45:45 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:45:45 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      2757 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%B0%98%EC%9D%91%EC%84%B1">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      반응성
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 관리
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/context-api">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Context API
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      성능 최적화
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/zustand">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Zustand
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usesyncexternalstore">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useSyncExternalStore
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="react의-진짜-반응성---35줄-코드로-context-api의-함정-넘어서기">React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000" alt=""></p>
+<p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.</p>
+<p>이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.</p>
+<h2 id="서론-반응성은-정말-어려운-걸까">서론: 반응성은 정말 어려운 걸까?</h2>
+<p>&lsquo;반응성(Reactivity)&lsquo;이라는 개념은 React 생태계에서 여전히 오해받고 있는 것 같습니다.</p>
+<p>저는 MUI X Data Grid에서 이 문제를 어떻게 해결했는지에 대한 글을 제공하고 싶었습니다.</p>
+<p>제 생각에, 세밀한 &lsquo;선택자 기반 반응성&rsquo;은 React에서 35줄 미만의 코드로도 가능하며, 이 글의 끝에서는 바로 복사-붙여넣기 할 수 있는 예제를 제공할 것입니다.</p>
+<p>문제를 가장 미니멀한 해결책으로 축소할 수 있는 것은 중요하다고 생각합니다.</p>
+<p>왜냐하면 그것이 문제의 본질을 더 명확하게 보여주기 때문입니다.</p>
+<p>단순함은 또한 우리 코드가 가져야 할 가장 높은 목표 중 하나입니다.</p>
+<p>단순한 코드에서 쉬운 유지보수성과 쉬운 성능 최적화가 나오기 때문이죠.</p>
+<p>문제에 대한 가장 미니멀한 해결책을 이해하는 것은, 여러분이 이해하지 못하는 미리 만들어진 해결책을 물려받는 대신, 그것을 기반으로 구축해 나갈 수 있게 해줍니다.</p>
+<h2 id="당면한-문제-context-api의-과잉-방송">당면한 문제: Context API의 &lsquo;과잉 방송&rsquo;</h2>
+<p>Data Grid에서 겪었던 문제를 재현하기 위해, 간단한 실행 가능한 예제가 있습니다.</p>
+<p>&lsquo;Cell&rsquo; 컴포넌트들이 내부에 있는 &lsquo;Grid&rsquo;입니다.</p>
+<p>그리드의 루트에 있는 상태에 현재 포커스된 셀을 저장하고, 각 셀은 포커스를 받으면 그 상태를 업데이트할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Context</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createContext</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Grid</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">focus</span>, <span style="color:#a6e22e">setFocus</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 매번 새로운 value 객체가 생성되는 것을 막기 위해 useMemo 사용
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">contextValue</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useMemo</span>(() =&gt; ({ <span style="color:#a6e22e">focus</span>, <span style="color:#a6e22e">setFocus</span> }), [<span style="color:#a6e22e">focus</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">Context.Provider</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">contextValue</span>}&gt;
+</span></span><span style="display:flex;"><span>      {Array.<span style="color:#a6e22e">from</span>({ <span style="color:#a6e22e">length</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span> }).<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">i</span>) =&gt; (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">Cell</span> <span style="color:#a6e22e">key</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">i</span>} <span style="color:#a6e22e">index</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">i</span>} /&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">Context.Provider</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Cell</span>({ <span style="color:#a6e22e">index</span> }) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useContext</span>(<span style="color:#a6e22e">Context</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isFocused</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">focus</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">index</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Cell </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">index</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> is rendering`</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">button</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">setFocus</span>(<span style="color:#a6e22e">index</span>)}
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">isFocused</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;focus&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>}
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      {<span style="color:#a6e22e">index</span>}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 그리드에서 셀 하나를 클릭하면 어떻게 될까요?</p>
+<p>아마 여러분의 콘솔은 &ldquo;Cell 0 is rendering&rdquo;, &ldquo;Cell 1 is rendering&rdquo;, &hellip; &ldquo;Cell 49 is rendering&quot;으로 도배될 것입니다.</p>
+<p>셀 하나를 클릭했을 뿐인데, 50개의 모든 셀이 리렌더링되는 재앙이 발생합니다.</p>
+<p>이것이 바로 Context API의 근본적인 한계입니다.</p>
+<p>마치 마을 방송 시스템과 같습니다.</p>
+<p>&lsquo;1번 집에 우편물이 도착했다&rsquo;는 소식을 알리기 위해, 마을 전체에 스피커로 방송하는 셈이죠.</p>
+<p><code>Context.Provider</code>의 <code>value</code>가 변경되면, <code>useContext</code>를 통해 이 컨텍스트를 &lsquo;구독&rsquo;하는 모든 컴포넌트는 그 값의 일부만 사용하더라도 무조건 리렌더링됩니다.</p>
+<p>셀의 개수가 많아지고 각 셀의 렌더링 비용이 비싸진다면, 이는 만족스럽지 못한 상황입니다.</p>
+<h2 id="해결책-35줄-미만의-선택적-구독-시스템">해결책: 35줄 미만의 &lsquo;선택적 구독&rsquo; 시스템</h2>
+<p>제가 35줄 미만의 코드로 해결책을 약속했죠.</p>
+<p>여기 있습니다.</p>
+<p>&lsquo;스토어(Store)&lsquo;는 본질적으로 변경될 때 콜백을 트리거하는 <code>ref</code> 객체일 뿐입니다.</p>
+<p>그리고 그 콜백들은 각 컴포넌트에서 <code>setState</code> 훅 함수를 호출함으로써 목표로 한 리렌더링을 트리거하기만 하면 됩니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useState</span>, <span style="color:#a6e22e">useEffect</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Listener</span>&lt;<span style="color:#f92672">S</span>&gt; <span style="color:#f92672">=</span> (<span style="color:#a6e22e">state</span>: <span style="color:#66d9ef">S</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span>&lt;<span style="color:#f92672">State</span>&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">state</span>: <span style="color:#66d9ef">State</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">listeners</span>: <span style="color:#66d9ef">Set</span>&lt;<span style="color:#f92672">Listener</span>&lt;<span style="color:#f92672">State</span>&gt;&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">constructor</span>(<span style="color:#a6e22e">initialState</span>: <span style="color:#66d9ef">State</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">initialState</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listeners</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Set</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">subscribe</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">listener</span>: <span style="color:#66d9ef">Listener</span>&lt;<span style="color:#f92672">State</span>&gt;)<span style="color:#f92672">:</span> (() <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listeners</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">listener</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listeners</span>.<span style="color:#66d9ef">delete</span>(<span style="color:#a6e22e">listener</span>);
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">update</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">newState</span>: <span style="color:#66d9ef">State</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">newState</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newState</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listeners</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">listener</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">listener</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 컴포넌트가 스냅샷을 가져가기 위한 메서드
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">getSnapshot</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>;
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 이 훅이 바로 마법의 핵심입니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useSelector</span>&lt;<span style="color:#f92672">State</span>, <span style="color:#a6e22e">Slice</span>&gt;(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">store</span>: <span style="color:#66d9ef">Store</span>&lt;<span style="color:#f92672">State</span>&gt;,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">selector</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>: <span style="color:#66d9ef">State</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Slice</span>
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">slice</span>, <span style="color:#a6e22e">setSlice</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(() <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">selector</span>(<span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">getSnapshot</span>()));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">useEffect</span>(() <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">subscribe</span>(<span style="color:#a6e22e">state</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">newSlice</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">selector</span>(<span style="color:#a6e22e">state</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">newSlice</span> <span style="color:#f92672">!==</span> <span style="color:#a6e22e">slice</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setSlice</span>(<span style="color:#a6e22e">newSlice</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }, [<span style="color:#a6e22e">store</span>, <span style="color:#a6e22e">selector</span>, <span style="color:#a6e22e">slice</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">slice</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이것을 사용하기 위해 우리가 해야 할 일은 <code>Store</code> 인스턴스를 컨텍스트에 넣고, 모든 컴포넌트가 <code>useSelector</code>를 통해 스토어 업데이트를 구독하게 하는 것뿐입니다.</p>
+<p>&lsquo;선택자(selector)&lsquo;는 컴포넌트가 관심 있는 정확한 상태 조각을 선택하기 때문에, 그 조각이 변경되지 않는 한 리렌더링되지 않을 것입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">StoreContext</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createContext</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Grid</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 스토어 인스턴스는 한 번만 생성됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">store</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(() =&gt; <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Store</span>({ <span style="color:#a6e22e">focus</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> }));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">StoreContext.Provider</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">store</span>}&gt;
+</span></span><span style="display:flex;"><span>      {Array.<span style="color:#a6e22e">from</span>({ <span style="color:#a6e22e">length</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span> }).<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">i</span>) =&gt; (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">Cell</span> <span style="color:#a6e22e">key</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">i</span>} <span style="color:#a6e22e">index</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">i</span>} /&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">StoreContext.Provider</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 선택자 함수들
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">selectors</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">isFocused</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">index</span>) =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">focus</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">index</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Cell</span>({ <span style="color:#a6e22e">index</span> }) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">store</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useContext</span>(<span style="color:#a6e22e">StoreContext</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 이제 전체 context가 아닌, &#39;isFocused&#39;라는 boolean 값만 구독합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isFocused</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSelector</span>(<span style="color:#a6e22e">store</span>, <span style="color:#a6e22e">state</span> =&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">selectors</span>.<span style="color:#a6e22e">isFocused</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">index</span>)
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Cell </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">index</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> is rendering`</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">button</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">update</span>({ ...<span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">getSnapshot</span>(), <span style="color:#a6e22e">focus</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">index</span> })}
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">isFocused</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;focus&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>}
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      {<span style="color:#a6e22e">index</span>}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이제 업데이트된 예제를 실행해 보세요.</p>
+<p>셀을 클릭하면, 포커스 상태가 변경된 두 개의 셀(&lsquo;이전 포커스 셀&rsquo;과 &lsquo;새로운 포커스 셀&rsquo;)만 리렌더링되는 것을 확인할 수 있습니다.</p>
+<p>다른 모든 셀은 전혀 업데이트되지 않습니다.</p>
+<p>마치 각 셀에 필요한 정보만 콕 집어 문자 메시지로 보내주는 것과 같습니다.</p>
+<h2 id="더-나아가기-프로덕션을-위한-개선">더 나아가기: 프로덕션을 위한 개선</h2>
+<p>이제 가장 미니멀한 해결책을 확립했으니, 고려해야 할 몇 가지 사항이 더 있습니다.</p>
+<h3 id="1-react의-엣지-케이스-usesyncexternalstore">1. React의 엣지 케이스: <code>useSyncExternalStore</code></h3>
+<p>제가 위에서 제공한 <code>useSelector</code> 구현은 개념을 이해하는 데는 좋지만, 실제로는 &lsquo;상태 찢어짐(state tearing)&lsquo;과 같은 엣지 케이스에 부딪힐 수 있습니다.</p>
+<p>React 18에 도입된 비동기 렌더링 모델 때문에 발생하는 이 문제를 해결하기 위해, React는 외부 스토어를 구독하는 공식적인 방법인 <code>useSyncExternalStore</code>를 제공합니다.</p>
+<p>우리의 <code>useSelector</code>를 이 공식 훅을 사용하도록 업그레이드할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useSyncExternalStoreWithSelector</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;use-sync-external-store/with-selector&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useSelector</span>(<span style="color:#a6e22e">store</span>, <span style="color:#a6e22e">selector</span>, ...<span style="color:#a6e22e">args</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">useSyncExternalStoreWithSelector</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">subscribe</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">getSnapshot</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">getSnapshot</span>, <span style="color:#75715e">// 서버 스냅샷 (여기서는 동일하게 사용)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">selector</span>(<span style="color:#a6e22e">state</span>, ...<span style="color:#a6e22e">args</span>)
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2-더-인체공학적인-스토어">2. 더 인체공학적인 스토어</h3>
+<p><code>store.update({ ...store.getSnapshot(), focus: 42 })</code>라고 쓰는 것은 장황합니다.</p>
+<p>스토어에 유틸리티 메서드를 추가하여 <code>store.set('focus', 42)</code>처럼 더 간단하게 쓸 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span>&lt;<span style="color:#f92672">State</span>&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">set</span>&lt;<span style="color:#f92672">K</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">keyof</span> <span style="color:#a6e22e">State</span>&gt;(<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">K</span>, <span style="color:#a6e22e">value</span>: <span style="color:#66d9ef">State</span>[<span style="color:#a6e22e">K</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">update</span>({ ...<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>, [<span style="color:#a6e22e">key</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">value</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="3-파생된-상태와-계산된-값">3. 파생된 상태와 계산된 값</h3>
+<p>상태로부터 파생된 값을 계산하는 것은 필수적입니다.</p>
+<p>이 문제를 해결하기 위해, 우리는 &lsquo;메모이제이션된 선택자&rsquo;를 도입했습니다.</p>
+<p>바퀴를 재발명하는 대신, Redux의 <code>reselect</code> 라이브러리 구현을 사용할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">createSelector</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;reselect&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rowsSelector</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">rows</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sortBySelector</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">sortBy</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sortedRowsSelector</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createSelector</span>(
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">rowsSelector</span>, <span style="color:#a6e22e">sortBySelector</span>], <span style="color:#75715e">// 입력 선택자들
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  (<span style="color:#a6e22e">rows</span>, <span style="color:#a6e22e">sortBy</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 입력 선택자의 결과가 변경될 때만 이 함수가 다시 실행됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> [...<span style="color:#a6e22e">rows</span>].<span style="color:#a6e22e">sort</span>((<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) =&gt; <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">sortBy</span>].<span style="color:#a6e22e">localeCompare</span>(<span style="color:#a6e22e">b</span>[<span style="color:#a6e22e">sortBy</span>]));
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h2 id="결론-zustand-redux도-여기서-시작했다">결론: Zustand, Redux도 여기서 시작했다</h2>
+<p>우리가 직접 만든 이 작은 스토어와 <code>useSelector</code> 훅을 자세히 들여다보면, 이것이 바로 Zustand나 Redux 같은 유명 상태 관리 라이브러리의 핵심 원리라는 것을 깨닫게 됩니다.</p>
+<ul>
+<li>중앙 집중식 스토어</li>
+<li>상태 변경을 알리는 구독(subscribe) 메커니즘</li>
+<li>컴포넌트가 필요한 데이터 조각만 가져오게 하는 선택자(selector)</li>
+</ul>
+<p>이처럼 세밀한 반응성은 결코 마법이 아닙니다.</p>
+<p>오히려 간단하고, 정밀하며, 즐거운 개념입니다.</p>
+<p>이 기본 원리를 이해하면, 더 이상 외부 라이브러리를 블랙박스로 여기지 않고, 그 내부 동작을 이해하며 더 나은 아키텍처 결정을 내릴 수 있게 될 것입니다.</p>
+<p>이 글의 코드를 기반으로 한 <code>store-x-selector</code>라는 패키지도 있으니, 직접 스토어를 구축하는 것이 귀찮다면 사용해 보시는 것도 좋습니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

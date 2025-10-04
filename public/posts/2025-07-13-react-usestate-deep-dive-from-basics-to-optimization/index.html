@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) - cpro95.github.io" />
+<meta name="twitter:description"
+  content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정) - cpro95.github.io">
+<meta property="og:description"
+  content="React의 가장 기본 훅, useState의 모든 것을 알아봅니다. 비동기 업데이트의 함정, 게으른 초기화, 불변성, 클로저 문제부터 useReducer와의 비교, 그리고 React.memo, useCallback, useMemo를 사용한 성능 최적화까지 깊이 있게 탐구합니다." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/" />
+<meta property="og:site_name" content="React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-13 11:48:08 &#43;0900 KST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/">React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sun, 13 Jul 2025 11:48:08 &#43;0900"
+                    class="no-wrap">
+                    Sun, 13 Jul 2025 11:48:08 &#43;0900</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:55:09 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:55:09 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      3206 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usestate">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useState
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/react-%ED%9B%85">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React 훅
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 관리
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%B9%84%EB%8F%99%EA%B8%B0">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      비동기
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%B6%88%EB%B3%80%EC%84%B1">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      불변성
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      성능 최적화
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="react-usestate-완전-정복---비동기-동작부터-최적화까지-초보자가-겪는-모든-함정">React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000" alt=""></p>
+<p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.</p>
+<p>이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.</p>
+<h2 id="상태state란-무엇인가">상태(State)란 무엇인가?</h2>
+<p>&lsquo;상태(State)&lsquo;는 React의 가장 핵심적인 개념 중 하나입니다.</p>
+<p>이는 <strong>컴포넌트 내에서 시간이 지남에 따라 변할 수 있는 데이터</strong>를 나타냅니다.</p>
+<p>부모 컴포넌트로부터 전달받아 자식 컴포넌트 입장에서는 변경할 수 없는 &lsquo;props&rsquo;와는 달리, 상태는 컴포넌트 내부에 존재하며 수정될 수 있습니다.</p>
+<p><code>useState</code> 훅은 현대 React의 함수형 컴포넌트에서 이러한 지역 상태를 관리하는 주요 해결책이며, React 애플리케이션의 모든 상호작용의 기초를 형성합니다.</p>
+<h2 id="usestate-훅의-기본"><code>useState</code> 훅의 기본</h2>
+<p><code>useState</code> 훅은 함수형 컴포넌트에 지역 상태를 추가할 수 있게 해주는 함수입니다.</p>
+<p>간단한 예시를 통해 어떻게 작동하는지 살펴보겠습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">React</span>, { <span style="color:#a6e22e">useState</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Counter</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#34;count&#34;라는 상태 변수를 선언하고 0으로 초기화합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">You</span> <span style="color:#a6e22e">clicked</span> {<span style="color:#a6e22e">count</span>} <span style="color:#a6e22e">times</span>&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)}&gt;<span style="color:#a6e22e">Click</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 예시에서:</p>
+<ul>
+<li><code>useState(0)</code>는 상태 값을 <code>0</code>으로 초기화합니다.</li>
+<li>이 함수는 두 개의 요소를 가진 배열을 반환하며, 우리는 이를 &lsquo;배열 구조 분해 할당&rsquo;으로 받습니다.
+<ul>
+<li><code>count</code>: 현재 상태 값입니다.</li>
+<li><code>setCount</code>: 이 상태를 업데이트하는 함수입니다.</li>
+</ul>
+</li>
+</ul>
+<p><code>setCount</code>가 호출될 때마다, React는 <code>count</code>의 새로운 값을 가지고 컴포넌트를 &lsquo;리렌더링(re-render)&lsquo;합니다.</p>
+<h2 id="usestate의-비동기적-본질"><code>useState</code>의 비동기적 본질</h2>
+<p><code>useState</code>의 중요하면서도 종종 오해받는 측면은 바로 &lsquo;비동기적&rsquo; 행동입니다.</p>
+<p>여러분이 상태 업데이트 함수(setter 함수)를 호출할 때, React는 즉시 상태 값을 변경하지 않습니다.</p>
+<p>대신, 이 업데이트를 &lsquo;스케줄링&rsquo;합니다.</p>
+<p>이는 마치 &ldquo;나중에 이 값으로 상태를 업데이트해줘&quot;라고 React에게 요청하는 것과 같습니다.</p>
+<p>이러한 동작은 예상치 못한 버그를 유발할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">AsynchronousExample</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleClick</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 이 라인은 &#39;count&#39;를 즉시 수정하지 않습니다. 업데이트를 예약할 뿐입니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 따라서 이 시점의 &#39;count&#39;는 여전히 이전 값(렌더링 시점의 값)입니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">count</span>); <span style="color:#75715e">// 새로운 값이 아닌, 이전 &#39;count&#39; 값을 보여줍니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">handleClick</span>}&gt;<span style="color:#a6e22e">Increment</span> ({<span style="color:#a6e22e">count</span>})&lt;/<span style="color:#f92672">button</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 문제를 해결하기 위해, <code>useState</code>는 &lsquo;함수형 업데이트(functional update)&lsquo;라는 대안을 제공합니다.</p>
+<p>상태 업데이트 함수에 값을 직접 전달하는 대신, 함수를 전달하는 것입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">FunctionalUpdateExample</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleClick</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 이전 상태(previous state)를 인자로 받는 함수를 사용합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">prevCount</span> =&gt; <span style="color:#a6e22e">prevCount</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 만약 여러 업데이트를 수행해야 한다면
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">prevCount</span> =&gt; <span style="color:#a6e22e">prevCount</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">prevCount</span> =&gt; <span style="color:#a6e22e">prevCount</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 이 코드는 &#39;count&#39;를 3만큼 증가시킵니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">handleClick</span>}&gt;<span style="color:#a6e22e">Multiple</span> <span style="color:#a6e22e">increment</span> ({<span style="color:#a6e22e">count</span>})&lt;/<span style="color:#f92672">button</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 함수형 업데이트는 React가 아직 컴포넌트를 리렌더링하지 않았더라도, 항상 가장 최신의 상태 값을 가지고 작업할 것을 보장해 줍니다.</p>
+<p>여러 업데이트를 하나의 이벤트 핸들러에서 처리할 때, 항상 함수형 업데이트를 사용하는 것이 안전합니다.</p>
+<h2 id="게으른-초기화-lazy-initialization">게으른 초기화 (Lazy Initialization)</h2>
+<p><code>useState</code>를 사용할 때, 매개변수로 전달된 초기값이 어떻게 처리되는지 이해하는 것이 중요합니다.</p>
+<p>값을 직접 전달하는 것과 초기화 함수를 전달하는 것 사이에는 결정적인 차이가 있습니다.</p>
+<h3 id="문제점-매-렌더링마다-재계산">문제점: 매 렌더링마다 재계산</h3>
+<p><code>useState</code>에 값이나 표현식을 직접 전달하면, 이 표현식은 컴포넌트가 렌더링될 때마다 매번 평가됩니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ExpensiveInitExample</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 문제점: complexCalculation()이 모든 렌더링마다 실행됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">setValue</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#a6e22e">complexCalculation</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Component rendered&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">Value</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">value</span>}&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">value</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)}&gt;<span style="color:#a6e22e">Increment</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 예제에서, 우리는 오직 초기값에만 관심이 있음에도 불구하고, <code>complexCalculation()</code> 함수는 컴포넌트가 리렌더링될 때마다 불필요하게 호출됩니다.</p>
+<p>만약 이 함수가 리소스를 많이 소모한다면 성능에 심각한 영향을 미칠 수 있습니다.</p>
+<h3 id="해결책-초기화-함수">해결책: 초기화 함수</h3>
+<p>이 문제를 해결하기 위해, React는 <code>useState</code>에 초기화 함수를 전달하는 것을 허용합니다.</p>
+<p>이 함수는 오직 <strong>첫 번째 렌더링 동안 단 한 번만 호출됩니다.</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">LazyInitExample</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 올바른 방법: 이 함수는 오직 첫 렌더링 시에만 한 번 호출됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">setValue</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;비싼 계산 수행 중...&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">complexCalculation</span>();
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Component rendered&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">Value</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">value</span>}&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">value</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)}&gt;<span style="color:#a6e22e">Increment</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 버전에서는 <code>complexCalculation</code>이 오직 컴포넌트의 초기 마운트 시에만 한 번 실행됩니다.</p>
+<p>React는 단순히 함수가 반환한 값을 초기화에 사용하고, 이후 렌더링에서는 이 함수를 무시합니다.</p>
+<p>&lsquo;게으른 초기화(Lazy initialization)&lsquo;는 다음과 같은 상황에서 특히 유용합니다.</p>
+<ul>
+<li>비싼 계산 (대용량 데이터 처리)</li>
+<li><code>localStorage</code>나 Web Storage API에서 데이터 읽기</li>
+<li>복잡한 props 분석 또는 변환</li>
+</ul>
+<h2 id="복잡한-객체-관리-불변성의-원칙">복잡한 객체 관리: 불변성의 원칙</h2>
+<p>상태가 객체나 배열일 때, &lsquo;불변성(immutability)&rsquo; 원칙을 존중하는 것이 매우 중요합니다.</p>
+<p>React는 객체의 참조를 비교하여 상태가 변경되었는지 판단합니다.</p>
+<p>만약 상태 객체를 직접 수정하면, React는 변경을 감지하지 못하고 컴포넌트를 리렌더링하지 않을 것입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ObjectStateExample</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Alice&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">25</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">preferences</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">theme</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;dark&#34;</span> },
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">updateTheme</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newTheme</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 잘못된 방법 - 상태를 직접 수정
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// user.preferences.theme = newTheme;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// setUser(user); // 객체 참조가 동일하므로 리렌더링을 유발하지 않음
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 올바른 방법 - 새로운 객체 생성
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">setUser</span>({
+</span></span><span style="display:flex;"><span>      ...<span style="color:#a6e22e">user</span>, <span style="color:#75715e">// 기존 user 객체의 속성을 복사
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">preferences</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        ...<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">preferences</span>, <span style="color:#75715e">// 중첩된 객체도 복사
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">theme</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">newTheme</span>, <span style="color:#75715e">// 원하는 속성만 변경
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      },
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h2 id="usestate-vs-usereducer"><code>useState</code> vs <code>useReducer</code></h2>
+<p>상태 업데이트 로직이 복잡해진다면, <code>useState</code> 대신 <code>useReducer</code>를 고려하는 것이 좋습니다.</p>
+<p><code>useReducer</code>는 상태 업데이트 로직을 컴포넌트 외부로 분리하고, 여러 다른 종류의 액션을 중앙에서 관리할 수 있게 해줍니다.</p>
+<p>일반적으로 다음과 같은 경우에 <code>useReducer</code>가 더 선호됩니다.</p>
+<ul>
+<li>상태들이 서로 의존적일 때</li>
+<li>업데이트 로직이 복잡할 때 (예: 여러 필드를 가진 폼)</li>
+<li>상태를 수정하는 액션의 종류가 많을 때</li>
+</ul>
+<h2 id="성능-최적화-리렌더링-제어하기">성능 최적화: 리렌더링 제어하기</h2>
+<p>상태 업데이트는 리렌더링을 유발하며, 이는 성능에 영향을 줄 수 있습니다.</p>
+<p>React는 선별적으로 사용할 수 있는 몇 가지 최적화 기법을 제공합니다.</p>
+<ul>
+<li><code>React.memo</code>: props가 변경되지 않았다면 컴포넌트의 리렌더링을 방지하는 고차 컴포넌트입니다.</li>
+<li><code>useCallback</code>: 렌더링 사이에 함수를 기억(메모이제이션)합니다.
+<code>React.memo</code>로 감싸진 자식 컴포넌트에 함수를 prop으로 전달할 때 특히 유용합니다.</li>
+<li><code>useMemo</code>: 렌더링 사이에 계산 결과를 기억합니다.
+매 렌더링마다 비싼 값을 재계산하는 것을 피하기 위해 사용됩니다.</li>
+</ul>
+<h3 id="react-19와-컴파일러에-대한-참고-사항">React 19와 컴파일러에 대한 참고 사항</h3>
+<p>React 19에서 도입될 &lsquo;React 컴파일러&rsquo;를 사용하면, 이러한 수동 최적화 중 일부는 이전보다 덜 필요하게 됩니다.</p>
+<p>컴파일러는 <code>React.memo</code>, <code>useMemo</code>, <code>useCallback</code>이 필요했을 많은 경우를 자동으로 감지하고 최적화할 수 있습니다.</p>
+<p>하지만 이러한 API들은 여전히 컴파일러가 자동으로 최적화할 수 없는 복잡한 경우에 유용하게 남을 것입니다.</p>
+<p>일반적인 규칙은, 이러한 최적화 없이 시작하고, 특정한 성능 문제를 식별했을 때만 추가하는 것입니다.</p>
+<h2 id="결론">결론</h2>
+<p><code>useState</code> 훅은 함수형 컴포넌트가 자신만의 상태를 유지하고 관리할 수 있게 해주는, React의 가장 기본적인 도구 중 하나입니다.</p>
+<p>그 명백한 단순함 뒤에는 비동기적 행동과 컴포넌트의 렌더링 주기에 대한 영향과 같은 중요한 미묘함이 숨어 있습니다.</p>
+<p><code>useState</code>를 마스터하려면 다음을 이해해야 합니다.</p>
+<ul>
+<li>비동기적 행동과 함수형 업데이트의 중요성</li>
+<li>복잡한 객체를 다룰 때의 불변성</li>
+<li>클로저 및 업데이트 배치와 관련된 함정</li>
+<li>상태를 여러 변수로 분리할 때와 단일 객체를 사용할 때의 장단점</li>
+<li>메모이제이션을 통한 성능 최적화 방법</li>
+</ul>
+<p><code>useState</code>에 대한 깊은 이해는 <code>useReducer</code>, <code>useContext</code>와 같은 더 고급 훅으로 나아가거나 자신만의 커스텀 훅을 만드는 데 필요한 단단한 기반을 제공할 것입니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

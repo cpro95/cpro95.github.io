@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage) - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage) - cpro95.github.io" />
+<meta name="twitter:description"
+  content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage) - cpro95.github.io">
+<meta property="og:description"
+  content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/" />
+<meta property="og:site_name" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-08 11:51:11 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/">React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Tue, 08 Jul 2025 11:51:11 &#43;0000"
+                    class="no-wrap">
+                    Tue, 08 Jul 2025 11:51:11 &#43;0000</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:30:16 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:30:16 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      2842 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/hello">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      hello
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usesyncexternalstore">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useSyncExternalStore
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/react-18">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React 18
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 관리
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/state-management">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      state management
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/localstorage">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      LocalStorage
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EB%8F%99%EA%B8%B0%ED%99%94">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 동기화
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/react-%ED%9B%85">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React 훅
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="react-18의-숨겨진-보석-usesyncexternalstore-완벽-가이드-feat-localstorage">React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000" alt=""></p>
+<p>React 애플리케이션을 개발하다 보면, 애플리케이션 상태를 외부 데이터 소스와 동기화해야 할 필요가 종종 생깁니다.</p>
+<p>특히 사용자의 테마 설정이나 장바구니 정보처럼, 브라우저 세션 간에 유지되어야 하는 데이터를 &lsquo;LocalStorage&rsquo;에 저장하는 경우가 대표적이죠.</p>
+<p>React 18부터는 이러한 동기화를 원활하게 처리하기 위해 <code>useSyncExternalStore</code>라는 새로운 훅이 도입되었습니다.</p>
+<p>오늘은 이 강력한 훅을 사용하는 구체적인 예제를 통해 그 사용법을 깊이 있게 알아보겠습니다.</p>
+<h2 id="왜-usesyncexternalstore를-사용해야-할까요">왜 <code>useSyncExternalStore</code>를 사용해야 할까요?</h2>
+<p>이 훅의 이름을 직역하면 &lsquo;외부 저장소의 상태를 동기화하는 데 사용한다&rsquo;는 의미입니다.</p>
+<p>여기서 &lsquo;외부 저장소&rsquo;란 React의 상태 관리 시스템 바깥에 있는 모든 데이터 소스를 의미합니다.</p>
+<p>예를 들어, <code>localStorage</code>, <code>sessionStorage</code>, 브라우저의 <code>window.matchMedia</code> API, 심지어 Redux나 Zustand 같은 서드파티 상태 관리 라이브러리의 스토어까지 모두 해당됩니다.</p>
+<h3 id="과거의-문제점-상태-찢어짐state-tearing">과거의 문제점: &lsquo;상태 찢어짐(State Tearing)&rsquo;</h3>
+<p>React 18 이전에는 <code>useState</code>와 <code>useEffect</code>를 조합하여 외부 저장소를 구독하는 방식을 주로 사용했습니다.</p>
+<p>하지만 이 방식은 React 18의 &lsquo;동시성 렌더링(Concurrent Rendering)&rsquo; 환경에서 치명적인 문제를 일으킬 수 있었습니다.</p>
+<p>바로 &lsquo;상태 찢어짐(tearing)&rsquo; 현상입니다.</p>
+<p>동시성 렌더링 환경에서 React는 렌더링을 잠시 멈추거나, 다른 렌더링을 먼저 처리할 수 있습니다.</p>
+<p>이때 외부 저장소의 값이 변경되면, 화면의 일부 컴포넌트는 변경 전의 옛날 값을 보여주고, 다른 일부는 변경 후의 새로운 값을 보여주는 &lsquo;불일치&rsquo; 상태가 발생할 수 있습니다.</p>
+<p>UI가 찢어진 것처럼 보이는 이 현상이 바로 &lsquo;상태 찢어짐&rsquo;입니다.</p>
+<p><code>useSyncExternalStore</code>는 바로 이 문제를 해결하기 위해 탄생했습니다.</p>
+<p>이 훅은 React의 렌더링 과정과 외부 데이터 소스의 동기화를 보장하여, 동시성 환경에서도 항상 일관된 상태를 유지하도록 만듭니다.</p>
+<h2 id="usesyncexternalstore의-세-가지-핵심-인자"><code>useSyncExternalStore</code>의 세 가지 핵심 인자</h2>
+<p>이 훅은 세 개의 인자를 받습니다.</p>
+<p><code>useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)</code></p>
+<ol>
+<li><code>subscribe</code>: 외부 저장소의 &lsquo;변화를 감지&rsquo;하는 방법을 알려주는 함수입니다.
+이 함수는 콜백 함수를 인자로 받아, 저장소에 변화가 생겼을 때 그 콜백을 호출하도록 구독(subscribe) 로직을 구현해야 합니다.
+또한, 구독을 해지하는 함수를 반환해야 합니다.</li>
+<li><code>getSnapshot</code>: 외부 저장소의 &lsquo;현재 값&rsquo;을 가져오는 방법을 알려주는 함수입니다.
+이 함수는 저장소 데이터의 스냅샷을 반환해야 합니다.</li>
+<li><code>getServerSnapshot</code> (선택 사항): 서버 사이드 렌더링(SSR) 시에 사용할 초기 스냅샷을 제공하는 함수입니다.
+클라이언트와 서버의 초기 HTML이 일치하도록 보장하는 역할을 합니다.</li>
+</ol>
+<h2 id="구체적인-예제-localstorage와-테마-동기화하기">구체적인 예제: LocalStorage와 테마 동기화하기</h2>
+<p>이제 사용자가 라이트/다크 테마를 선택하고, 그 선택이 여러 브라우저 탭에 걸쳐 동기화되는 예제를 만들어 보겠습니다.</p>
+<h3 id="1단계-커스텀-훅-usethemestore-만들기">1단계: 커스텀 훅 <code>useThemeStore</code> 만들기</h3>
+<p>가장 먼저 <code>localStorage</code>의 변화를 감지하고 상태를 업데이트하는 로직을 담은 커스텀 훅을 만듭니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// useThemeStore.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useSyncExternalStore</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Theme</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;light&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;dark&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">THEME_STORAGE_KEY</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;app-theme&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;getSnapshot&#34; 역할을 하는 함수: 현재 localStorage의 값을 읽어옵니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getThemeFromLocalStorage</span> <span style="color:#f92672">=</span> ()<span style="color:#f92672">:</span> <span style="color:#a6e22e">Theme</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#a6e22e">THEME_STORAGE_KEY</span>) <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">Theme</span>) <span style="color:#f92672">||</span> <span style="color:#e6db74">&#34;light&#34;</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;subscribe&#34; 역할을 하는 함수: localStorage의 &#39;storage&#39; 이벤트를 구독합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">subscribe</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">callback</span><span style="color:#f92672">:</span> () <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>)<span style="color:#f92672">:</span> (() <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;storage&#34;</span>, <span style="color:#a6e22e">callback</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 구독 해지 함수를 반환합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#34;storage&#34;</span>, <span style="color:#a6e22e">callback</span>);
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 우리의 최종 커스텀 훅
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">useThemeStore</span> <span style="color:#f92672">=</span> ()<span style="color:#f92672">:</span> [<span style="color:#a6e22e">Theme</span>, (<span style="color:#a6e22e">newTheme</span>: <span style="color:#66d9ef">Theme</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>] <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// useSyncExternalStore에 구독 함수와 스냅샷 함수를 전달합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">theme</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSyncExternalStore</span>(<span style="color:#a6e22e">subscribe</span>, <span style="color:#a6e22e">getThemeFromLocalStorage</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">setTheme</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">newTheme</span>: <span style="color:#66d9ef">Theme</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. localStorage에 새로운 테마 값을 저장합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">setItem</span>(<span style="color:#a6e22e">THEME_STORAGE_KEY</span>, <span style="color:#a6e22e">newTheme</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. &#39;storage&#39; 이벤트를 수동으로 발생시킵니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">dispatchEvent</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Event</span>(<span style="color:#e6db74">&#34;storage&#34;</span>));
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> [<span style="color:#a6e22e">theme</span>, <span style="color:#a6e22e">setTheme</span>];
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">useThemeStore</span>;
+</span></span></code></pre></div><p>여기서 가장 중요한 부분들을 자세히 살펴보겠습니다.</p>
+<ul>
+<li><code>getThemeFromLocalStorage</code> 함수는 <code>useSyncExternalStore</code>의 두 번째 인자인 <code>getSnapshot</code>의 역할을 합니다.
+언제나 <code>localStorage</code>에서 최신 값을 읽어오죠.</li>
+<li><code>subscribe</code> 함수는 <code>useSyncExternalStore</code>의 첫 번째 인자입니다.
+브라우저의 <code>storage</code> 이벤트는 다른 탭이나 창에서 <code>localStorage</code>가 변경되었을 때 발생합니다.
+이 이벤트를 구독함으로써 다른 탭의 변경 사항을 감지할 수 있습니다.</li>
+<li><code>setTheme</code> 함수 안의 <code>window.dispatchEvent(new Event(&quot;storage&quot;))</code>는 이 솔루션의 &lsquo;핵심 트릭&rsquo;입니다.
+<code>storage</code> 이벤트는 기본적으로 &lsquo;다른&rsquo; 탭에서의 변경만 감지합니다.
+따라서 현재 탭에서 <code>setTheme</code>을 호출했을 때도 상태가 즉시 업데이트되게 하려면, 이벤트를 수동으로 발생시켜 <code>subscribe</code>의 콜백 함수가 실행되도록 만들어야 합니다.</li>
+</ul>
+<h3 id="2단계-애플리케이션에-훅-적용하기">2단계: 애플리케이션에 훅 적용하기</h3>
+<p>이제 우리가 만든 <code>useThemeStore</code> 훅을 사용하여 애플리케이션을 구성해 보겠습니다.</p>
+<p>이 훅 덕분에 각 컴포넌트는 <code>localStorage</code> 동기화의 복잡한 내부 로직을 전혀 알 필요 없이, 마치 일반적인 <code>useState</code>처럼 상태를 사용할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// App.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">React</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Header</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./Header&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ThemeToggler</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./ThemeToggler&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Footer</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./Footer&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">useThemeStore</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./useThemeStore&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">styled</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;styled-components&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">AppContainer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">styled</span>.<span style="color:#a6e22e">div</span><span style="color:#f92672">&lt;</span>{ <span style="color:#a6e22e">themeType</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;light&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;dark&#34;</span> }<span style="color:#f92672">&gt;</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  min-height: 100vh;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  background-color: </span><span style="color:#e6db74">${</span>({ <span style="color:#a6e22e">themeType</span> <span style="color:#e6db74">}</span><span style="color:#e6db74">) =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    themeType === &#34;light&#34; ? &#34;#ffffff&#34; : &#34;#333333&#34;};
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  color: </span><span style="color:#e6db74">${</span>({ <span style="color:#a6e22e">themeType</span> <span style="color:#e6db74">}</span><span style="color:#e6db74">) =&gt; (themeType === &#34;light&#34; ? &#34;#000000&#34; : &#34;#ffffff&#34;)};
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  // ... 기타 스타일
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">App</span>: <span style="color:#66d9ef">React.FC</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">theme</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useThemeStore</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">AppContainer</span> <span style="color:#a6e22e">themeType</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">theme</span>}&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Header</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">ThemeToggler</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Footer</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">AppContainer</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">App</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// ThemeToggler.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">React</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">useThemeStore</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./useThemeStore&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ThemeToggler</span>: <span style="color:#66d9ef">React.FC</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">theme</span>, <span style="color:#a6e22e">setTheme</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useThemeStore</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">toggleTheme</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setTheme</span>(<span style="color:#a6e22e">theme</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;light&#34;</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;dark&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;light&#34;</span>);
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">toggleTheme</span>}&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Switch</span> <span style="color:#a6e22e">to</span> {<span style="color:#a6e22e">theme</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;light&#34;</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Dark&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Light&#34;</span>} <span style="color:#a6e22e">Theme</span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">ThemeToggler</span>;
+</span></span></code></pre></div><p>이제 애플리케이션을 두 개의 브라우저 탭에서 열어 보세요.</p>
+<p>한쪽 탭에서 테마 변경 버튼을 누르면, 다른 쪽 탭의 테마도 즉시 함께 변경되는 마법 같은 경험을 할 수 있습니다.</p>
+<h2 id="usesyncexternalstore의-다른-활용-사례"><code>useSyncExternalStore</code>의 다른 활용 사례</h2>
+<p>이 훅의 활용 가능성은 무궁무진합니다.</p>
+<ul>
+<li>&lsquo;로그인 상태 동기화&rsquo;: 한 탭에서 사용자가 로그아웃하면, 다른 모든 탭에서도 자동으로 로그아웃 상태가 반영되도록 할 수 있습니다.</li>
+<li>&lsquo;장바구니 동기화&rsquo;: 이커머스 사이트에서 한 탭에 상품을 담으면, 다른 탭의 장바구니 아이콘에도 즉시 상품 개수가 업데이트됩니다.</li>
+<li>&lsquo;실시간 데이터 동기화&rsquo;: WebSocket을 통해 들어오는 실시간 데이터를 모든 컴포넌트에서 일관되게 보여줄 수 있습니다.</li>
+<li>&lsquo;전역 알림 관리&rsquo;: 애플리케이션 전체에 걸쳐 표시되는 알림 상태를 동기화할 수 있습니다.</li>
+</ul>
+<h2 id="결론">결론</h2>
+<p><code>useSyncExternalStore</code>는 React 애플리케이션의 상태를 <code>localStorage</code>와 같은 외부 데이터 소스와 동기화하기 위한 강력하고 공식적인 도구입니다.</p>
+<p>이 훅을 사용하면 &lsquo;상태 찢어짐&rsquo;과 같은 복잡한 동시성 문제를 피하면서, 여러 컴포넌트나 여러 브라우저 인스턴스에 걸쳐 공유되는 데이터를 안전하고 일관되게 처리할 수 있습니다.</p>
+<p>이제 외부 상태와 React를 동기화해야 할 때, 더 이상 복잡한 <code>useEffect</code> 로직으로 고민하지 마세요.</p>
+<p><code>useSyncExternalStore</code>가 여러분에게 우아하고 안정적인 해결책을 제공할 것입니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

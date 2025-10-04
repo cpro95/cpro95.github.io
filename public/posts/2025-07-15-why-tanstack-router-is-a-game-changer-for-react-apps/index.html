@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>왜 TanStack Router는 리액트 개발의 판도를 바꾸는가? - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="기존 리액트 라우터의 한계를 넘어, 완전한 타입 안정성과 뛰어난 개발 경험(DX)을 제공하는 TanStack Router의 핵심 기능들을 깊이 있게 분석합니다. 이 글을 통해 왜 TanStack Router가 차세대 웹 애플리케이션의 필수 선택지가 되어가고 있는지 확인하세요." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="왜 TanStack Router는 리액트 개발의 판도를 바꾸는가? - cpro95.github.io" />
+<meta name="twitter:description"
+  content="기존 리액트 라우터의 한계를 넘어, 완전한 타입 안정성과 뛰어난 개발 경험(DX)을 제공하는 TanStack Router의 핵심 기능들을 깊이 있게 분석합니다. 이 글을 통해 왜 TanStack Router가 차세대 웹 애플리케이션의 필수 선택지가 되어가고 있는지 확인하세요." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="왜 TanStack Router는 리액트 개발의 판도를 바꾸는가? - cpro95.github.io">
+<meta property="og:description"
+  content="기존 리액트 라우터의 한계를 넘어, 완전한 타입 안정성과 뛰어난 개발 경험(DX)을 제공하는 TanStack Router의 핵심 기능들을 깊이 있게 분석합니다. 이 글을 통해 왜 TanStack Router가 차세대 웹 애플리케이션의 필수 선택지가 되어가고 있는지 확인하세요." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/" />
+<meta property="og:site_name" content="왜 TanStack Router는 리액트 개발의 판도를 바꾸는가?" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-16 21:59:21 &#43;0900 KST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/">왜 TanStack Router는 리액트 개발의 판도를 바꾸는가?</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Wed, 16 Jul 2025 21:59:21 &#43;0900"
+                    class="no-wrap">
+                    Wed, 16 Jul 2025 21:59:21 &#43;0900</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:57:17 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:57:17 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      3120 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/tanstack-router">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      TanStack Router
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      리액트
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      타입스크립트
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%9D%BC%EC%9A%B0%ED%84%B0">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      라우터
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%ED%83%80%EC%9E%85-%EC%95%88%EC%A0%95%EC%84%B1">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      타입 안정성
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/typescript">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      TypeScript
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/router">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Router
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/type-safety">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Type-Safety
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/tanstack-query">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      TanStack Query
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 관리
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%ED%8C%8C%EC%9D%BC-%EA%B8%B0%EB%B0%98-%EB%9D%BC%EC%9A%B0%ED%8C%85">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      파일 기반 라우팅
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/dx">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      DX
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EA%B2%BD%ED%97%98">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      개발자 경험
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="왜-tanstack-router는-리액트-개발의-판도를-바꾸는가">왜 TanStack Router는 리액트 개발의 판도를 바꾸는가?</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEidjHhbi-YXQlslzNKNuzT4g9k0nolw_oabiO6CySVzJ2LWS3nHgZovp4ILGqeznMZ2yc2zxYeNm7cehj1jIfb_Mq52H_vJX4kOHHV81F1IefAEa7BPcnsVvToCB0O3oRy0P8PvFg1dsn7UR4Ykl3CL-lqVlBSMUiBaL1XqJt4EZ4pOqmmYnGuebDPBsyI" alt=""></p>
+<p>웹 애플리케이션을 구축할 때 &lsquo;라우터&rsquo;를 선택하는 것은 가장 중요한 아키텍처 결정 중 하나입니다.</p>
+<p>라우터는 단순히 <code>node_modules</code>에 있는 또 하나의 의존성이 아닙니다.</p>
+<p>애플리케이션 전체를 하나로 묶어주는 뼈대와도 같습니다.</p>
+<p>사용자가 페이지를 오갈 때 훌륭한 경험을 제공해야 함은 물론, 개발자가 수많은 라우트를 추가하면서도 제정신을 유지할 수 있도록 멋진 개발 경험(DX)을 제공해야 이상적이죠.</p>
+<p>기존 라우터들은 저마다 장점이 있었지만, &lsquo;모든 것을 가질 수 있다&rsquo;는 느낌을 주지는 못했습니다.</p>
+<p>타입 안정성이 아쉽거나, URL 상태 관리가 번거롭거나, 불필요한 리렌더링으로 성능 저하를 감수해야 하는 경우가 많았죠.</p>
+<p>하지만 최근 v1을 출시한 <strong>TanStack Router</strong>는 이 모든 고민을 해결할 완벽한 대안으로 떠올랐습니다.</p>
+<p>이 글에서는 TanStack Router가 다른 라우터들과 차별화되는 핵심적인 기능들을 깊이 있게 파헤쳐 보고, 왜 이것이 당신의 다음 프로젝트의 &lsquo;게임 체인저&rsquo;가 될 수밖에 없는지 보여드리겠습니다.</p>
+<h3 id="1-지긋지긋한-any와의-작별-압도적인-타입-안정성">1. 지긋지긋한 <code>any</code>와의 작별: 압도적인 타입 안정성</h3>
+<p>기존 라우터들의 타입 지원은 마치 나중에 덧붙인 것처럼 어설픈 경우가 많았습니다.</p>
+<ul>
+<li><code>useParams</code> 훅은 <code>Record&lt;string, string | undefined&gt;</code>를 반환하며 &ldquo;나머지는 알아서 하세요&quot;라고 말하는 듯합니다.</li>
+<li><code>&lt;Link&gt;</code> 컴포넌트는 <code>to</code> 프롭으로 어떤 <code>string</code>이든 받습니다. <code>/issues/${issueId}</code> 같은 URL이 유효한지, <code>issueId</code>가 제대로 전달되었는지는 오롯이 개발자의 책임이었습니다.</li>
+</ul>
+<p>이는 TypeScript가 대중화되기 전, 순수 JavaScript 시절의 유산처럼 느껴집니다.</p>
+<p>하지만 <strong>TanStack Router는 태생부터 TypeScript와 함께하기 위해 설계되었습니다.</strong></p>
+<p>모든 기능이 완벽하게 추론되는 타입 안정성을 염두에 두고 만들어졌죠.</p>
+<p><strong>- 똑똑해진 <code>useParams</code></strong></p>
+<p>TanStack Router의 <code>useParams</code>는 현재 어떤 라우트에 있는지 명확하게 알려줘야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// 1. 가장 이상적인 사용법: &#39;from&#39;으로 출처 명시
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">issueId</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useParams</span>({ <span style="color:#66d9ef">from</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/issues/$issueId&#34;</span> });
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//      ^? 타입: const issueId: string
+</span></span></span></code></pre></div><p><code>from</code>에 전달하는 경로는 모든 라우트의 유니온 타입으로 자동 완성되기 때문에 잘못 쓸 염려가 없습니다.</p>
+<p><code>issueId</code>는 <code>string</code> 타입으로 완벽하게 추론되며, 만약 다른 라우트에서 이 컴포넌트를 잘못 사용하면 런타임 에러가 발생하여 실수를 즉시 바로잡을 수 있습니다.</p>
+<p>재사용 가능한 컴포넌트를 만들고 싶다면 <code>strict: false</code> 옵션을 주면 됩니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// 2. 재사용 컴포넌트를 위한 방법: &#39;strict: false&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useParams</span>({ <span style="color:#a6e22e">strict</span>: <span style="color:#66d9ef">false</span> });
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//    ^? 타입: const params: {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//           issueId: string | undefined,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//           dashboardId: number | undefined
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//       }
+</span></span></span></code></pre></div><p>이 방식은 런타임 에러를 발생시키지 않으면서, 라우터가 아는 모든 경로 파라미터의 유니온 타입을 반환합니다.</p>
+<p><code>issueId</code>나 <code>dashboardId</code>가 존재할 수도, 아닐 수도 있다는 사실을 타입으로 명확히 알려줍니다.</p>
+<p>이보다 더 안전할 수 있을까요?</p>
+<p><strong>- 실수를 허용하지 않는 <code>&lt;Link&gt;</code> 컴포넌트</strong></p>
+<p><code>&lt;Link&gt;</code> 컴포넌트 역시 마찬가지입니다.</p>
+<p>라우터가 모든 경로를 알고 있기 때문에, <code>to</code>와 <code>params</code>를 잘못 전달하면 즉시 타입 에러를 띄워줍니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">Link</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/issues/$issueId&#34;</span> <span style="color:#a6e22e">params</span><span style="color:#f92672">=</span>{{ <span style="color:#a6e22e">issueId</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;TSR-25&#34;</span> }}&gt;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Go</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">details</span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">Link</span>&gt;
+</span></span></code></pre></div><p>위 코드에서 <code>issueId</code>를 빼먹거나, 다른 이름의 <code>id</code>를 전달하거나, <code>string</code>이 아닌 값을 주거나, 존재하지 않는 URL로 이동하려고 하면 TypeScript가 즉시 당신을 막아줄 것입니다.</p>
+<h3 id="2-url-검색-파라미터-이제는-검증의-시대">2. URL 검색 파라미터, 이제는 검증의 시대</h3>
+<p>URL의 검색 파라미터(<code>?page=1&amp;filter=open</code>)는 사용자가 직접 수정할 수 있기 때문에 신뢰할 수 없는 값으로 취급해야 합니다.</p>
+<p>그래서 항상 유효성 검사가 필요했죠.</p>
+<p>그런데, &ldquo;라우터가 검색 파라미터를 검증해주면 안 되나?&ldquo;라는 합리적인 의문이 듭니다.</p>
+<p><strong>TanStack Router는 바로 그 일을 합니다.</strong></p>
+<p>라우트 정의에서 직접 검색 파라미터의 유효성을 검사할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// routes/issues.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">createFileRoute</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@tanstack/react-router&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">z</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;zod&#34;</span>; <span style="color:#75715e">// Zod나 ArkType, Valibot 등 사용 가능
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1. 검색 파라미터 스키마 정의
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">issuesSearchSchema</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">z</span>.<span style="color:#66d9ef">object</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">page</span>: <span style="color:#66d9ef">z.number</span>().<span style="color:#a6e22e">min</span>(<span style="color:#ae81ff">1</span>).<span style="color:#66d9ef">default</span>(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>: <span style="color:#66d9ef">z.string</span>().<span style="color:#a6e22e">optional</span>().<span style="color:#66d9ef">default</span>(<span style="color:#e6db74">&#34;&#34;</span>),
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 라우트 정의 시 스키마를 이용해 유효성 검사
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Route</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createFileRoute</span>(<span style="color:#e6db74">&#34;/issues&#34;</span>)({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">validateSearch</span>: <span style="color:#66d9ef">issuesSearchSchema</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>이제 <code>useSearch({ from: '/issues' })</code>를 호출하면, 반환되는 값은 완벽하게 검증되고 타입이 지정된 객체입니다.</p>
+<p><code>page</code>는 기본값이 1인 숫자, <code>filter</code>는 기본값이 빈 문자열인 선택적 문자열이 되죠.</p>
+<p>라우터가 파싱과 직렬화까지 알아서 처리해주니 개발자는 비즈니스 로직에만 집중할 수 있습니다.</p>
+<h3 id="3-불필요한-리렌더링을-막는-정밀한-상태-구독-selectors">3. 불필요한 리렌더링을 막는 정밀한 상태 구독 (Selectors)</h3>
+<p>기존 라우터에서는 URL이 조금만 바뀌어도 해당 URL을 구독하는 모든 컴포넌트가 리렌더링되는 문제가 있었습니다.</p>
+<p>예를 들어, 테이블 필터 값이 URL에 저장된 페이지에서 특정 행을 클릭해 다이얼로그(서브 라우트)를 열면, URL이 바뀌면서 거대한 테이블 컴포넌트까지 불필요하게 리렌더링되는 것이죠.</p>
+<p>이는 마치 Redux나 Zustand 같은 상태 관리 라이브러리가 필요한 이유와 같습니다.</p>
+<p>거대한 상태의 일부만 구독하여, 내가 관심 있는 값이 바뀔 때만 리렌더링하는 것이죠.</p>
+<p>TanStack Router는 바로 이 &lsquo;셀렉터(selector)&rsquo; 기능을 내장하고 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSearch</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">from</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/issues&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>: <span style="color:#66d9ef">search</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">search</span>.<span style="color:#a6e22e">page</span>, <span style="color:#75715e">// 전체 search 객체가 아닌 &#39;page&#39;만 구독
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>});
+</span></span></code></pre></div><p><code>select</code> 옵션을 사용하면 <code>search</code> 객체 전체가 아닌 <code>search.page</code> 값의 변경에만 반응하여 컴포넌트가 리렌더링됩니다.</p>
+<p>이는 <code>useParams</code>, <code>useLoaderData</code> 등 다양한 훅에서 지원되며, 복잡한 페이지에서 극적인 성능 최적화를 이끌어냅니다.</p>
+<h3 id="4-라우팅-패러다임의-진화-파일-기반-라우팅">4. 라우팅 패러다임의 진화: 파일 기반 라우팅</h3>
+<ul>
+<li><strong>1세대 (선언적 라우팅):</strong> <code>&lt;Route&gt;</code> 컴포넌트를 JSX 안에 흩뿌려 놓는 방식은 유지보수의 악몽이었습니다. 특정 URL이 어떤 컴포넌트 트리 깊숙한 곳에서 정의되었는지 찾기 어려웠죠.</li>
+<li><strong>2세대 (코드 기반 라우팅):</strong> 모든 라우트 정의를 하나의 설정 객체로 모으는 방식은 타입 안정성을 확보하는 데 큰 도움이 되었습니다.</li>
+<li><strong>3세대 (파일 기반 라우팅):</strong> TanStack Router는 여기서 한 걸음 더 나아갑니다. 라우트 설정을 파일 시스템 구조로 옮겨버리는 것이죠.</li>
+</ul>
+<p><code>src/routes/issues/$issueId.tsx</code> 라는 파일 구조는 그 자체로 <code>issues/:issueId</code> 경로를 의미합니다.</p>
+<p>이는 버그 리포트에서 본 URL을 코드와 즉시 매핑할 수 있는 가장 빠른 방법이며, 라우트 기반 코드 분할(Code Splitting)을 자동으로 구현하는 최고의 방법이기도 합니다.</p>
+<p>물론, 원한다면 전통적인 코드 기반 라우팅도 완벽하게 지원합니다.</p>
+<h3 id="5-데이터-로딩과의-완벽한-통합-feat-suspense">5. 데이터 로딩과의 완벽한 통합 (feat. Suspense)</h3>
+<p>TanStack Router는 React Suspense 및 ErrorBoundary와 완벽하게 통합됩니다.</p>
+<p>모든 라우트는 기본적으로 <code>&lt;Suspense&gt;</code>와 <code>&lt;ErrorBoundary&gt;</code>로 감싸져 있죠.</p>
+<p>여기에 TanStack Query를 결합하면 놀라운 시너지가 발생합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// routes/issues/$issueId.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Route</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createFileRoute</span>(<span style="color:#e6db74">&#34;/issues/$issueId&#34;</span>)({
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 컴포넌트가 렌더링되기 전에 데이터를 미리 가져옴
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> ({ <span style="color:#a6e22e">context</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">queryClient</span> }, <span style="color:#a6e22e">params</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">issueId</span> } }) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">queryClient</span>.<span style="color:#a6e22e">prefetchQuery</span>(<span style="color:#a6e22e">issueQueryOptions</span>(<span style="color:#a6e22e">issueId</span>));
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">component</span>: <span style="color:#66d9ef">IssueComponent</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">IssueComponent() {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">issueId</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">Route</span>.<span style="color:#a6e22e">useParams</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// useSuspenseQuery를 사용하면 데이터가 항상 존재함을 보장받음
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">data</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSuspenseQuery</span>(<span style="color:#a6e22e">issueQueryOptions</span>(<span style="color:#a6e22e">issueId</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//      ^? 타입: const data: Issue (undefined가 아님!)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 이제 로딩, 에러 상태 처리 없이 &#39;happy path&#39; 렌더링에만 집중!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">div</span>&gt;{<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">title</span>}&lt;/<span style="color:#f92672">div</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>loader</code>에서 데이터를 미리 가져오고, 컴포넌트에서는 <code>useSuspenseQuery</code>를 사용해 데이터가 보장된 상태로 렌더링에만 집중할 수 있습니다.</p>
+<p>로딩과 에러 상태는 라우터가 상위 경계(Boundary)에서 알아서 처리해줍니다.</p>
+<h3 id="한번-빠지면-헤어나올-수-없는-매력">한번 빠지면 헤어나올 수 없는 매력</h3>
+<p>TanStack Router를 한번 경험하고 나면, 다른 라우팅 솔루션으로 돌아가기 어려워집니다.</p>
+<p>그만큼 압도적인 타입 안정성과 개발자 경험에 중독되기 때문입니다.</p>
+<p>이 글에서는 라우트 컨텍스트, 중첩 라우트, SSR 프레임워크인 TanStack Start 등 더 많은 기능을 다루지 못했지만, 오늘 소개한 핵심 기능들만으로도 TanStack Router가 얼마나 강력한 도구인지 충분히 느끼셨을 겁니다.</p>
+<p>TanStack Router는 단순한 라이브러리를 넘어, 우리가 웹 애플리케이션을 생각하고 구축하는 방식을 바꾸고 있습니다.</p>
+<p>그들이 보여준 디테일, DX, 타입 안정성에 대한 집념은 모든 개발자에게 큰 영감을 줍니다.</p>
+<p>당신의 생산성을 한 단계 끌어올리고 싶다면, 다음 프로젝트에서는 망설이지 말고 TanStack Router를 선택하세요.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

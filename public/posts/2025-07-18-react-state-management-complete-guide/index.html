@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>React 상태 관리 완벽 가이드 useState부터 TanStack Query까지 - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="React의 상태 관리 기법을 useState, useReducer, Context API부터 Zustand, TanStack Query와 같은 최신 라이브러리까지 종합적으로 다룹니다. 클라이언트 상태와 서버 상태를 구분하여 올바른 도구를 선택하는 방법을 배워보세요." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-18-react-state-management-complete-guide/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="React 상태 관리 완벽 가이드 useState부터 TanStack Query까지 - cpro95.github.io" />
+<meta name="twitter:description"
+  content="React의 상태 관리 기법을 useState, useReducer, Context API부터 Zustand, TanStack Query와 같은 최신 라이브러리까지 종합적으로 다룹니다. 클라이언트 상태와 서버 상태를 구분하여 올바른 도구를 선택하는 방법을 배워보세요." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="React 상태 관리 완벽 가이드 useState부터 TanStack Query까지 - cpro95.github.io">
+<meta property="og:description"
+  content="React의 상태 관리 기법을 useState, useReducer, Context API부터 Zustand, TanStack Query와 같은 최신 라이브러리까지 종합적으로 다룹니다. 클라이언트 상태와 서버 상태를 구분하여 올바른 도구를 선택하는 방법을 배워보세요." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-18-react-state-management-complete-guide/" />
+<meta property="og:site_name" content="React 상태 관리 완벽 가이드 useState부터 TanStack Query까지" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-19 11:51:54 &#43;0900 KST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-18-react-state-management-complete-guide/">React 상태 관리 완벽 가이드 useState부터 TanStack Query까지</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sat, 19 Jul 2025 11:51:54 &#43;0900"
+                    class="no-wrap">
+                    Sat, 19 Jul 2025 11:51:54 &#43;0900</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 21:06:59 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 21:06:59 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      6622 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      상태 관리
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usestate">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useState
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usereducer">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useReducer
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/context-api">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Context API
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/zustand">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Zustand
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="react-상태-관리-완벽-가이드-usestate부터-tanstack-query까지">React 상태 관리 완벽 가이드 useState부터 TanStack Query까지</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEjHpxcMaGK3Udm-7LoJA8WPJwR2HIBauIJq1tirJK-dIgP6jaOuIqZu9laHAM31nl-yB6mBvyNesCjRFZixK90nGWpEbmD4YHV_WyM8r_yRKUTWakaxJbhvfsmvUHLRx3Kyfgv23yiy4jV_ajjiWlmeRgUu3yYb7CfFIfbc3RCNSRYHNFbQwu3rmK3pLG4=s16000" alt=""></p>
+<p>React 애플리케이션을 개발하고 있다면, 거의 확실하게 어디에선가 &lsquo;상태&rsquo;를 관리하고 있을 겁니다.</p>
+<p>상태(state)는 의외로 정의하기는 어렵지만, 예시를 통해 이해하기는 훨씬 쉽습니다.</p>
+<p>가령 입력창은 현재 입력된 값을 상태로 가지고, 폼(form)은 그 안에 있는 모든 입력 값들을 상태로 가집니다.</p>
+<p>더 나아가 하나의 애플리케이션은 그 앱을 렌더링하고 운영하는 데 필요한 모든 데이터를 상태라고 할 수 있습니다.</p>
+<p>이것들은 상태에 대한 개념적인 예시인데요.React 컴포넌트 자체도 고유한 상태를 가지며, 종종 props를 통해 자식 컴포넌트에게 상태를 전달하기도 합니다.</p>
+<p>이번 포스트에서는 프론트엔드에서 관리되는 상태, 즉 &lsquo;클라이언트 상태&rsquo;를 관리하는 일반적인 방법들을 살펴보겠습니다.</p>
+<p>언제 어떤 패턴을 사용해야 하는지, 그리고 몇 가지 예시 코드와 함께 자세히 알아보겠습니다.</p>
+<p>서버 상태나 비동기 상태 관리는 후속 포스트에서 다룰 예정이었지만, 이 글의 마지막 부분에서 중요한 개념을 짚고 넘어가겠습니다.</p>
+<h2 id="1부-기본기-다지기">1부 기본기 다지기</h2>
+<p>가장 기본적인 상태 관리 도구는 역시 React에 내장된 훅(hook)입니다.</p>
+<h3 id="가장-기본적인-원시-값-관리-usestate">가장 기본적인 원시 값 관리 useState</h3>
+<p>상태 관리를 시작하기 위한 가장 간단한 도구는 바로 <code>useState</code>입니다.</p>
+<p><code>useState</code>는 단일 값을 관리하는 React 훅으로, 현재 값과 그 값을 업데이트하는 함수를 배열 형태로 반환합니다.</p>
+<p><code>useState</code>는 상태가 최대 몇 개의 컴포넌트 내에서만 사용되는 단순한 경우에 빛을 발합니다.</p>
+<p>Mantine의 메뉴 예시를 살펴보겠습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Demo</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">opened</span>, <span style="color:#a6e22e">setOpened</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">setOpened</span>(<span style="color:#66d9ef">true</span>)}<span style="color:#f92672">&gt;</span><span style="color:#a6e22e">메뉴</span> <span style="color:#a6e22e">열기</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/button&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">Menu</span> <span style="color:#a6e22e">opened</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">opened</span>} <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setOpened</span>}<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        {<span style="color:#75715e">/* 메뉴 콘텐츠 */</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/Menu&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>버튼을 클릭하면 <code>opened</code>가 <code>true</code>로 설정되고 메뉴가 열립니다.</p>
+<p>이보다 더 쉬울 수는 없지만, 상황이 조금 더 복잡해지기 시작하면 어떨지 살펴보겠습니다.</p>
+<h3 id="복잡한-상태-업데이트와-usereducer">복잡한 상태 업데이트와 useReducer</h3>
+<p>물론 불리언(boolean) 값만으로 애플리케이션을 만들 수는 없습니다.</p>
+<p>분명 더 복잡한 상호작용과 이를 위한 복잡한 데이터 구조가 필요해질 겁니다.</p>
+<p>복잡성을 한 단계 높여서, 우리가 부동산 앱의 주택 검색 필터를 만들고 있다고 상상해 보겠습니다.</p>
+<p>이 전체 폼은 궁극적으로 백엔드에 전송될 하나의 쿼리(query) 객체를 생성하기 위해 설계되었습니다.</p>
+<p>단순화된 쿼리 객체의 모습은 다음과 같을 겁니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Query</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">zipCode?</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">minPrice?</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">maxPrice?</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">homeTypes?</span>: <span style="color:#66d9ef">string</span>[];
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">requiredFeatures</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">hasFireplace?</span>: <span style="color:#66d9ef">boolean</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">hasWasherDryler?</span>: <span style="color:#66d9ef">boolean</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  };
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ... 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>이제 이 필드들을 각각 관리하는 여러 컴포넌트를 만들어야 합니다.</p>
+<p>가장 순진한 접근 방식은 <code>useState</code>를 사용하는 것입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">HomeBuyingFilters</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">query</span>, <span style="color:#a6e22e">setQuery</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#a6e22e">getDefaultFilterQuery</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// TODO: 쿼리에 대한 데이터 가져오기
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">ZipCodeFilter</span> <span style="color:#a6e22e">query</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>} <span style="color:#a6e22e">setQuery</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setQuery</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">PriceFilter</span> <span style="color:#a6e22e">query</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>} <span style="color:#a6e22e">setQuery</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setQuery</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">HomeTypesFilter</span> <span style="color:#a6e22e">query</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>} <span style="color:#a6e22e">setQuery</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setQuery</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">RequiredFeaturesFilter</span> <span style="color:#a6e22e">query</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>} <span style="color:#a6e22e">setQuery</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setQuery</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">ResetAllFiltersButton</span> <span style="color:#a6e22e">setQuery</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setQuery</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/div&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>각 필터 컴포넌트는 <code>query</code> 객체에서 자신에게 필요한 부분을 가져와 <code>setQuery</code>로 원하는 변경을 가할 수 있습니다.</p>
+<p>이 방식이 끔찍한 것은 아니지만, 각 컴포넌트가 필요하지도 않은 전체 <code>query</code> 객체를 전달받는 것은 조금 어색하게 느껴집니다.</p>
+<p>더 나쁜 것은 디버깅이 고통스러워질 수 있다는 점입니다.</p>
+<p>만약 &lsquo;우편번호가 가끔 무작위로 초기화돼요&rsquo; 같은 버그를 추적해야 한다면, 어디서부터 확인해야 할지 막막할 겁니다.</p>
+<p><code>setQuery</code>를 호출하는 모든 곳이 잠재적인 용의자이기 때문입니다.</p>
+<p>그래서 우리는 각 상태 변경에 대한 전용 함수를 만드는 멋진 아이디어를 떠올립니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">HomeBuyingFilters</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">query</span>, <span style="color:#a6e22e">setQuery</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#a6e22e">getDefaultFilterQuery</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">setZipCode</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">zipCode</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setQuery</span>(<span style="color:#a6e22e">currentQuery</span> =&gt; ({ ...<span style="color:#a6e22e">currentQuery</span>, <span style="color:#a6e22e">zipCode</span> }));
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">setMinPrice</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">minPrice</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setQuery</span>(<span style="color:#a6e22e">currentQuery</span> =&gt; ({ ...<span style="color:#a6e22e">currentQuery</span>, <span style="color:#a6e22e">minPrice</span> }));
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">ZipCodeFilter</span> <span style="color:#a6e22e">zipCode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">zipCode</span>} <span style="color:#a6e22e">setZipCode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setZipCode</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">PriceFilter</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">minPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">minPrice</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">maxPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">maxPrice</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setMinPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setMinPrice</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setMaxPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setMaxPrice</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      {<span style="color:#75715e">/* ... 등등 */</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/div&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>이 방식은 <code>zipCode</code>에 대한 모든 변경이 <code>HomeBuyingFilters</code> 컴포넌트 내에 정의된 함수에 포함되어 있어 추적이 훨씬 쉬워진다는 장점이 있습니다.</p>
+<p><code>ZipCodeFilter</code> 컴포넌트도 이제 전체 <code>query</code> 객체 대신 <code>zipCode</code>와 <code>setZipCode</code>만 알면 됩니다.</p>
+<p>하지만 해결하면 좋을 두 가지 단점이 여전히 남아있습니다.</p>
+<p>하나는 상태 업데이트 로직을 특정 컴포넌트 안에 모두 몰아넣는 것이 어색하다는 점이고, 다른 하나는 새로운 업데이트 함수를 만들 때마다 필요한 컴포넌트에 prop을 계속 연결해줘야 한다는 점입니다.</p>
+<p>바로 이 지점에서 <code>useReducer</code>가 유용하게 사용될 수 있습니다.</p>
+<h3 id="usereducer-예제">useReducer 예제</h3>
+<p><code>useReducer</code>는 크게 세 가지 요소로 생각할 수 있습니다.</p>
+<p>첫째는 &lsquo;상태(state)&lsquo;입니다.</p>
+<p>우리 예시에서는 <code>Query</code> 타입이 해당됩니다.</p>
+<p>둘째는 &lsquo;액션(action)&lsquo;입니다.</p>
+<p>우리 예시에서는 <code>setZipCode</code>나 <code>setMinPrice</code> 같은 &lsquo;상태에 영향을 줄 수 있는 행위&rsquo;를 의미합니다.</p>
+<p>셋째는 &lsquo;리듀서(reducer)&lsquo;입니다.</p>
+<p>이는 상태와 액션을 입력받아 업데이트된 새로운 상태를 반환하는 순수 함수입니다.</p>
+<p>위 예시를 <code>useReducer</code>를 사용해 다시 작성해 보겠습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// queryState.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 액션 타입을 enum으로 관리하면 편리합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">QueryActionType</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">SET_ZIP_CODE</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;SET_ZIP_CODE&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">SET_MIN_PRICE</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;SET_MIN_PRICE&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 액션은 상태 변경에 대한 &#39;설명&#39;입니다. 타입 외에 데이터도 필요합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">QueryAction</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">QueryActionType</span>.<span style="color:#a6e22e">SET_ZIP_CODE</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">payload</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">QueryActionType</span>.<span style="color:#a6e22e">SET_MIN_PRICE</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">payload</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">undefined</span>;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 리듀서는 액션을 적용한 후의 최신 상태를 반환합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 반드시 새로운 객체를 생성해야 하며, 기존 상태(query)를 직접 수정해서는 안 됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">queryStateReducer</span>(<span style="color:#a6e22e">query</span>: <span style="color:#66d9ef">Query</span>, <span style="color:#a6e22e">action</span>: <span style="color:#66d9ef">QueryAction</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Query</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">switch</span> (<span style="color:#a6e22e">action</span>.<span style="color:#66d9ef">type</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">QueryActionType.SET_ZIP_CODE</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { ...<span style="color:#a6e22e">query</span>, <span style="color:#a6e22e">zipCode</span>: <span style="color:#66d9ef">action.payload</span> };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">QueryActionType.SET_MIN_PRICE</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { ...<span style="color:#a6e22e">query</span>, <span style="color:#a6e22e">minPrice</span>: <span style="color:#66d9ef">action.payload</span> };
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이제 이 로직을 <code>useReducer</code>로 필터 컴포넌트에 연결할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">HomeBuyingFilters</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">query</span>, <span style="color:#a6e22e">dispatch</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useReducer</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">queryStateReducer</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getDefaultFilterQuery</span>()
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">ZipCodeFilter</span> <span style="color:#a6e22e">zipCode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">zipCode</span>} <span style="color:#a6e22e">dispatch</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">dispatch</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">PriceFilter</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">minPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">minPrice</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">maxPrice</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">maxPrice</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">dispatch</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">dispatch</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      {<span style="color:#75715e">/* 등등 */</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/div&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>마지막으로, 각 자식 컴포넌트에서 <code>dispatch</code> 함수를 호출합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ZipCodeFilter</span> <span style="color:#f92672">=</span> ({ <span style="color:#a6e22e">zipCode</span>, <span style="color:#a6e22e">dispatch</span> }) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">setZipCode</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newZipCode</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// dispatch는 우리가 정의한 &#39;액션&#39; 객체를 인자로 받습니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 이 액션은 리듀서에 정의된 로직에 따라 상태를 자동으로 업데이트합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dispatch</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">QueryActionType</span>.<span style="color:#a6e22e">SET_ZIP_CODE</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">payload</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">newZipCode</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 나머지 로직
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>이 구조의 멋진 점은 <code>ZipCodeFilter</code>가 &lsquo;나는 SET_ZIP_CODE 액션을 발생시킨다&rsquo;라고 명시적으로 선언한다는 것입니다.</p>
+<p>만약 <code>CLEAR_ZIP_CODE</code>라는 새로운 액션을 추가하고 싶다면, 컴포넌트의 props를 변경할 필요가 없습니다.</p>
+<p>그저 새로운 액션 타입을 추가하고, 리듀서에 해당 액션이 상태를 어떻게 변경하는지 정의하기만 하면 됩니다.</p>
+<p>그러면 어떤 컴포넌트에서든 <code>CLEAR_ZIP_CODE</code> 액션을 발생시킬 수 있습니다.</p>
+<p><code>useReducer</code>는 액션 하나가 상태에 복잡한 연산을 수행해야 할 때 특히 빛을 발합니다.</p>
+<p>컴포넌트는 상태 업데이트 로직 자체를 신경 쓸 필요 없이, 그저 액션을 발생시키고 업데이트된 상태를 전달받아 렌더링하기만 하면 됩니다.</p>
+<p>이러한 &lsquo;관심사의 분리&rsquo;는 리듀서 함수를 UI 렌더링 없이 독립적으로 테스트할 수 있다는 부가적인 장점도 가져옵니다.</p>
+<p>물론 <code>dispatch</code> 함수를 모든 컴포넌트에 계속 전달하는 것은 다소 번거로울 수 있습니다.</p>
+<p>여러 계층에 걸쳐 상태에 접근해야 하는 경우를 어떻게 다룰지는 &lsquo;2부 전역 상태&rsquo; 섹션에서 살펴보겠습니다.</p>
+<h3 id="잠깐-폼-상태-관리에-대하여">잠깐 폼 상태 관리에 대하여</h3>
+<p><code>useState</code>는 상태가 단일 컴포넌트에 존재할 때 훌륭하기 때문에, 폼(form)에 사용하고 싶은 유혹을 느낄 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Form</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">setName</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#e6db74">&#34;Taylor&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleSubmit</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">e</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">preventDefault</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">updateUserInformation</span>({ <span style="color:#a6e22e">name</span> });
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">form</span> <span style="color:#a6e22e">onSubmit</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">handleSubmit</span>}<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">input</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">name</span>} <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">e</span> =&gt; <span style="color:#a6e22e">setName</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">value</span>)} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">Update</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/button&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/form&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>작은 폼의 경우, 이는 전적으로 합리적인 방식입니다.</p>
+<p>하지만 위 예제는 API 호출 중 로딩 상태나 에러 처리 같은 중요한 기능들이 빠져 있어 지나치게 단순화되었습니다.</p>
+<p>실용적인 폼은 유효성 검사, 제출 상태 관리, 수정되었지만 저장되지 않은 변경사항 추적 등 훨씬 많은 것을 처리해야 합니다.</p>
+<p>이 모든 것을 여러 개의 <code>useState</code>로 직접 관리하는 대신, &lsquo;React Hook Form&rsquo;이나 &lsquo;Formik&rsquo; 같은 폼 전문 라이브러리를 사용하는 것이 좋습니다.</p>
+<p>이러한 라이브러리들은 우리가 작성해야 할 상용구 코드(boilerplate)의 양을 크게 줄여줍니다.</p>
+<h2 id="2부-전역-상태-관리">2부 전역 상태 관리</h2>
+<p>폼이나 메뉴도 중요하지만, 애플리케이션 전반에 걸친 다크 모드 설정이나, 여러 계층으로 깊게 중첩된 컴포넌트 트리의 최상단 상태를 맨 아래 자식 컴포넌트가 수정해야 하는 경우는 어떻게 해야 할까요?</p>
+<p>이런 상황에서 <code>state={state} dispatch={dispatch}</code> 같은 props를 계속해서 내려주는 &lsquo;prop drilling&rsquo;은 금방 한계에 부딪힙니다.</p>
+<p>애플리케이션의 여러 컴포넌트에서 접근해야 하는 상태를 다루는 몇 가지 패턴을 살펴보겠습니다.</p>
+<h3 id="react의-내장-솔루션-usecontext">React의 내장 솔루션 useContext</h3>
+<p>Stripe의 테스트 모드 토글과 유사한 전역 &lsquo;테스트 모드&rsquo; 토글을 예로 들어 보겠습니다.</p>
+<p>이 토글은 어떤 API 엔드포인트를 호출할지, 대시보드에 경고를 표시할지 등 애플리케이션의 모든 것에 영향을 미칩니다.</p>
+<p>이것을 prop drilling으로 구현한다면 다음과 같은 모습이 될 겁니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">testMode</span>, <span style="color:#a6e22e">setTestMode</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#a6e22e">getDefaultTestMode</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">TestModeToggle</span> <span style="color:#a6e22e">testMode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">testMode</span>} <span style="color:#a6e22e">setTestMode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setTestMode</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">SomeComponent</span> <span style="color:#a6e22e">testMode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">testMode</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">AnotherComponent</span> <span style="color:#a6e22e">testMode</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">testMode</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/div&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>테스트 모드 활성화 여부를 알아야 하는 모든 컴포넌트에 <code>testMode</code> prop을 전달해야 하므로 코드가 금방 지저분해지는 것을 볼 수 있습니다.</p>
+<p>이상적인 세계에서는 컴포넌트가 그저 훅을 호출하기만 하면 됩니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">SomeComponent</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">testMode</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTestMode</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ... 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">TestModeToggle</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">testMode</span>, <span style="color:#a6e22e">setTestMode</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTestMode</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ... 등등
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>다행히도, 이는 React Context를 사용하면 완벽하게 가능합니다.</p>
+<h3 id="react-context-provider-그리고-커스텀-훅-만들기">React Context, Provider, 그리고 커스텀 훅 만들기</h3>
+<p>React Context는 특정 상태를 그 아래의 모든 React 컴포넌트 트리에서 사용할 수 있게 해줍니다.</p>
+<p>애플리케이션 최상단에 Context를 위치시키면, 앱의 모든 컴포넌트가 그 안의 상태에 접근할 수 있습니다.</p>
+<p>테스트 모드 예제를 위해, <code>createContext</code>를 호출하여 Context를 생성하고 관리할 상태의 타입을 제공해야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// TestModeContext.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">React</span>, { <span style="color:#a6e22e">createContext</span>, <span style="color:#a6e22e">useState</span>, <span style="color:#a6e22e">useContext</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;react&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TestModeState</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">testMode</span>: <span style="color:#66d9ef">boolean</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setTestMode</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">testMode</span>: <span style="color:#66d9ef">boolean</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">TestModeContext</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createContext</span>&lt;<span style="color:#f92672">TestModeState</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">undefined</span>&gt;(<span style="color:#66d9ef">undefined</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">TestModeProvider</span> <span style="color:#f92672">=</span> ({ <span style="color:#a6e22e">children</span> }<span style="color:#f92672">:</span> { <span style="color:#a6e22e">children</span>: <span style="color:#66d9ef">React.ReactNode</span> }) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 이 Context는 사실 내부적으로 useState로 동작합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">testMode</span>, <span style="color:#a6e22e">setTestMode</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">TestModeContext.Provider</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{{ <span style="color:#a6e22e">testMode</span>, <span style="color:#a6e22e">setTestMode</span> }}&gt;
+</span></span><span style="display:flex;"><span>            {<span style="color:#a6e22e">children</span>}
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">TestModeContext.Provider</span>&gt;
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">useTestMode</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useContext</span>(<span style="color:#a6e22e">TestModeContext</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// context가 undefined라면 Provider 외부에서 훅을 사용한 것입니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">context</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;useTestMode는 TestModeProvider 안에서 사용해야 합니다.&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">context</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이제 모든 준비가 끝났으니, 애플리케이션 최상단에 <code>TestModeProvider</code>를 위치시키기만 하면 됩니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// _app.jsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">MyApp</span>({ <span style="color:#a6e22e">Component</span>, <span style="color:#a6e22e">pageProps</span> }) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">TestModeProvider</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">Component</span> {...<span style="color:#a6e22e">pageProps</span>} <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/TestModeProvider&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이제 어떤 컴포넌트에서든 <code>useTestMode</code> 훅을 사용하여 전역 상태에 접근하고 수정할 수 있습니다.</p>
+<h3 id="context와-다른-상태-관리-패턴의-결합">Context와 다른 상태 관리 패턴의 결합</h3>
+<p>잠깐만 멈추고 생각해보면, 우리는 <code>useState</code>의 전역 버전을 만든 것에 불과합니다.</p>
+<p>실제로 우리 <code>TestModeContext</code>는 <code>testMode</code>라는 불리언 값을 관리하기 위해 내부적으로 <code>useState</code>를 사용하고 있습니다.이것은 매우 중요한 포인트입니다.</p>
+<p>Context는 상태를 &lsquo;전역적&rsquo;으로 만들어주는 통로일 뿐, 그 안에서 상태를 관리하는 방식은 우리가 이전에 사용했던 모든 패턴과 동일하게 적용할 수 있습니다.</p>
+<p>앞서 살펴본 필터 예제를 다시 떠올려보십시오.</p>
+<p>우리는 <code>dispatch</code>와 <code>state</code>를 모든 컴포넌트에 넘겨줘야 하는 번거로움이 있었습니다.</p>
+<p>하지만 만약 이 값들을 저장하는 <code>FilterContext</code>를 만들고, 이들을 노출하는 커스텀 훅을 만든다면, prop drilling을 피하고 훨씬 나은 개발자 경험을 만들 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ZipCodeFilter</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 옵션 A:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 리듀서의 결과물을 전역으로 노출하는 훅을 사용합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">dispatch</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useFilters</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 옵션 B:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 더 구체적인 목적을 가진 훅을 제공합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 내부적으로는 여전히 dispatch를 호출하며,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 상태는 중앙 리듀서에서 관리됩니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">zipCode</span>, <span style="color:#a6e22e">setZipCode</span>, <span style="color:#a6e22e">clearZipCode</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useZipCodeFilters</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>이처럼 <code>useReducer</code>의 강력한 상태 관리 로직과 <code>useContext</code>의 전역 주입 능력을 결합하면, 복잡하면서도 규모가 큰 상태를 매우 체계적으로 관리할 수 있습니다.</p>
+<h3 id="더-나은-대안-zustand">더 나은 대안 Zustand</h3>
+<p>하지만 Context API에도 몇 가지 불편한 점이 있습니다.</p>
+<p>Context의 <code>value</code>가 바뀔 때마다 해당 Context를 구독하는 모든 컴포넌트가 불필요하게 리렌더링될 수 있으며, Context를 여러 개 만들면 Provider 중첩이 깊어지는 단점이 있습니다.</p>
+<p><code>Zustand</code>는 전역 상태 관리를 더 쉽게 만들어주는 라이브러리입니다.</p>
+<p>위의 테스트 모드 예제를 <code>Zustand</code>로 구현하면 다음과 같습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">create</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;zustand&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">useTestModeStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">create</span>(<span style="color:#a6e22e">set</span> =&gt; ({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">testMode</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">toggleTestMode</span><span style="color:#f92672">:</span> () =&gt; <span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">state</span> =&gt; ({ <span style="color:#a6e22e">testMode</span><span style="color:#f92672">:</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">testMode</span> })),
+</span></span><span style="display:flex;"><span>}));
+</span></span></code></pre></div><p>이게 전부입니다.Provider로 앱을 감쌀 필요도 없습니다.</p>
+<p>어떤 컴포넌트에서든 <code>useTestModeStore</code> 훅을 바로 가져와 사용할 수 있습니다.</p>
+<p><code>Zustand</code>는 상태 조각(slice)을 구독하여 해당 데이터가 변경될 때만 리렌더링을 트리거하므로 성능에도 이점이 있습니다.</p>
+<h2 id="3부-상태-영속화시키기">3부 상태 영속화시키기</h2>
+<p>지금까지의 모든 예제에서 우리의 상태는 메모리에만 저장되었습니다.</p>
+<p>페이지를 새로고침하면 메뉴는 닫힌 상태로 초기화될 겁니다.</p>
+<p>메뉴는 괜찮지만, 여러 단계로 이루어진 입사 지원서 폼을 작성하다가 실수로 새로고침하여 모든 진행 상황을 잃는다면 정말 끔찍할 겁니다.</p>
+<h3 id="새로고침에도-상태-유지하기">새로고침에도 상태 유지하기</h3>
+<p>결국 상태를 다른 곳에 저장해야 한다는 결론에 이릅니다.</p>
+<p>일반적인 옵션 중 하나는 <code>localStorage</code>입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">setItem</span>(<span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#e6db74">&#34;Andrew&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#e6db74">&#34;name&#34;</span>); <span style="color:#75715e">// &#34;Andrew&#34;를 반환
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 페이지 새로고침
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#e6db74">&#34;name&#34;</span>); <span style="color:#75715e">// 여전히 &#34;Andrew&#34;를 반환
+</span></span></span></code></pre></div><p><code>localStorage</code>에 백업되는 커스텀 훅 <code>useLocalStorage</code>를 구현하면 상태 영속화를 간단하게 처리할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useState</span>, <span style="color:#a6e22e">useEffect</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useLocalStorage</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">initialValue</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">storedValue</span>, <span style="color:#a6e22e">setStoredValue</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#a6e22e">key</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">item</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">initialValue</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">initialValue</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">useEffect</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>      window.<span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">setItem</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">storedValue</span>));
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }, [<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">storedValue</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> [<span style="color:#a6e22e">storedValue</span>, <span style="color:#a6e22e">setStoredValue</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>이 훅을 사용하면 <code>useState</code>와 똑같이 사용하면서도 상태가 새로고침 후에도 유지됩니다.</p>
+<p>다만, <code>localStorage</code>에는 민감한 정보를 저장하지 않도록 주의해야 합니다.</p>
+<h3 id="url-쿼리-파라미터로-상태-공유하기">URL 쿼리 파라미터로 상태 공유하기</h3>
+<p>페이지네이션이 있는 테이블을 예로 들어보겠습니다.</p>
+<p><code>useLocalStorage</code>를 사용하면 새로고침 시 상태는 유지되지만, 다른 탭에서 같은 페이지를 열면 동일한 페이지 번호와 검색어가 나타납니다.</p>
+<p>또한, 동료에게 현재 내가 보고 있는 흥미로운 필터 결과를 공유할 방법이 없습니다.</p>
+<p>이때 상태를 URL 쿼리 파라미터에 저장하는 방법을 사용할 수 있습니다.</p>
+<p><code>https://example.com/table?page=2&amp;query=react</code></p>
+<p>이 방식은 새로고침에도 상태를 유지하고, 사용자가 필터링된 뷰에 대한 링크를 다른 사람과 공유할 수 있게 해줍니다.</p>
+<p>Next.js와 같은 프레임워크는 <code>useRouter</code> 훅을 통해 쿼리 파라미터를 쉽게 읽고 쓸 수 있는 기능을 제공합니다.</p>
+<h2 id="4부-서버-상태는-이야기가-다릅니다">4부 서버 상태는 이야기가 다릅니다</h2>
+<p>지금까지 우리는 클라이언트 상태, 즉 프론트엔드에 의해 &lsquo;소유된&rsquo; 상태에 대해 이야기했습니다.</p>
+<p>하지만 현실 세계의 많은 상태는 사실 서버 데이터베이스에 그 원본이 존재합니다.</p>
+<p>서버에서 가져온 데이터, 예를 들어 사용자 프로필이나 상품 목록 등은 엄밀히 말해 프론트엔드 상태가 아니라 &lsquo;서버 상태의 캐시(cache)&lsquo;입니다.</p>
+<p>이러한 비동기 데이터를 <code>useState</code>와 <code>useEffect</code>로 관리하는 것은 로딩, 에러, 캐싱, 데이터 동기화 등 수많은 문제를 야기합니다.</p>
+<p>이러한 문제를 해결하기 위해 &lsquo;TanStack Query(구 React Query)&lsquo;나 &lsquo;SWR&rsquo;과 같은 데이터 페칭(fetching) 라이브러리를 사용하는 것이 현대 React 개발의 표준입니다.</p>
+<p>이 라이브러리들은 서버 상태를 가져오고, 캐싱하고, 백그라운드에서 자동으로 업데이트하는 복잡한 로직을 대신 처리해주어 개발자가 비즈니스 로직에만 집중할 수 있게 해줍니다.</p>
+<p>클라이언트 상태와 서버 상태를 구분하고, 서버 상태 관리는 <code>TanStack Query</code>와 같은 전문 라이브러리에 맡기는 것이 매우 중요합니다.</p>
+<h2 id="어떤-도구를-선택해야-할까요">어떤 도구를 선택해야 할까요</h2>
+<p>React 애플리케이션에서 상태 관리는 필수적이지만, 올바른 도구를 선택하는 것이 중요합니다.</p>
+<p>다음은 우리가 논의한 기법들을 바탕으로 한 의사결정 가이드입니다.</p>
+<p>먼저 <code>useState</code>로 시작하십시오.하나의 컴포넌트 내에서 관리되는 간단한 상태에 가장 적합합니다.</p>
+<p>상태 업데이트 로직이 복잡해지거나 여러 하위 상태가 서로 의존하게 되면 <code>useReducer</code>로 리팩토링하는 것을 고려하십시오.</p>
+<p>상태를 여러 깊이의 컴포넌트와 공유해야 하지만 prop drilling을 피하고 싶다면 <code>useContext</code>를 사용하십시오.</p>
+<p><code>useReducer</code>로 관리되는 복잡한 상태를 전역으로 다루고 싶다면 <code>useContext</code>와 <code>useReducer</code>를 조합하는 강력한 패턴을 활용하십시오.</p>
+<p><code>useContext</code>의 잦은 리렌더링이 성능 문제를 일으키거나 Provider 중첩을 피하고 싶다면 <code>Zustand</code>와 같은 더 가볍고 유연한 전역 상태 라이브러리가 훌륭한 대안입니다.</p>
+<p>마지막으로, 관리하려는 상태가 서버에서 온 데이터라면 주저하지 말고 <code>TanStack Query</code>나 <code>SWR</code>을 사용하십시오.</p>
+<p>이는 &lsquo;선택&rsquo;이 아니라 &lsquo;필수&rsquo;에 가깝습니다.</p>
+<p>이러한 상태 관리 기법들을 이해하고 애플리케이션의 필요에 따라 적절한 것을 선택하면 확장 가능하고 유지보수하기 쉬운 React 애플리케이션을 구축하는 데 큰 도움이 될 것입니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

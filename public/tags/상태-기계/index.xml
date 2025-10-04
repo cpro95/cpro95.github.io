@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>상태 기계 on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/%EC%83%81%ED%83%9C-%EA%B8%B0%EA%B3%84/</link>
+    <description>Recent content in 상태 기계 on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 20:52:45 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%EC%83%81%ED%83%9C-%EA%B8%B0%EA%B3%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기</title>
+      <link>http://localhost:1313/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</link>
+      <pubDate>Sun, 13 Jul 2025 10:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</guid>
+      <description>useState만으로 상태 관리가 힘들어질 때, useReducer가 어떻게 구원투수가 되는지 알아봅니다. 쇼핑 카트 예제를 통해 상태 로직을 중앙에서 관리하고, 예측 가능하며 테스트하기 쉬운 코드를 작성하는 방법을 깊이 있게 탐구합니다.</description>
+    </item>
+  </channel>
+</rss>

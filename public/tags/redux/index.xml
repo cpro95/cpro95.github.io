@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redux on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/redux/</link>
+    <description>Recent content in Redux on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 20:48:13 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/redux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Context API 완전 정복 - Prop Drilling을 넘어 최적화와 상태 관리 철학까지</title>
+      <link>http://localhost:1313/posts/2025-07-13-mastering-react-context-api-deep-dive/</link>
+      <pubDate>Sun, 13 Jul 2025 08:48:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-13-mastering-react-context-api-deep-dive/</guid>
+      <description>React의 내장 상태 관리 도구, Context API의 모든 것을 알아봅니다. prop drilling 문제 해결부터 내부 동작 원리, useMemo를 활용한 최적화, 그리고 Redux, Zustand와의 비교를 통해 언제 Context를 사용해야 하는지 깊이 있게 탐구합니다.</description>
+    </item>
+  </channel>
+</rss>

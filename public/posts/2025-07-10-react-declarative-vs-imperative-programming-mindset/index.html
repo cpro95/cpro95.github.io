@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요? - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="더 나은 React 개발자가 되기 위한 필수 개념, 명령형과 선언형 프로그래밍을 알아봅니다. React가 왜 선언형 패러다임을 선택했는지, 그리고 언제 명령형 접근이 필요한지 useRef 예제와 함께 깊이 있게 탐구합니다." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요? - cpro95.github.io" />
+<meta name="twitter:description"
+  content="더 나은 React 개발자가 되기 위한 필수 개념, 명령형과 선언형 프로그래밍을 알아봅니다. React가 왜 선언형 패러다임을 선택했는지, 그리고 언제 명령형 접근이 필요한지 useRef 예제와 함께 깊이 있게 탐구합니다." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요? - cpro95.github.io">
+<meta property="og:description"
+  content="더 나은 React 개발자가 되기 위한 필수 개념, 명령형과 선언형 프로그래밍을 알아봅니다. React가 왜 선언형 패러다임을 선택했는지, 그리고 언제 명령형 접근이 필요한지 useRef 예제와 함께 깊이 있게 탐구합니다." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/" />
+<meta property="og:site_name" content="React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-10 11:48:28 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/">React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Thu, 10 Jul 2025 11:48:28 &#43;0000"
+                    class="no-wrap">
+                    Thu, 10 Jul 2025 11:48:28 &#43;0000</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:38:50 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:38:50 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      2928 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%84%A0%EC%96%B8%ED%98%95-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      선언형 프로그래밍
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%AA%85%EB%A0%B9%ED%98%95-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      명령형 프로그래밍
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%82%AC%EA%B3%A0%EB%B0%A9%EC%8B%9D">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      리액트 사고방식
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/usestate">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useState
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/useeffect">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useEffect
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="react-개발자-레벨업---명령형-vs-선언형-당신은-어떻게-코딩하고-있나요">React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000" alt=""></p>
+<p>더 나은 React 개발자가 되기 위해서는, 코드를 작성하는 두 가지 다른 방식을 대표하는 이 두 프로그래밍 패러다임을 이해하는 것이 필수적입니다.</p>
+<p>React를 잘 다루는 것은 단순히 문법을 아는 것을 넘어, &lsquo;생각하는 방식&rsquo;을 바꾸는 것이기 때문입니다.</p>
+<p>오늘은 이 두 패러다임이 무엇이며, React가 왜 그중 하나를 핵심 철학으로 삼았는지 알아보겠습니다.</p>
+<h2 id="1-명령형-프로그래밍-어떻게에-집중하는-방식">1. 명령형 프로그래밍: &lsquo;어떻게&rsquo;에 집중하는 방식</h2>
+<p>&lsquo;명령형(Imperative) 프로그래밍&rsquo;은 <strong>원하는 결과를 얻기 위해 필요한 행동들을 단계별로 상세하게 서술하는 방식</strong>에 초점을 맞춥니다.</p>
+<p>마치 요리를 처음 하는 사람에게 &ldquo;1. 감자를 씻으세요. 2. 껍질을 벗기세요. 3. 2cm 크기로 자르세요&hellip;&rdquo; 라고 하나하나 지시하는 것과 같습니다.</p>
+<p>코드로 구체적인 예시를 살펴보겠습니다.</p>
+<h3 id="예시-1-배열-필터링하고-변환하기">예시 1: 배열 필터링하고 변환하기</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">numbers</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 우리는 각 단계를 직접 서술합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">numbers</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 1단계: 짝수인지 확인한다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">numbers</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2단계: 2를 곱해서 결과 배열에 넣는다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">numbers</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// result = [4, 8, 12]
+</span></span></span></code></pre></div><p><code>for</code> 루프를 돌고, <code>if</code> 조건문으로 확인하고, <code>push</code>로 직접 배열을 조작하는 모든 과정, 즉 &lsquo;어떻게&rsquo; 할지에 대한 모든 세부 사항을 직접 지시하고 있습니다.</p>
+<h3 id="예시-2-순수-javascript로-dom-조작하기">예시 2: 순수 JavaScript로 DOM 조작하기</h3>
+<p>이 패러다임은 jQuery나 순수 JavaScript로 UI를 만들 때 더욱 명확하게 드러납니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 1. &#39;ul&#39; 요소를 만든다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;ul&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">items</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;Apple&#34;</span>, <span style="color:#e6db74">&#34;Banana&#34;</span>, <span style="color:#e6db74">&#34;Orange&#34;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">items</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">item</span> =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 2. 각 아이템에 대해 &#39;li&#39; 요소를 만든다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">li</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;li&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 3. 텍스트를 설정한다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">item</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 4. 클래스 이름을 붙인다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;fruit-item&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 5. &#39;ul&#39;에 &#39;li&#39;를 자식으로 추가한다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">li</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 6. 마지막으로 body에 &#39;ul&#39;을 추가한다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">list</span>);
+</span></span></code></pre></div><p>상태가 복잡해지면 이 모든 단계를 추적하고 관리하는 것은 금세 악몽이 됩니다.</p>
+<p>특정 아이템을 삭제하거나 수정하려면, DOM에서 해당 요소를 직접 찾아내고, 제거하고, 다시 추가하는 복잡한 명령을 내려야 합니다.</p>
+<h2 id="2-선언형-프로그래밍-무엇에-집중하는-방식">2. 선언형 프로그래밍: &lsquo;무엇&rsquo;에 집중하는 방식</h2>
+<p>&lsquo;선언형(Declarative) 프로그래밍&rsquo;은 <strong>&lsquo;어떻게&rsquo;가 아닌 &lsquo;무엇&rsquo;에 초점을 맞춥니다.</strong></p>
+<p>우리는 원하는 결과가 무엇인지만 서술하고, 시스템이 그 구현 세부 사항을 처리하도록 맡깁니다.</p>
+<p>마치 레스토랑에서 &ldquo;페퍼로니 피자 한 판 주세요&quot;라고 주문하는 것과 같습니다.</p>
+<p>주방에서 도우를 어떻게 펴고, 소스를 어떻게 바르고, 몇 도에서 굽는지는 신경 쓸 필요가 없습니다.</p>
+<p>그저 &lsquo;페퍼로니 피자&rsquo;라는 결과물만 받으면 됩니다.</p>
+<p>같은 예시를 선언형 방식으로 보겠습니다.</p>
+<h3 id="예시-1-배열-필터링하고-변환하기-1">예시 1: 배열 필터링하고 변환하기</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">numbers</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;숫자들 중에서 짝수인 것만 골라서, 각각 2를 곱한 결과를 원해&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">numbers</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">num</span> =&gt; <span style="color:#a6e22e">num</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">num</span> =&gt; <span style="color:#a6e22e">num</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// result = [4, 8, 12]
+</span></span></span></code></pre></div><p><code>for</code> 루프도, 임시 배열도 없습니다.</p>
+<p>우리는 단지 &lsquo;무엇을&rsquo; 원하는지만 <code>filter</code>와 <code>map</code> 같은 고차 함수를 통해 선언했습니다.</p>
+<p>그 &lsquo;어떻게&rsquo;는 JavaScript 엔진이 알아서 처리합니다.</p>
+<h3 id="예시-2-jsx-react">예시 2: JSX (React)</h3>
+<p>이 패러다임의 정수가 바로 React의 JSX입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">FruitList</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">items</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;Apple&#34;</span>, <span style="color:#e6db74">&#34;Banana&#34;</span>, <span style="color:#e6db74">&#34;Orange&#34;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#34;나는 이런 모양의 리스트를 원해&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>      {<span style="color:#a6e22e">items</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> =&gt; (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fruit-item&#34;</span> <span style="color:#a6e22e">key</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">item</span>}&gt;
+</span></span><span style="display:flex;"><span>          {<span style="color:#a6e22e">item</span>}
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>createElement</code>, <code>appendChild</code> 같은 명령형 코드는 어디에도 없습니다.</p>
+<p>우리는 그저 최종적으로 화면에 그려지길 원하는 UI의 &lsquo;모습&rsquo;을 선언했을 뿐입니다.</p>
+<p>나머지 복잡한 DOM 조작은 React가 알아서 처리해 줍니다.</p>
+<h2 id="react와-선언형-프로그래밍-심층-탐구">React와 선언형 프로그래밍 심층 탐구</h2>
+<p>React는 철저하게 선언형 프로그래밍 패러다임을 따릅니다.</p>
+<p>React의 여러 측면을 통해 이 패러다임이 어떻게 적용되는지 살펴보겠습니다.</p>
+<h3 id="상태-관리-usestate">상태 관리 (<code>useState</code>)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Counter</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#34;버튼을 클릭하면, count 상태가 현재 count + 1이 되어야 해&#34; 라고 선언합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{() =&gt; <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)}&gt;<span style="color:#a6e22e">Counter</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">count</span>}&lt;/<span style="color:#f92672">button</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>우리는 <code>useState</code>로 상태를 &lsquo;선언&rsquo;하고, 그것이 어떻게 변경되어야 하는지만 서술합니다.</p>
+<p><code>setCount</code>가 호출된 이후에 React가 어떤 과정을 거쳐 DOM을 업데이트하고, 이벤트를 처리하고, 변수의 생명주기를 관리하는지에 대해서는 전혀 걱정할 필요가 없습니다.</p>
+<h3 id="조건부-렌더링">조건부 렌더링</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Message</span>({ <span style="color:#a6e22e">isLoggedIn</span> }) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      {<span style="color:#75715e">/* &#34;isLoggedIn이 참이면 이 메시지를, 거짓이면 저 메시지를 보여줘&#34; */</span>}
+</span></span><span style="display:flex;"><span>      {<span style="color:#a6e22e">isLoggedIn</span> <span style="color:#f92672">?</span> &lt;<span style="color:#f92672">h1</span>&gt;<span style="color:#a6e22e">Welcome</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">account</span>&lt;/<span style="color:#f92672">h1</span>&gt; <span style="color:#f92672">:</span> &lt;<span style="color:#f92672">h1</span>&gt;<span style="color:#a6e22e">Please</span> <span style="color:#a6e22e">log</span> <span style="color:#66d9ef">in</span>&lt;/<span style="color:#f92672">h1</span>&gt;}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>React의 조건부 렌더링은 선언적입니다.</p>
+<p>우리는 가능한 상태들을 서술하기만 하면, React가 올바른 콘텐츠를 보여주는 것을 처리합니다.</p>
+<p>DOM을 수동으로 처리할 필요가 없습니다.</p>
+<h3 id="이펙트-관리-useeffect">이펙트 관리 (<code>useEffect</code>)</h3>
+<p><code>useEffect</code> 훅은 React의 선언적 접근 방식을 완벽하게 보여줍니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ResizeMessage</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">windowWidth</span>, <span style="color:#a6e22e">setWindowWidth</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(window.<span style="color:#a6e22e">innerWidth</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">useEffect</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. &#34;무엇을 해야 하는지&#34; 선언: 창 크기 조절을 감지해야 해.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleResize</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">setWindowWidth</span>(window.<span style="color:#a6e22e">innerWidth</span>);
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;resize&#34;</span>, <span style="color:#a6e22e">handleResize</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. &#34;어떻게 정리해야 하는지&#34; 선언: 컴포넌트가 사라지면 이벤트 리스너를 제거해야 해.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> () =&gt; window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#34;resize&#34;</span>, <span style="color:#a6e22e">handleResize</span>);
+</span></span><span style="display:flex;"><span>  }, []); <span style="color:#75715e">// 이 효과는 한 번만 실행되도록 선언합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">Window</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">windowWidth</span>}<span style="color:#a6e22e">px</span>&lt;/<span style="color:#f92672">p</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>우리는 &lsquo;이벤트 리스너를 추가해야 한다&rsquo;는 것과 &lsquo;정리해야 한다&rsquo;는 사실만 선언합니다.</p>
+<p>React는 이 이펙트의 생명주기를 자동으로 관리하여, 컴포넌트가 마운트될 때 실행하고 언마운트될 때 정리합니다.</p>
+<h2 id="선언형-세계의-예외-명령형이-필요할-때-useref">선언형 세계의 예외: 명령형이 필요할 때 (<code>useRef</code>)</h2>
+<p>그렇다면 React에서는 명령형 코드를 절대 사용할 수 없을까요?
+아닙니다.</p>
+<p>때로는 특정 DOM 노드에 직접 접근하여 명령을 내려야 할 때가 있습니다.
+(예: 특정 input에 포커스 주기, 스크롤 위치 제어하기, 애니메이션 직접 실행하기 등)</p>
+<p>이럴 때를 위해 React는 <code>useRef</code>라는 &lsquo;탈출구(escape hatch)&lsquo;를 제공합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">TextInputWithFocusButton</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inputEl</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useRef</span>(<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">onButtonClick</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#39;inputEl.current&#39;는 실제 input DOM 노드를 가리킵니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// DOM 노드에 직접 &#39;focus()&#39;라는 명령을 내립니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">inputEl</span>.<span style="color:#a6e22e">current</span>.<span style="color:#a6e22e">focus</span>();
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">ref</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">inputEl</span>} <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">onButtonClick</span>}&gt;<span style="color:#a6e22e">Focus</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">input</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>useRef</code>는 선언형으로 관리되는 React의 상태 흐름에 영향을 주지 않으면서, 필요할 때만 DOM에 직접적인 명령을 내릴 수 있게 해주는 다리 역할을 합니다.</p>
+<h2 id="결론">결론</h2>
+<p>선언형 프로그래밍은 우리가 애플리케이션을 작성하는 방식을 바꾸는 React의 핵심 개념입니다.</p>
+<p>이 접근 방식은 우리가 거기에 도달하기 위한 단계 대신 최종 결과에 집중할 수 있게 해줍니다.</p>
+<p>우리의 예제를 통해, 우리는 React가 모든 수준에서 이 패러다임을 어떻게 적용하는지 보았습니다.</p>
+<ul>
+<li>상태 관리는 간단한 데이터 선언이 됩니다.</li>
+<li>조건부 렌더링은 각 가능한 경우를 서술하는 것뿐입니다.</li>
+<li>리스트 처리는 데이터 변환으로 자연스럽게 이루어집니다.</li>
+<li>부수 효과는 예측 가능하고 통제된 방식으로 관리됩니다.</li>
+</ul>
+<p>이 선언적 접근 방식은 우리 코드를 더 예측 가능하고, 유지보수 및 테스트하기 쉽게 만듭니다.</p>
+<p>React를 배운다는 것은 결국 명령형 사고에서 선언형 사고로 전환하는 과정이며, 이 전환을 완전히 이해했을 때 비로소 우리는 복잡한 인터페이스를 만들면서도 코드를 명확하고 구조적으로 유지할 수 있게 될 것입니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

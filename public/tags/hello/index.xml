@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hello on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/hello/</link>
+    <description>Recent content in Hello on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 20:30:16 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/hello/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)</title>
+      <link>http://localhost:1313/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/</link>
+      <pubDate>Tue, 08 Jul 2025 11:51:11 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/</guid>
+      <description>React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.</description>
+    </item>
+    <item>
+      <title>안녕하세요? 주인장입니다.</title>
+      <link>http://localhost:1313/posts/hello/</link>
+      <pubDate>Tue, 13 Feb 2024 11:51:11 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hello/</guid>
+      <description>AI 시대에도 꾸준히 코딩 관련 정보를 공유코자 합니다.</description>
+    </item>
+  </channel>
+</rss>

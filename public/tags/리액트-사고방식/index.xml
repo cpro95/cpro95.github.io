@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>리액트 사고방식 on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%82%AC%EA%B3%A0%EB%B0%A9%EC%8B%9D/</link>
+    <description>Recent content in 리액트 사고방식 on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 20:38:50 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%82%AC%EA%B3%A0%EB%B0%A9%EC%8B%9D/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?</title>
+      <link>http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</link>
+      <pubDate>Thu, 10 Jul 2025 11:48:28 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</guid>
+      <description>더 나은 React 개발자가 되기 위한 필수 개념, 명령형과 선언형 프로그래밍을 알아봅니다. React가 왜 선언형 패러다임을 선택했는지, 그리고 언제 명령형 접근이 필요한지 useRef 예제와 함께 깊이 있게 탐구합니다.</description>
+    </item>
+  </channel>
+</rss>

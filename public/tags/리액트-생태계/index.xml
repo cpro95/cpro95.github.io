@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>리액트 생태계 on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%83%9D%ED%83%9C%EA%B3%84/</link>
+    <description>Recent content in 리액트 생태계 on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © | All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Oct 2025 21:19:47 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%83%9D%ED%83%9C%EA%B3%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 4편 (테스트, 생태계, 그리고 체념의 미학)</title>
+      <link>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-4-testing-ecosystem-acceptance/</link>
+      <pubDate>Sat, 23 Aug 2025 15:51:32 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-4-testing-ecosystem-acceptance/</guid>
+      <description>리액트 테스트는 왜 고통스러울까요? 수많은 라이브러리로 이루어진 생태계 속에서 우리는 어떻게 길을 잃게 될까요? 어느 냉소적인 개발자의 리액트 입문서, 그 마지막 여정에서 우리는 마침내 체념과 평화를 얻게 됩니다.</description>
+    </item>
+  </channel>
+</rss>

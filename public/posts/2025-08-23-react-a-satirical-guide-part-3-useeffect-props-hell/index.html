@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도) - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="리액트의 useEffect가 왜 버그의 온상인지, Props Drilling이 왜 고통스러운지, 그리고 우리가 믿고 있던 성능 최적화 패턴의 배신에 대해 신랄하게 파헤칩니다. 어느 냉소적인 개발자의 리액트 입문서, 그 세 번째 이야기." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도) - cpro95.github.io" />
+<meta name="twitter:description"
+  content="리액트의 useEffect가 왜 버그의 온상인지, Props Drilling이 왜 고통스러운지, 그리고 우리가 믿고 있던 성능 최적화 패턴의 배신에 대해 신랄하게 파헤칩니다. 어느 냉소적인 개발자의 리액트 입문서, 그 세 번째 이야기." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도) - cpro95.github.io">
+<meta property="og:description"
+  content="리액트의 useEffect가 왜 버그의 온상인지, Props Drilling이 왜 고통스러운지, 그리고 우리가 믿고 있던 성능 최적화 패턴의 배신에 대해 신랄하게 파헤칩니다. 어느 냉소적인 개발자의 리액트 입문서, 그 세 번째 이야기." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/" />
+<meta property="og:site_name" content="리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-08-23 15:45:50 &#43;0900 KST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/">리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sat, 23 Aug 2025 15:45:50 &#43;0900"
+                    class="no-wrap">
+                    Sat, 23 Aug 2025 15:45:50 &#43;0900</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 21:18:20 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 21:18:20 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      3676 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      리액트
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/react">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      React
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/useeffect">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      useEffect
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/props-drilling">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Props Drilling
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%ED%8C%A8%ED%84%B4">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      리액트 패턴
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%84%B1%EB%8A%A5">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      리액트 성능
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="리액트를-배우셨군요-유감입니다-3편-useeffect와-props-drilling이라는-지옥도">리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000" alt=""></p>
+<p>1편에서는 리액트의 탄생 비화와 &lsquo;자바스크립트 피로감&rsquo;에 대해, 2편에서는 &lsquo;JSX&rsquo;와 &lsquo;컴포넌트&rsquo;라는 리액트의 기묘한 철학에 대해 알아봤습니다.</p>
+<p>오늘은 드디어 이 고통의 핵심으로 더 깊이 들어가 보려고 합니다.</p>
+<p>바로 리액트 개발자라면 누구나 한 번쯤 머리를 쥐어뜯게 만들었던 &lsquo;useEffect&rsquo;, 그리고 데이터 흐름을 고통스럽게 만드는 &lsquo;Props Drilling&rsquo;에 대해 이 글에서 얼마나 통렬하게 꼬집는지 함께 보시죠.</p>
+<h2 id="useeffect-스스로를-쏘기-위해-만들어진-총">useEffect 스스로를 쏘기 위해 만들어진 총</h2>
+<p><code>useEffect</code>는 &ldquo;함수형 컴포넌트에서 사이드 이펙트는 어떻게 처리하죠?&ldquo;라는 질문에 대한 리액트의 대답인데요.</p>
+<p>하지만 저자의 말에 따르면, 그 대답은 &ldquo;버그와 함께, 혼란스러운 방식으로, 개발자의 정신을 피폐하게 만든다&quot;입니다.</p>
+<p>만약 리액트 훅들을 하나의 가족에 비유한다면, <code>useEffect</code>는 착한 마음을 가졌지만 계속해서 집에 불을 지르는 말썽쟁이 십대와 같다고 하더라고요.</p>
+<h3 id="componentdidmount의-사악한-쌍둥이">componentDidMount의 사악한 쌍둥이</h3>
+<p>과거 클래스 컴포넌트 시절에는 우리에게 아주 명확한 생명주기 메소드들이 있었죠.</p>
+<p><code>componentDidMount</code>는 컴포넌트가 마운트될 때 딱 한 번, <code>componentDidUpdate</code>는 props가 바뀔 때, <code>componentWillUnmount</code>는 컴포넌트가 사라지기 직전에 실행되었습니다.</p>
+<p>아주 명확하고 예측 가능했죠.</p>
+<p>리액트는 이 명확함을 보고 &ldquo;이 모든 걸 하나의 혼란스러운 함수로 합쳐보면 어떨까?&ldquo;라고 생각한 게 틀림없습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">NewComponent</span> <span style="color:#f92672">=</span> ({ <span style="color:#a6e22e">id</span> }) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">useEffect</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;마운트된 건가? 업데이트된 건가? 둘 다인가? 누가 알겠어!&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;클린업! 언마운트인가? 둘 다인가? 미스터리!&#34;</span>);
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  }, [<span style="color:#a6e22e">id</span>]); <span style="color:#75715e">// id가 바뀔 때... 아니면 마운트될 때... 아니면...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>이 모든 혼란의 중심에는 바로 &lsquo;의존성 배열&rsquo;이라는 녀석이 있습니다.</p>
+<h3 id="파멸의-의존성-배열">파멸의 의존성 배열</h3>
+<p><code>useEffect</code>의 두 번째 인자인 의존성 배열은 이펙트가 언제 실행될지를 결정하는데요.</p>
+<p>간단해 보이지만, 온갖 함정으로 가득 차 있죠.</p>
+<p>_ 배열이 없으면 모든 렌더링 후에 실행됩니다.</p>
+<p>보통은 버그로 이어지죠.</p>
+<p>_ 빈 배열(<code>[]</code>)을 넣으면 마운트 시 한 번만 실행됩니다.</p>
+<p>(하지만 StrictMode에서는 두 번 실행되는 거짓말쟁이죠!)</p>
+<p>* 배열 안에 값을 넣으면, 그 값이 바뀔 때마다 실행됩니다.</p>
+<p>(하지만 객체나 함수를 넣으면 참조가 매번 바뀌어서 항상 실행될 수도 있죠!)</p>
+<p>그리고 이 의존성 배열은 우리에게 &lsquo;무한 루프&rsquo;라는 선물을 주기도 하는데요.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">InfiniteLoop</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// count가 바뀔 때마다 실행되는데, 실행될 때마다 count를 바꿈
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">useEffect</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">count</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>  }, [<span style="color:#a6e22e">count</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">div</span>&gt;{<span style="color:#a6e22e">count</span>}&lt;/<span style="color:#f92672">div</span>&gt;;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>이 코드를 실행하면 당신의 브라우저는 비명을 지르며 멈출 겁니다.</p>
+<p>&ldquo;CPU 사용량이 왜 100%죠?&rdquo; 라고 묻는다면, &ldquo;useEffect 때문입니다&rdquo; 라고 답하면 됩니다.</p>
+<h3 id="데이터-페칭이라는-대참사">데이터 페칭이라는 대참사</h3>
+<p>모든 리액트 입문자가 처음으로 <code>useEffect</code>를 사용해 데이터를 가져오려고 시도하는 코드는 보통 이렇습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">useEffect</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">`/api/users/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">userId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>())
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">setUser</span>(<span style="color:#a6e22e">data</span>));
+</span></span><span style="display:flex;"><span>}, [<span style="color:#a6e22e">userId</span>]);
+</span></span></code></pre></div><p>깔끔해 보이지만, 이 코드에는 로딩 상태도, 에러 처리도, 경쟁 상태(Race Condition) 방지도, 심지어 데이터를 가져오는 중에 컴포넌트가 언마운트되는 경우에 대한 처리도 전혀 없습니다.</p>
+<p>이 모든 것을 제대로 처리하려면 코드는 30줄이 넘는 괴물이 되어버리죠.</p>
+<p>그러면 사람들은 말합니다.</p>
+<p>&ldquo;그냥 React Query 쓰세요.&rdquo;</p>
+<p>결국 리액트가 만든 문제를 해결하기 위해 또 다른 라이브러리를 도입하게 되는 겁니다.</p>
+<h2 id="props-drilling-끝없이-내려가는-데이터">Props Drilling 끝없이 내려가는 데이터</h2>
+<p>Props Drilling은 당신의 증조할머니가 당신에게 가보를 물려주고 싶은데, 직접 주는 대신 할머니에게 주고, 할머니는 어머니에게, 어머니는 당신에게 주는 것과 같은데요.</p>
+<p>문제는 할머니와 어머니는 그 가보에 전혀 관심이 없다는 점이죠.</p>
+<p>그들은 그저 이 세대 간의 &lsquo;폭탄 돌리기&rsquo; 게임에서 중간 전달자일 뿐입니다.</p>
+<p>이것이 바로 리액트의 데이터 흐름이죠.</p>
+<p>&lsquo;단방향&rsquo;이라는 말은 &lsquo;불편하다&rsquo;는 말을 있어 보이게 표현한 것뿐입니다.</p>
+<h3 id="소품들의-크리스마스-트리">소품들의 크리스마스 트리</h3>
+<p>리액트에서 데이터는 이런 식으로 흐르는데요.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;John&#34;</span> });
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">Dashboard</span> <span style="color:#a6e22e">user</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">user</span>} <span style="color:#a6e22e">setUser</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setUser</span>} /&gt;;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Dashboard</span> <span style="color:#f92672">=</span> ({ <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span> }) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">Profile</span> <span style="color:#a6e22e">user</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">user</span>} <span style="color:#a6e22e">setUser</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setUser</span>} /&gt;;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...중간 컴포넌트 생략...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">NameEditor</span> <span style="color:#f92672">=</span> ({ <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span> }) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 드디어 이 props를 사용!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">input</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">e</span> =&gt; <span style="color:#a6e22e">setUser</span>({ ...<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">value</span> })}
+</span></span><span style="display:flex;"><span>    /&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>6개의 컴포넌트 중 5개는 <code>user</code>나 <code>setUser</code>에 전혀 관심이 없지만, 리액트가 시켰기 때문에 모두 이 props를 받아서 아래로 전달해야만 합니다.</p>
+<p>이것의 진짜 문제는 코드가 길어지는 것보다도 &lsquo;결합도(coupling)&lsquo;가 높아진다는 점인데요.</p>
+<p>중간에 있는 모든 컴포넌트가 자기가 쓰지도 않는 props에 의존하게 되면서, 이제는 그저 우체부 역할을 하는 컴포넌트가 되어버립니다.</p>
+<h3 id="context-api라는-구원투수-인-척하는-것">Context API라는 구원투수 (인 척하는 것)</h3>
+<p>리액트도 이 문제를 모르는 건 아니어서 &lsquo;Context API&rsquo;라는 해결책을 내놓았는데요.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">UserContext</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createContext</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;John&#34;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">UserContext.Provider</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{{ <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span> }}&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Dashboard</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">UserContext.Provider</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">NameEditor</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useContext</span>(<span style="color:#a6e22e">UserContext</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>이제 중간 컴포넌트들을 건너뛰고 데이터를 바로 주입할 수 있게 되었습니다.</p>
+<p>문제가 해결된 것 같죠?</p>
+<p>대신 우리는 &lsquo;보이지 않는 의존성&rsquo;, &lsquo;Context가 바뀔 때마다 발생하는 무수한 리렌더링&rsquo;, 그리고 앱 최상단을 뒤덮는 &lsquo;프로바이더 지옥&rsquo;이라는 새로운 문제를 얻게 되었습니다.</p>
+<p>Props Drilling을 해결하려다 &lsquo;Context 혼란&rsquo;이라는 더 큰 문제를 만들어낸 셈이죠.</p>
+<h2 id="패턴과-안티패턴-그-좋고-나쁘고-이상한-것">패턴과 안티패턴 그 좋고, 나쁘고, 이상한 것</h2>
+<p>리액트의 패턴들은 마치 패션 트렌드와 같은데요.</p>
+<p>오늘 최고라고 칭송받던 것이 내일은 코드 스멜이 되고, 작년의 안티패턴이 올해의 베스트 프랙티스가 되기도 하죠.</p>
+<p>&lsquo;컨테이너/프레젠테이셔널&rsquo; 패턴을 기억하시나요?</p>
+<p>데이터 로직을 다루는 &lsquo;스마트&rsquo; 컨테이너 컴포넌트와, 오직 화면만 그리는 &lsquo;멍청한&rsquo; 프레젠테이셔널 컴포넌트로 나누는 것이 한때는 황금률이었습니다.</p>
+<p>하지만 훅이 등장하면서, 이제는 그냥 하나의 컴포넌트 안에서 데이터도 가져오고 화면도 그리는 것이 일반적이 되었죠.</p>
+<p>몇 년간 우리가 맹세했던 그 패턴은 하루아침에 &ldquo;왜 굳이 컴포넌트를 두 개로 나누죠?&ldquo;라는 비아냥을 듣는 안티패턴이 되어버렸습니다.</p>
+<p>HOC(Higher-Order Components), Render Props 같은 패턴들도 한 시대를 풍미했지만, 이제는 커스텀 훅에 자리를 내주고 복잡성의 상징처럼 여겨지게 되었죠.</p>
+<h2 id="성능-우리가-스스로에게-하는-거짓말들">성능 우리가 스스로에게 하는 거짓말들</h2>
+<p>&ldquo;리액트는 빠르다!&rdquo; 와 &ldquo;리액트는 느리다!&ldquo;는 주장이 항상 팽팽하게 맞서는데요.</p>
+<p>진실은, 리액트는 당신이 허락하는 만큼만 빠르다는 겁니다.</p>
+<p>그리고 보통 우리는 리액트가 빨라지는 것을 잘 허락하지 않죠.</p>
+<h3 id="리액트-성능에-대한-신화들">리액트 성능에 대한 신화들</h3>
+<ul>
+<li>
+<p><strong>신화 1 &ldquo;가상돔은 리액트를 빠르게 만든다&rdquo;</strong></p>
+<ul>
+<li>이건 거짓말입니다.</li>
+</ul>
+</li>
+</ul>
+<p>가상돔은 리액트를 &lsquo;가능하게&rsquo; 만드는 것이지, &lsquo;빠르게&rsquo; 만드는 것이 아니죠.</p>
+<p>바닐라 자바스크립트로 직접 DOM을 조작하는 것이 거의 항상 더 빠릅니다.</p>
+<p>가상돔은 성능 향상이 아니라 오버헤드죠.</p>
+<ul>
+<li><strong>신화 2 &ldquo;리액트는 바뀐 부분만 업데이트한다&rdquo;</strong>
+<ul>
+<li>기술적으로는 사실이지만, 실제로는 거짓에 가깝습니다.</li>
+</ul>
+</li>
+</ul>
+<p>부모 컴포넌트의 상태가 바뀌면, 그 아래의 모든 자식 컴포넌트 함수들이 &lsquo;전부&rsquo; 다시 실행됩니다.</p>
+<p>리액트는 이 함수들을 모두 실행해본 뒤에야 가상돔을 비교해서 실제돔에 무엇을 바꿀지 결정하거든요.</p>
+<p>이런 불필요한 리렌더링을 막기 위해 우리는 <code>React.memo</code>를 사용하는데요.</p>
+<p>이건 리액트가 스스로 &ldquo;불필요한 리렌더링이 문제라는 것을 인정합니다&quot;라고 말하는 것과 같죠.</p>
+<p>하지만 <code>React.memo</code>조차도 props로 객체나 함수를 내려주면 속수무책으로 깨져버립니다.</p>
+<p>그래서 우리는 <code>useMemo</code>와 <code>useCallback</code>을 쓰게 되죠.</p>
+<p>성능 문제가 있지도 않은데 미리 최적화하겠다며 코드를 더 복잡하게 만드는 &lsquo;섣부른 최적화의 중심지&rsquo;에 오신 것을 환영합니다.</p>
+<h2 id="마치며">마치며</h2>
+<p><code>useEffect</code>는 선언적인 패러다임에 명령형 작업을 억지로 끼워 넣으려고 할 때 어떤 일이 벌어지는지를 보여주는 대표적인 사례입니다.</p>
+<p>Props Drilling은 단방향 데이터 흐름이라는 원칙을 너무 고집할 때 얼마나 고통스러운지를 보여주죠.</p>
+<p>그리고 수많은 패턴과 성능 최적화 기법들은, 리액트가 스스로 만들어낸 복잡성을 해결하기 위해 또 다른 복잡성을 더하는 과정에 불과할 때가 많습니다.</p>
+<p>결국 이 모든 것을 겪고 나면, 우리는 리액트의 모든 함정을 외우고, 그것들을 자동적으로 피해 가며, 한때는 더 간단한 방법이 있었다는 사실조차 잊어버리게 될 겁니다.</p>
+<p>고통을 통해 우리는 성장하니까요.</p>
+<p>아마도요.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>

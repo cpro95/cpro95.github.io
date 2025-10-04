@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
+    <title>CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드) - cpro95.github.io</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="Cross-Origin Request Blocked 에러의 정체는 무엇일까요? 웹 보안의 핵심인 동일 출처 정책부터 CORS 헤더, 프리플라이트 요청의 흐름, 그리고 흔한 에러 해결법까지, CORS의 모든 것을 알아봅니다." />
+<meta name="keywords"
+  content='blog, web development' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-09-complete-guide-to-understanding-cors/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드) - cpro95.github.io" />
+<meta name="twitter:description"
+  content="Cross-Origin Request Blocked 에러의 정체는 무엇일까요? 웹 보안의 핵심인 동일 출처 정책부터 CORS 헤더, 프리플라이트 요청의 흐름, 그리고 흔한 에러 해결법까지, CORS의 모든 것을 알아봅니다." />
+<meta name="twitter:site" content="http://localhost:1313/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="http://localhost:1313/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드) - cpro95.github.io">
+<meta property="og:description"
+  content="Cross-Origin Request Blocked 에러의 정체는 무엇일까요? 웹 보안의 핵심인 동일 출처 정책부터 CORS 헤더, 프리플라이트 요청의 흐름, 그리고 흔한 에러 해결법까지, CORS의 모든 것을 알아봅니다." />
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-09-complete-guide-to-understanding-cors/" />
+<meta property="og:site_name" content="CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드)" />
+<meta property="og:image"
+  content="http://localhost:1313/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-07-09 11:43:10 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="http://localhost:1313/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="http://localhost:1313/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="http://localhost:1313/">드리프트</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="http://localhost:1313/posts/2025-07-09-complete-guide-to-understanding-cors/">CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드)</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Wed, 09 Jul 2025 11:43:10 &#43;0000"
+                    class="no-wrap">
+                    Wed, 09 Jul 2025 11:43:10 &#43;0000</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:36:34 &#43;0900"
+                    class="no-wrap">
+                    Sat, 04 Oct 2025 20:36:34 &#43;0900</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      3360 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    <a class="muted-link mr-3" href="/tags/cors">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      CORS
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EB%8F%99%EC%9D%BC-%EC%B6%9C%EC%B2%98-%EC%A0%95%EC%B1%85">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      동일 출처 정책
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/sop">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      SOP
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/cross-origin">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      Cross-Origin
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%ED%94%84%EB%A6%AC%ED%94%8C%EB%9D%BC%EC%9D%B4%ED%8A%B8">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      프리플라이트
+                    </a>
+                    
+                    <a class="muted-link mr-3" href="/tags/%EC%9B%B9-%EB%B3%B4%EC%95%88">
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      웹 보안
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="cors-에러-더-이상-두렵지-않다-완전-정복-가이드">CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드)</h1>
+<p><img src="https://blogger.googleusercontent.com/img/a/AVvXsEghBB4tXKrqeqB3p-lqgXHgnohNbl1T8xVyErNuClnIWBXOVFM-5MHFlCDCT4poB6mlLH7f4RoSShqbhM5MldKVTrDf7vonyOd6XB5KDtof5zg-NBwE1M-JMocieJjTE7Ac9CxhzEKgRO1M4oiCX7AgKJdpILUHh2lHUCq8-7MSs4N3Iac_KafdLV2Xo4I=s16000" alt=""></p>
+<p>프론트엔드에서 API 요청을 보냈을 때, 브라우저 콘솔에 떠오르는 붉은색의 &ldquo;Cross-Origin Request Blocked&rdquo; 에러 메시지를 마주하고 좌절해 본 적이 있으신가요?</p>
+<p>이 문제는 대부분 &lsquo;Cross-Origin Resource Sharing&rsquo;, 즉 CORS에 대한 이해 부족에서 비롯됩니다.</p>
+<p>저 역시 몇 년 전에는 같은 배를 타고 있었습니다.</p>
+<p>결국 CORS를 더 깊이 파고들기 위해 CakePHP 플러그인을 만들기로 결심하기까지 했죠.</p>
+<p>오늘은 그 경험을 바탕으로 CORS가 무엇이고 어떻게 동작하는지, 그 근본 원리부터 함께 파헤쳐 보겠습니다.</p>
+<h2 id="1-문제의-근원-동일-출처-정책same-origin-policy-sop">1. 문제의 근원: &lsquo;동일 출처 정책(Same-Origin Policy, SOP)&rsquo;</h2>
+<p>CORS를 이해하려면, 먼저 웹 브라우저의 가장 근본적인 보안 원칙인 &lsquo;동일 출처 정책&rsquo;부터 알아야 합니다.</p>
+<p>&lsquo;출처(Origin)&lsquo;란 프로토콜(http/https), 도메인(example.com), 포트(:80)의 조합을 의미합니다.</p>
+<p>이 세 가지가 모두 같아야 &lsquo;동일 출처&rsquo;로 인정됩니다.</p>
+<p>&lsquo;동일 출처 정책&rsquo;이란, **&lsquo;한 출처에서 로드된 문서나 스크립트는 다른 출처의 리소스와 상호작용할 수 없다&rsquo;**는 규칙입니다.</p>
+<p>마치 아파트 보안 시스템과 같습니다.</p>
+<p>여러분의 집(<a href="https://mydomain.com">https://mydomain.com</a>) 안에서는 자유롭게 물건을 옮길 수 있지만, 옆 동 아파트(<a href="https://api.another.com">https://api.another.com</a>)에 허락 없이 들어가 물건을 가져올 수는 없는 것과 같은 이치입니다.</p>
+<p>이 정책 덕분에, 악의적인 웹사이트가 여러분이 로그인해 둔 은행 사이트나 이메일에 멋대로 요청을 보내 데이터를 훔쳐보는 끔찍한 일을 방지할 수 있습니다.</p>
+<h2 id="2-해결책의-등장-cors">2. 해결책의 등장: &lsquo;CORS&rsquo;</h2>
+<p>하지만 현대 웹 애플리케이션은 여러 도메인에 걸쳐 분산된 서비스(예: 프론트엔드 서버와 API 서버)가 서로 통신해야 하는 경우가 많습니다.</p>
+<p>SOP를 무조건 지키면 이런 아키텍처는 불가능하겠죠.</p>
+<p>&lsquo;CORS(Cross-Origin Resource Sharing)&lsquo;는 바로 이 문제를 해결하기 위해 등장한 메커니즘입니다.</p>
+<p>CORS는 <strong>서버가 특정 출처의 요청을 허용하도록 명시적인 &lsquo;허락&rsquo;을 내릴 수 있게 해주는 HTTP 헤더 기반의 체계</strong>입니다.</p>
+<p>즉, 옆 동 아파트의 집주인(서버)이 &ldquo;아, mydomain.com에서 온 요청은 괜찮으니 들여보내 주세요&quot;라고 경비원(브라우저)에게 미리 말해주는 것과 같습니다.</p>
+<p>만약 <code>https://mydomain.com</code>에서 <code>https://google.com</code>으로 요청을 보내면, 구글 서버는 <code>mydomain.com</code>을 허용하지 않았으므로 브라우저는 다음과 같은 에러를 보여줍니다.</p>
+<blockquote>
+<p>Access to fetch at &lsquo;<a href="https://www.google.com/'">https://www.google.com/'</a> from origin &lsquo;<a href="https://mydomain.com">https://mydomain.com</a>&rsquo; has been blocked by CORS policy: No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource.</p></blockquote>
+<p>이는 &ldquo;구글 서버 응답에 &lsquo;Access-Control-Allow-Origin&rsquo; 헤더가 없어서, 우리 브라우저 보안 정책상 이 요청을 차단했습니다&quot;라는 의미입니다.</p>
+<p>&lsquo;중요한 사실&rsquo;: CORS는 서버를 보호하는 기술이 아니라, <strong>사용자의 브라우저를 보호하는 기술</strong>입니다.</p>
+<p>따라서 <code>curl</code>이나 Postman 같은 도구로 API를 직접 호출하면 CORS 에러가 발생하지 않습니다.</p>
+<p>오직 브라우저만이 이 정책을 강제합니다.</p>
+<h2 id="3-cors는-어떻게-동작할까-통신-흐름">3. CORS는 어떻게 동작할까? (통신 흐름)</h2>
+<p>CORS는 요청의 종류에 따라 두 가지 방식으로 동작합니다: &lsquo;단순 요청(Simple Requests)&lsquo;과 &lsquo;프리플라이트 요청(Preflight Requests)&rsquo;.</p>
+<h3 id="단순-요청-simple-request">단순 요청 (Simple Request)</h3>
+<p>아래의 특정 조건을 모두 만족하는 요청은 &lsquo;단순 요청&rsquo;으로 분류되어, 브라우저는 별도의 확인 절차 없이 바로 본 요청을 보냅니다.</p>
+<ul>
+<li>메서드: <code>GET</code>, <code>HEAD</code>, <code>POST</code> 중 하나</li>
+<li>헤더: 기본 헤더 외에 <code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>, <code>Content-Type</code>만 허용 (단, <code>Content-Type</code>은 <code>application/x-www-form-urlencoded</code>, <code>multipart/form-data</code>, <code>text/plain</code> 값만 가능)</li>
+</ul>
+<p><strong>단순 요청의 흐름:</strong></p>
+<ol>
+<li><strong>클라이언트 (브라우저)</strong> → <strong>서버</strong>: <code>Origin: https://mydomain.com</code> 헤더를 포함하여 실제 요청을 보냅니다.</li>
+<li><strong>서버</strong> → <strong>클라이언트</strong>: <code>Access-Control-Allow-Origin: https://mydomain.com</code> (또는 <code>*</code>) 헤더를 포함하여 응답합니다.</li>
+<li><strong>클라이언트 (브라우저)</strong>: 응답 헤더의 <code>Access-Control-Allow-Origin</code> 값을 보고, 현재 출처가 허용되었는지 확인합니다.
+허용되었다면 요청을 성공 처리하고, 그렇지 않다면 CORS 에러를 발생시킵니다.</li>
+</ol>
+<h3 id="프리플라이트-요청-preflight-request">프리플라이트 요청 (Preflight Request)</h3>
+<p>&lsquo;단순 요청&rsquo;의 조건을 벗어나는 복잡한 요청(예: <code>PUT</code>, <code>DELETE</code> 메서드, <code>Content-Type: application/json</code>, 커스텀 헤더 포함 등)은 브라우저가 본 요청을 보내기 전에 먼저 &lsquo;프리플라이트(preflight, 사전 확인)&rsquo; 요청을 보냅니다.</p>
+<p>이 프리플라이트 요청은 <code>OPTIONS</code> 메서드를 사용하며, &ldquo;제가 잠시 후에 이런이런 메서드와 헤더로 본 요청을 보낼 건데, 괜찮을까요?&ldquo;라고 서버에 미리 물어보는 역할을 합니다.</p>
+<p><strong>프리플라이트 요청의 흐름:</strong></p>
+<ol>
+<li><strong>클라이언트 (브라우저)</strong> → <strong>서버</strong>: <code>OPTIONS</code> 메서드로 프리플라이트 요청을 보냅니다.
+이 요청에는 <code>Access-Control-Request-Method</code> (실제 요청의 메서드), <code>Access-Control-Request-Headers</code> (실제 요청의 헤더) 같은 정보가 담겨 있습니다.</li>
+<li><strong>서버</strong> → <strong>클라이언트</strong>: 이 서버가 허용하는 정책을 담은 헤더들로 응답합니다.
+(<code>Access-Control-Allow-Origin</code>, <code>Access-Control-Allow-Methods</code>, <code>Access-Control-Allow-Headers</code> 등)</li>
+<li><strong>클라이언트 (브라우저)</strong>: 서버의 응답을 보고, 자신이 보내려던 본 요청이 허용되는지 확인합니다.</li>
+<li><strong>(허용된 경우)</strong> → <strong>서버</strong>: 이제서야 실제 <code>PUT</code> 이나 <code>DELETE</code> 같은 본 요청을 보냅니다.</li>
+<li><strong>서버</strong> → <strong>클라이언트</strong>: 본 요청에 대한 실제 응답을 보냅니다.</li>
+</ol>
+<p>이처럼 두 번의 통신이 일어나기 때문에, 프리플라이트 요청은 약간의 성능 저하를 유발할 수 있습니다.</p>
+<p>이를 완화하기 위해 서버는 <code>Access-Control-Max-Age</code> 헤더를 사용하여 프리플라이트 응답을 특정 시간 동안 브라우저에 캐시하도록 할 수 있습니다.</p>
+<h2 id="4-서버와-클라이언트-구현-예제">4. 서버와 클라이언트 구현 예제</h2>
+<h3 id="서버-측-설정-expressjs">서버 측 설정 (Express.js)</h3>
+<p>실제 서버에서는 <code>cors</code> 같은 라이브러리를 사용하면 편리하게 CORS 헤더를 설정할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;express&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cors</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;cors&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// CORS 설정을 구성합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cors</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">origin</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;https://example.com&#34;</span>, <span style="color:#75715e">// Access-Control-Allow-Origin: 허용할 출처
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;GET, POST, PUT, DELETE&#34;</span>, <span style="color:#75715e">// Access-Control-Allow-Methods: 허용할 메서드
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">allowedHeaders</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Content-Type, Authorization&#34;</span>, <span style="color:#75715e">// Access-Control-Allow-Headers: 허용할 헤더
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">credentials</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// Access-Control-Allow-Credentials: 쿠키 등 자격 증명 허용
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  })
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ... 나머지 API 라우트
+</span></span></span></code></pre></div><h3 id="클라이언트-측-구현-fetch">클라이언트 측 구현 (<code>fetch</code>)</h3>
+<p><code>fetch</code> API를 사용할 때, CORS는 브라우저가 자동으로 처리합니다.</p>
+<p>다만, 쿠키나 인증 토큰 같은 &lsquo;자격 증명(credentials)&lsquo;을 함께 보내야 할 경우, <code>credentials: 'include'</code> 옵션을 명시해야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#34;https://api.example.com/data&#34;</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">credentials</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;include&#34;</span>, <span style="color:#75715e">// 세션 쿠키 등을 함께 보내기 위해 필요합니다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>});
+</span></span></code></pre></div><h2 id="5-흔한-cors-에러와-해결책">5. 흔한 CORS 에러와 해결책</h2>
+<p>이제 개발자들이 가장 고통받는 부분, 바로 에러 메시지별 해결책입니다.</p>
+<ul>
+<li>
+<p><strong>에러 1: &ldquo;No &lsquo;Access-Control-Allow-Origin&rsquo; header&rdquo;</strong>
+&lsquo;원인&rsquo;: 가장 흔한 에러로, 서버 응답에 이 헤더가 아예 없는 경우입니다.
+브라우저는 허락의 증표를 찾지 못했으므로 요청을 차단합니다.
+&lsquo;해결책&rsquo;: 서버에서 <code>Access-Control-Allow-Origin</code> 헤더에 요청을 보낸 출처(예: <code>https://example.com</code>)나 모든 출처를 허용하는 <code>*</code>를 포함하여 응답하도록 설정합니다.</p>
+</li>
+<li>
+<p><strong>에러 2: &ldquo;The value of the &lsquo;Access-Control-Allow-Origin&rsquo; header &hellip; must not be the wildcard &lsquo;*&rsquo; when the credentials flag is true.&rdquo;</strong>
+&lsquo;원인&rsquo;: 요청에 <code>credentials: 'include'</code> 옵션이 있는데, 서버가 <code>Access-Control-Allow-Origin: *</code>로 응답한 경우입니다.
+보안상의 이유로, 자격 증명이 포함된 요청에는 모든 출처를 허용하는 와일드카드(<code>*</code>)를 사용할 수 없습니다.
+&lsquo;해결책&rsquo;: <code>*</code> 대신, 요청을 허용할 정확한 출처(예: <code>https://example.com</code>)를 명시해야 합니다.</p>
+</li>
+<li>
+<p><strong>에러 3: &ldquo;Response to preflight request doesn&rsquo;t pass access control check: It does not have HTTP ok status.&rdquo;</strong>
+&lsquo;원인&rsquo;: 프리플라이트 <code>OPTIONS</code> 요청에 대해 서버가 200번대의 성공적인 HTTP 상태 코드로 응답하지 않은 경우입니다.
+서버가 <code>OPTIONS</code> 요청을 제대로 처리하지 못하고 404나 500 에러를 반환하는 경우에 발생합니다.
+&lsquo;해결책&rsquo;: 서버가 <code>OPTIONS</code> 메서드에 대해 200 OK 상태 코드와 함께 필요한 CORS 헤더들을 정상적으로 응답하도록 설정해야 합니다.</p>
+</li>
+<li>
+<p><strong>에러 4: &ldquo;Access-Control-Allow-Headers &hellip; contains invalid values&rdquo; 또는 &ldquo;No &lsquo;Access-Control-Allow-Headers&rsquo; header&rdquo;</strong>
+&lsquo;원인&rsquo;: 클라이언트가 보낸 요청에 커스텀 헤더(예: <code>X-Custom-Header</code>)가 있는데, 서버의 프리플라이트 응답에 있는 <code>Access-Control-Allow-Headers</code> 목록에 이 헤더가 포함되어 있지 않은 경우입니다.
+&lsquo;해결책&rsquo;: 서버 설정의 <code>allowedHeaders</code>에 클라이언트가 사용하는 모든 커스텀 헤더를 명시적으로 추가해 줍니다.</p>
+</li>
+</ul>
+<h2 id="결론">결론</h2>
+<p>CORS는 개발자를 괴롭히기 위한 버그가 아니라, 사용자를 보호하기 위한 필수적인 웹 보안 장치입니다.</p>
+<p>그것은 서버의 리소스가 다른 출처에서 어떻게 접근될 수 있는지를 규제합니다.</p>
+<p>CORS의 동작 원리, 특히 &lsquo;동일 출처 정책&rsquo;과 &lsquo;프리플라이트 요청&rsquo;의 흐름을 이해하고 올바르게 설정한다면, 더 이상 붉은 에러 메시지에 당황하지 않고 안전하고 원활한 교차 출처 통신을 구현할 수 있을 것입니다.</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Ov23lifamEzU8X3iDFJl',
+    clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
+    repo: 'cpro95',
+    owner: 'cpro95',
+    admin: ['cpro95'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
+
+
+
+</html>
