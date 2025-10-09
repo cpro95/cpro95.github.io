@@ -143,6 +143,10 @@
                     <a href="http://localhost:1313/">드리프트</a>
                   </span>
                   <span class="path-divider">/</span>
+                  <span class="author">
+                    <a href="http://localhost:1313/posts">Posts</a>
+                  </span>
+                  <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
                     <a href="http://localhost:1313/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/">React useEffect 완전 정복 - 동기화 관점으로 레벨업하기</a>
                   </strong>
@@ -154,9 +158,9 @@
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Sat, 04 Oct 2025 20:51:05 &#43;0900"
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 22:19:42 &#43;0900"
                     class="no-wrap">
-                    Sat, 04 Oct 2025 20:51:05 &#43;0900</relative-time>
+                    Sat, 04 Oct 2025 22:19:42 &#43;0900</relative-time>
                   
                 </div>
               </div>
@@ -434,6 +438,14 @@ WebSocket 연결 설정과 같은 일회성 초기화에 유용합니다.</li>
 <p><code>useEffect</code>를 사용하는 데 있어 사려 깊은 접근 방식을 채택하고 그 대안을 앎으로써, 여러분은 더 예측 가능하고, 성능이 좋으며, 유지보수하기 쉬운 React 코드를 작성할 수 있습니다.</p>
 </article>
               </div>
+              
+              
+              <div class="paginate-container">
+                <div class="BtnGroup">
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/">Home</a>
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/posts">Posts</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -445,19 +457,36 @@ WebSocket 연결 설정과 같은 일회성 초기화에 유용합니다.</li>
 <link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
 
   
+
+
 <div id="gitalk-container" class="gitalk-container"></div>
 <link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
 <script src='http://localhost:1313/js/gitalk.min.js'></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.18.0/js/md5.min.js"></script>
+
 <script>
   const gitalk = new Gitalk({
+    
     clientID: 'Ov23lifamEzU8X3iDFJl',
     clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
-    repo: 'cpro95',
+    repo: 'cpro95-gitalk',
     owner: 'cpro95',
     admin: ['cpro95'],
-    id: eval("location.pathname"), 
-    distractionFreeMode: false 
+    distractionFreeMode: false,
+
+    
+
+    
+    
+    
+
+    
+    id: md5(location.pathname)
+
   });
+  
   (function() {
     gitalk.render('gitalk-container');
   })();
@@ -477,7 +506,7 @@ WebSocket 연결 설정과 같은 일회성 초기화에 유용합니다.</li>
     </a>
     <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
       
-      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      <li class="mr-3 mr-lg-0">Copyright © All rights reserved.</li>
       
       <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
     </ul>

@@ -143,6 +143,10 @@
                     <a href="http://localhost:1313/">드리프트</a>
                   </span>
                   <span class="path-divider">/</span>
+                  <span class="author">
+                    <a href="http://localhost:1313/posts">Posts</a>
+                  </span>
+                  <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
                     <a href="http://localhost:1313/posts/2025-08-23-react-a-satirical-guide-for-the-reluctant-developer/">리액트를 배우셨군요 유감입니다 1편 (어느 냉소적인 개발자의 리액트 입문서)</a>
                   </strong>
@@ -154,9 +158,9 @@
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Sat, 04 Oct 2025 21:13:44 &#43;0900"
+                  Modified <relative-time datetime="Sat, 04 Oct 2025 22:19:42 &#43;0900"
                     class="no-wrap">
-                    Sat, 04 Oct 2025 21:13:44 &#43;0900</relative-time>
+                    Sat, 04 Oct 2025 22:19:42 &#43;0900</relative-time>
                   
                 </div>
               </div>
@@ -394,6 +398,14 @@
 <p>이 책의 냉소적인 시선을 통해 우리가 잃어버린 단순함을 한번쯤 되돌아보고, 우리가 지금 다루고 있는 기술의 본질을 더 깊이 이해하게 되는 계기가 되었으면 좋겠네요.</p>
 </article>
               </div>
+              
+              
+              <div class="paginate-container">
+                <div class="BtnGroup">
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/">Home</a>
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/posts">Posts</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -405,19 +417,36 @@
 <link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
 
   
+
+
 <div id="gitalk-container" class="gitalk-container"></div>
 <link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
 <script src='http://localhost:1313/js/gitalk.min.js'></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.18.0/js/md5.min.js"></script>
+
 <script>
   const gitalk = new Gitalk({
+    
     clientID: 'Ov23lifamEzU8X3iDFJl',
     clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
-    repo: 'cpro95',
+    repo: 'cpro95-gitalk',
     owner: 'cpro95',
     admin: ['cpro95'],
-    id: eval("location.pathname"), 
-    distractionFreeMode: false 
+    distractionFreeMode: false,
+
+    
+
+    
+    
+    
+
+    
+    id: md5(location.pathname)
+
   });
+  
   (function() {
     gitalk.render('gitalk-container');
   })();
@@ -437,7 +466,7 @@
     </a>
     <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
       
-      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      <li class="mr-3 mr-lg-0">Copyright © All rights reserved.</li>
       
       <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
     </ul>

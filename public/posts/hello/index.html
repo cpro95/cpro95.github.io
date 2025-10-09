@@ -143,6 +143,10 @@
                     <a href="http://localhost:1313/">드리프트</a>
                   </span>
                   <span class="path-divider">/</span>
+                  <span class="author">
+                    <a href="http://localhost:1313/posts">Posts</a>
+                  </span>
+                  <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
                     <a href="http://localhost:1313/posts/hello/">안녕하세요? 주인장입니다.</a>
                   </strong>
@@ -154,9 +158,9 @@
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Sat, 04 Oct 2025 17:31:52 &#43;0900"
+                  Modified <relative-time datetime="Thu, 09 Oct 2025 10:19:07 &#43;0900"
                     class="no-wrap">
-                    Sat, 04 Oct 2025 17:31:52 &#43;0900</relative-time>
+                    Thu, 09 Oct 2025 10:19:07 &#43;0900</relative-time>
                   
                 </div>
               </div>
@@ -186,7 +190,7 @@
                         </div>
                       </div>
                     </details-menu>
-                      122 Words
+                      130 Words
                     
 
                   </div>
@@ -215,8 +219,26 @@
 <p>역시나 React가 가장 잘 맞는거 같습니다.</p>
 <p>그래서 앞으로 React 관련 공부나 블로깅에 주력코자 합니다.</p>
 <p>많이 읽어 주셔서 감사합니다.</p>
-<p>끝.</p>
+<h2 id="my-sites">My Sites</h2>
+<ul>
+<li><a href="https://mycodings.fly.dev">mycodings.fly.dev</a></li>
+<li><a href="https://cpro95.tistory.com">cpro95.tistory.com</a></li>
+<li><a href="https://mynewcodings.tistory.com">mynewcodings.tistory.com</a></li>
+<li><a href="https://mylotto.pages.dev">mylotto.pages.dev</a></li>
+<li><a href="https://kakaoweb.pages.dev">KakaoWeb</a></li>
+<li><a href="https://mytrivia.pages.dev">mytrivia.pages.dev</a></li>
+<li><a href="https://mylyrics.pages.dev">mylyrivcs.pages.dev</a></li>
+<li><a href="https://gamegongyak.blogspot.com">gamegongyak.blogspot.com</a></li>
+</ul>
 </article>
+              </div>
+              
+              
+              <div class="paginate-container">
+                <div class="BtnGroup">
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/">Home</a>
+                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="http://localhost:1313/posts">Posts</a>
+                </div>
               </div>
             </div>
           </div>
@@ -229,19 +251,36 @@
 <link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
 
   
+
+
 <div id="gitalk-container" class="gitalk-container"></div>
 <link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
 <script src='http://localhost:1313/js/gitalk.min.js'></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.18.0/js/md5.min.js"></script>
+
 <script>
   const gitalk = new Gitalk({
+    
     clientID: 'Ov23lifamEzU8X3iDFJl',
     clientSecret: 'ce2a5ca50bad6bd0dba565654d02669c13ff2147',
-    repo: 'cpro95',
+    repo: 'cpro95-gitalk',
     owner: 'cpro95',
     admin: ['cpro95'],
-    id: eval("location.pathname"), 
-    distractionFreeMode: false 
+    distractionFreeMode: false,
+
+    
+
+    
+    
+    
+
+    
+    id: md5(location.pathname)
+
   });
+  
   (function() {
     gitalk.render('gitalk-container');
   })();
@@ -261,7 +300,7 @@
     </a>
     <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
       
-      <li class="mr-3 mr-lg-0">Copyright © | All rights reserved.</li>
+      <li class="mr-3 mr-lg-0">Copyright © All rights reserved.</li>
       
       <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
     </ul>
