@@ -7,8 +7,43 @@
     <generator>Hugo</generator>
     <language>ko</language>
     <copyright>Copyright © All rights reserved.</copyright>
-    <lastBuildDate>Sat, 04 Oct 2025 22:19:42 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 10 Oct 2025 20:15:48 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Beginner</title>
+      <link>http://localhost:1313/tags/beginner/</link>
+      <pubDate>Thu, 09 Oct 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/beginner/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>JavaScript</title>
+      <link>http://localhost:1313/tags/javascript/</link>
+      <pubDate>Thu, 09 Oct 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/javascript/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Loop</title>
+      <link>http://localhost:1313/tags/loop/</link>
+      <pubDate>Thu, 09 Oct 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/loop/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tutorial</title>
+      <link>http://localhost:1313/tags/tutorial/</link>
+      <pubDate>Thu, 09 Oct 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WebDev</title>
+      <link>http://localhost:1313/tags/webdev/</link>
+      <pubDate>Thu, 09 Oct 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/webdev/</guid>
+      <description></description>
+    </item>
     <item>
       <title>If 조건문</title>
       <link>http://localhost:1313/tags/if-%EC%A1%B0%EA%B1%B4%EB%AC%B8/</link>
@@ -672,6 +707,27 @@
       <link>http://localhost:1313/tags/%EC%83%81%ED%83%9C-%EB%8F%99%EA%B8%B0%ED%99%94/</link>
       <pubDate>Tue, 08 Jul 2025 11:51:11 +0000</pubDate>
       <guid>http://localhost:1313/tags/%EC%83%81%ED%83%9C-%EB%8F%99%EA%B8%B0%ED%99%94/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CLI</title>
+      <link>http://localhost:1313/tags/cli/</link>
+      <pubDate>Fri, 03 Nov 2023 11:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/cli/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Node.js</title>
+      <link>http://localhost:1313/tags/node.js/</link>
+      <pubDate>Fri, 03 Nov 2023 11:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/node.js/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shell</title>
+      <link>http://localhost:1313/tags/shell/</link>
+      <pubDate>Fri, 03 Nov 2023 11:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/tags/shell/</guid>
       <description></description>
     </item>
   </channel>

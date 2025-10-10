@@ -2,19 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/tags/beginner/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-10-09T10:09:17+09:00</lastmod>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/javascript/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/loop/</loc>
+    <lastmod>2025-10-10T20:11:15+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/tutorial/</loc>
+    <lastmod>2025-10-10T20:11:15+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/webdev/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2025-10-09-learning-web-dev-part5-javascript-loops-for-and-while/</loc>
+    <lastmod>2025-10-10T20:11:15+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/readme/</loc>
     <lastmod>2025-10-09T10:09:17+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/if-%EC%A1%B0%EA%B1%B4%EB%AC%B8/</loc>
-    <lastmod>2025-10-04T22:19:42+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-10-04T22:19:42+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-10-04T22:19:42+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%EB%85%BC%EB%A6%AC-%EC%97%B0%EC%82%B0%EC%9E%90/</loc>
@@ -345,7 +363,7 @@
     <lastmod>2025-10-04T22:19:42+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/hello/</loc>
-    <lastmod>2025-10-04T22:19:42+09:00</lastmod>
+    <lastmod>2025-10-09T10:19:07+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/localstorage/</loc>
     <lastmod>2025-10-04T22:19:42+09:00</lastmod>
@@ -363,7 +381,19 @@
     <lastmod>2025-10-04T22:19:42+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/hello/</loc>
-    <lastmod>2025-10-04T22:19:42+09:00</lastmod>
+    <lastmod>2025-10-09T10:19:07+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cli/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/node.js/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/shell/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2025-10-10-learning-web-dev-part6-javascript-beyond-browser-shell-nodejs/</loc>
+    <lastmod>2025-10-10T20:15:48+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url>

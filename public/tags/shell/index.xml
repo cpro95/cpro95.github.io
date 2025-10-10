@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on cpro95.github.io</title>
+    <link>http://localhost:1313/tags/shell/</link>
+    <description>Recent content in Shell on cpro95.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko</language>
+    <copyright>Copyright © All rights reserved.</copyright>
+    <lastBuildDate>Fri, 10 Oct 2025 20:15:48 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>웹 개발 배우기 6편 - 자바스크립트의 새로운 무대, 셸과 Node.js 정복하기</title>
+      <link>http://localhost:1313/posts/2025-10-10-learning-web-dev-part6-javascript-beyond-browser-shell-nodejs/</link>
+      <pubDate>Fri, 03 Nov 2023 11:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-10-10-learning-web-dev-part6-javascript-beyond-browser-shell-nodejs/</guid>
+      <description>&lt;h1 id=&#34;웹-개발-배우기-6편---자바스크립트의-새로운-무대-셸과-nodejs-정복하기&#34;&gt;웹 개발 배우기 6편 - 자바스크립트의 새로운 무대, 셸과 Node.js 정복하기&lt;/h1&gt;&#xA;&lt;p&gt;지금까지 우리는 웹 브라우저라는 아주 안전하고 친절한 환경에서 자바스크립트를 다뤄왔는데요.&lt;/p&gt;&#xA;&lt;p&gt;하지만 진짜 프로 개발의 세계로 나아가려면, 이 안락한 울타리를 벗어날 준비를 해야 합니다.&lt;/p&gt;&#xA;&lt;p&gt;오늘은 자바스크립트의 활동 무대를 컴퓨터 전체로 넓혀주는 두 가지 핵심 도구, 바로 &amp;lsquo;셸(Shell)&amp;lsquo;과 &amp;lsquo;Node.js&amp;rsquo;에 대해 알아볼 거거든요.&lt;/p&gt;&#xA;&lt;p&gt;조금 낯설게 들릴 수 있지만, 현대 웹 개발에선 없어서는 안 될 필수 교양과목과도 같습니다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;텍스트로-컴퓨터와-대화하기-셸&#34;&gt;텍스트로 컴퓨터와 대화하기 &amp;lsquo;셸&amp;rsquo;&lt;/h2&gt;&#xA;&lt;p&gt;우리가 보통 컴퓨터를 쓸 때 만나는 건 &amp;lsquo;그래픽 사용자 인터페이스(GUI)&amp;lsquo;라고 하는데요.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
