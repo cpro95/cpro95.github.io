@@ -1,7 +1,7 @@
 ---
 title: 안녕하세요? 주인장입니다.
 date: 2024-02-13T11:51:11.079Z
-pin: true
+pin: false
 draft: false
 tags:
   - hello
