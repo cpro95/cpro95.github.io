@@ -17,10 +17,6 @@
                     <a href="{{ .Site.BaseURL }}">{{ .Site.Params.author }}</a>
                   </span>
                   <span class="path-divider">/</span>
-                  <span class="author">
-                    <a href="{{urls.JoinPath .Site.BaseURL "posts"}}">Posts</a>
-                  </span>
-                  <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
                     <a href="{{ .Permalink }}">{{ .Title }}</a>
                   </strong>
@@ -91,14 +87,6 @@
                 <article class="markdown-body entry-content container-lg">
                   {{- .Content -}}
                 </article>
-              </div>
-              
-              <!-- Go to Posts and Home button -->
-              <div class="paginate-container">
-                <div class="BtnGroup">
-                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="{{ .Site.BaseURL }}">Home</a>
-                  <a rel="nofollow" class="btn btn-outline BtnGroup-item" href="{{urls.JoinPath .Site.BaseURL "posts"}}">Posts</a>
-                </div>
               </div>
             </div>
           </div>

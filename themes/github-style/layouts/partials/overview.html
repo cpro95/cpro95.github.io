@@ -5,12 +5,12 @@
 
 {{ if ne (len $pinned) 0}}
 {{ else }}
-{{ $section = where .Site.RegularPages "Section" "in" (slice "posts") }}
+{{ $section = where .Site.RegularPages "Section" "in" (slice "post") }}
 {{ $section_title = "Popular posts" }}
 {{ end }}
 <div>
   <div class="position-relative">
-    <!-- {{ with .Site.GetPage "/readme"  }}
+    {{ with .Site.GetPage "/readme"  }}
     <div class="Box mt-4">
       <div class="Box-body p-4">
         <div class="d-flex flex-justify-between">
@@ -31,7 +31,7 @@
         </article>
       </div>
     </div>
-    {{ end }} -->
+    {{ end }}
     <div class="mt-4">
       <div class="js-pinned-items-reorder-container">
         <h2 class="f4 mb-2 text-normal">
@@ -82,7 +82,7 @@
       </div>
     </div>
 
-    {{ $section := where .Site.RegularPages "Section" "in" (slice "posts") }}
+    {{ $section := where .Site.RegularPages "Section" "in" (slice "post") }}
     <div class="mt-4 position-relative" id="contributions" data='[{{ range $index, $elem := $section }}
 {
   "title": "{{ .Title }}",
