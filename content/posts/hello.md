@@ -28,5 +28,5 @@ summary: AI 시대에도 꾸준히 코딩 관련 정보를 공유코자 합니�
 - [mylotto.pages.dev](https://mylotto.pages.dev)
 - [KakaoWeb](https://kakaoweb.pages.dev)
 - [mytrivia.pages.dev](https://mytrivia.pages.dev)
-- [mylyrivcs.pages.dev](https://mylyrics.pages.dev)
+- [mylyrics.pages.dev](https://mylyrics.pages.dev)
 - [gamegongyak.blogspot.com](https://gamegongyak.blogspot.com)
