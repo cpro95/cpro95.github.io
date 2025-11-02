@@ -2,7 +2,6 @@
 title: 웹 개발 배우기 6편 - 자바스크립트의 새로운 무대, 셸과 Node.js 정복하기
 summary: 브라우저를 벗어난 자바스크립트의 세계로 떠나보세요. 웹 개발의 필수 도구인 셸(명령어)과 Node.js의 기본 개념부터 실전 사용법까지 완벽하게 알려드립니다.
 date: 2025-10-10 11:00:00 +0900
-draft: false
 tags:
   - JavaScript
   - Node.js
@@ -14,7 +13,7 @@ tags:
 
 # 웹 개발 배우기 6편 - 자바스크립트의 새로운 무대, 셸과 Node.js 정복하기
 
-![](https://blogger.googleusercontent.com/img/a/AVvXsEg8mv704ujbQaFfvzSDk-RynqWPf4ubpoNf9kN2b3m4yQg34f2gRqr3DIo9euCZNhJ7T6LoGNin1-eHy_ZkdbXRKcF7OmuDbTqwvRa64EGDrmVA2ODt3poUUESctKPcbqucSPsvLuALvoXxGmJtvky41ZXi1dMx6R2LhYKd9TwH18LX9bKjIGmB_HqS5Wg=s16000)
+![웹 개발 배우기 6편 - 자바스크립트의 새로운 무대, 셸과 Node.js 정복하기](https://blogger.googleusercontent.com/img/a/AVvXsEg8mv704ujbQaFfvzSDk-RynqWPf4ubpoNf9kN2b3m4yQg34f2gRqr3DIo9euCZNhJ7T6LoGNin1-eHy_ZkdbXRKcF7OmuDbTqwvRa64EGDrmVA2ODt3poUUESctKPcbqucSPsvLuALvoXxGmJtvky41ZXi1dMx6R2LhYKd9TwH18LX9bKjIGmB_HqS5Wg=s16000)
 
 지금까지 우리는 웹 브라우저라는 아주 안전하고 친절한 환경에서 자바스크립트를 다뤄왔는데요.
 
