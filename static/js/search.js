@@ -3,7 +3,7 @@
   .then(response => response.json())
   .then(data => {
     const fuse = new Fuse(data, {
-      keys: ['title'],
+      keys: ['title','summary','tags'],
       shouldSort: true,
       includeMatches: true,
       minMatchCharLength: 1, // 1글자부터 검색 가능하도록 수정
