@@ -11,11 +11,6 @@
 # ordered by weight from lowest to highest.
 
 [[main]]
-  name = "Guides"
-  pageRef = "guides"
-  weight = 10
-
-[[main]]
   name = "Posts"
   pageRef = "posts"
   weight = 20
