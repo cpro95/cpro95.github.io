@@ -2,6 +2,8 @@
 title: 웹 개발 배우기 5편 - 자바스크립트 반복문, for와 while로 지루한 작업 자동화하기
 description: 코딩의 기본기, 자바스크립트 반복문의 모든 것을 알아봅니다. for...of 부터 클래식 for, while 루프까지, 이제 반복 작업은 두렵지 않을 겁니다.
 date: 2025-10-09 10:00:00 +0900
+series: ["웹 개발 배우기"]
+weight: 5
 tags:
   - JavaScript
   - Tutorial

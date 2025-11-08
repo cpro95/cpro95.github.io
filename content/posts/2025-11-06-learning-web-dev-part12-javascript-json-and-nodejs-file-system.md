@@ -2,6 +2,8 @@
 title: 웹 개발 배우기 12편 - 데이터를 다루는 표준, JSON과 Node.js 파일 시스템 정복하기
 date: 2025-11-06T15:01:00+09:00
 description: 널리 사용되는 데이터 포맷인 JSON의 개념과 문법, 그리고 Node.js의 fs 모듈을 활용해 파일을 읽고 쓰는 방법을 배웁니다. JSON 데이터를 관리하는 실용적인 CLI 프로젝트를 통해 실습까지 완벽하게 마무리합니다.
+series: ["웹 개발 배우기"]
+weight: 12
 tags:
     - JSON
     - Node.js

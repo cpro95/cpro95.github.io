@@ -2,6 +2,8 @@
 title: 리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)
 date: 2025-08-23T15:45:50+09:00
 draft: false
+series: ["리액트를 배우셨군요 유감입니다"]
+weight: 3
 tags:
   - 리액트
   - React
