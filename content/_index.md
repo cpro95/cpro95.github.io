@@ -1,5 +1,5 @@
 ---
-title: "드리프트의 myCodingsHub"
+title: "드리프트의 cpro95.github.io"
 description: "AI 시대에도 계속 공부하는 개발자를 위한 가이드."
 ---
 
