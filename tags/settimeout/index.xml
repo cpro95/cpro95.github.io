@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SetTimeout on cpro95.github.io</title>
+    <link>https://cpro95.github.io/tags/settimeout/</link>
+    <description>Recent content in SetTimeout on cpro95.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>cpro95@gmail.com (cpro95)</managingEditor>
+    <webMaster>cpro95@gmail.com (cpro95)</webMaster>
+    
+    <lastBuildDate>Fri, 07 Nov 2025 15:10:00 +0900</lastBuildDate><atom:link href="https://cpro95.github.io/tags/settimeout/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>웹 개발 배우기 13편 - 기다림의 미학, 프로미스와 async/await로 비동기 정복하기</title>
+      <link>https://cpro95.github.io/posts/2025-11-07-learning-web-dev-part13-asynchronous-javascript-promise-async-await/</link>
+      <pubDate>Fri, 07 Nov 2025 15:10:00 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-11-07-learning-web-dev-part13-asynchronous-javascript-promise-async-await/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;웹 개발 배우기 13편 - 기다림의 미학, 프로미스와 async/await로 비동기 정복하기&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEg8mv704ujbQaFfvzSDk-RynqWPf4ubpoNf9kN2b3m4yQg34f2gRqr3DIo9euCZNhJ7T6LoGNin1-eHy_ZkdbXRKcF7OmuDbTqwvRa64EGDrmVA2ODt3poUUESctKPcbqucSPsvLuALvoXxGmJtvky41ZXi1dMx6R2LhYKd9TwH18LX9bKjIGmB_HqS5Wg=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;이 글은 프로그래밍 경험이 없는 분들을 대상으로 자바스크립트 웹 앱 제작법을 알려드리는 &amp;lsquo;웹 개발 배우기&amp;rsquo; 시리즈의 일부인데요.&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

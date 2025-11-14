@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JSX on cpro95.github.io</title>
+    <link>https://cpro95.github.io/tags/jsx/</link>
+    <description>Recent content in JSX on cpro95.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>cpro95@gmail.com (cpro95)</managingEditor>
+    <webMaster>cpro95@gmail.com (cpro95)</webMaster>
+    
+    <lastBuildDate>Sat, 23 Aug 2025 15:40:55 +0900</lastBuildDate><atom:link href="https://cpro95.github.io/tags/jsx/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 2편 (JSX와 컴포넌트, 아무도 원치 않았던 그 아이)</title>
+      <link>https://cpro95.github.io/posts/2025-08-23-react-a-satirical-guide-part-2-jsx-components/</link>
+      <pubDate>Sat, 23 Aug 2025 15:40:55 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-08-23-react-a-satirical-guide-part-2-jsx-components/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;1편에서는 리액트가 대체 왜 태어났는지, 그리고 우리 모두를 지치게 만드는 &amp;lsquo;자바스크립트 피로감&amp;rsquo;의 역사에 대해 알아봤죠.&lt;/p&gt;
+&lt;p&gt;오늘은 리액트의 가장 눈에 띄는 특징이자 가장 논란이 많은 두 가지, 바로 &amp;lsquo;JSX&amp;rsquo;와 &amp;lsquo;컴포넌트&amp;rsquo;에 대해 이 책이 얼마나 신랄하게 비판하는지 함께 들여다보려고 합니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React Element 완전 정복 - 컴포넌트와 인스턴스는 무엇이 다른가?</title>
+      <link>https://cpro95.github.io/posts/2025-07-11-react-element-deep-dive/</link>
+      <pubDate>Fri, 11 Jul 2025 11:51:11 +0000</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-11-react-element-deep-dive/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UseEffect on cpro95.github.io</title>
+    <link>https://cpro95.github.io/tags/useeffect/</link>
+    <description>Recent content in UseEffect on cpro95.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>cpro95@gmail.com (cpro95)</managingEditor>
+    <webMaster>cpro95@gmail.com (cpro95)</webMaster>
+    
+    <lastBuildDate>Sat, 23 Aug 2025 15:45:50 +0900</lastBuildDate><atom:link href="https://cpro95.github.io/tags/useeffect/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>리액트를 배우셨군요 유감입니다 3편 (useEffect와 Props Drilling이라는 지옥도)</title>
+      <link>https://cpro95.github.io/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</link>
+      <pubDate>Sat, 23 Aug 2025 15:45:50 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-08-23-react-a-satirical-guide-part-3-useeffect-props-hell/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;1편에서는 리액트의 탄생 비화와 &amp;lsquo;자바스크립트 피로감&amp;rsquo;에 대해, 2편에서는 &amp;lsquo;JSX&amp;rsquo;와 &amp;lsquo;컴포넌트&amp;rsquo;라는 리액트의 기묘한 철학에 대해 알아봤습니다.&lt;/p&gt;
+&lt;p&gt;오늘은 드디어 이 고통의 핵심으로 더 깊이 들어가 보려고 합니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React useEffect 완전 정복 - 동기화 관점으로 레벨업하기</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</link>
+      <pubDate>Sun, 13 Jul 2025 09:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React 개발자 레벨업 - 명령형 vs 선언형, 당신은 어떻게 코딩하고 있나요?</title>
+      <link>https://cpro95.github.io/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</link>
+      <pubDate>Thu, 10 Jul 2025 11:48:28 +0000</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-10-react-declarative-vs-imperative-programming-mindset/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;더 나은 React 개발자가 되기 위해서는, 코드를 작성하는 두 가지 다른 방식을 대표하는 이 두 프로그래밍 패러다임을 이해하는 것이 필수적입니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

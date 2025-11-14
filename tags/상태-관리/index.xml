@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>상태 관리 on cpro95.github.io</title>
+    <link>https://cpro95.github.io/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC/</link>
+    <description>Recent content in 상태 관리 on cpro95.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>cpro95@gmail.com (cpro95)</managingEditor>
+    <webMaster>cpro95@gmail.com (cpro95)</webMaster>
+    
+    <lastBuildDate>Sat, 19 Jul 2025 11:51:54 +0900</lastBuildDate><atom:link href="https://cpro95.github.io/tags/%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>React 상태 관리 완벽 가이드 useState부터 TanStack Query까지</title>
+      <link>https://cpro95.github.io/posts/2025-07-18-react-state-management-complete-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:51:54 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-18-react-state-management-complete-guide/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEjHpxcMaGK3Udm-7LoJA8WPJwR2HIBauIJq1tirJK-dIgP6jaOuIqZu9laHAM31nl-yB6mBvyNesCjRFZixK90nGWpEbmD4YHV_WyM8r_yRKUTWakaxJbhvfsmvUHLRx3Kyfgv23yiy4jV_ajjiWlmeRgUu3yYb7CfFIfbc3RCNSRYHNFbQwu3rmK3pLG4=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;React 애플리케이션을 개발하고 있다면, 거의 확실하게 어디에선가 &amp;lsquo;상태&amp;rsquo;를 관리하고 있을 겁니다.&lt;/p&gt;
+&lt;p&gt;상태(state)는 의외로 정의하기는 어렵지만, 예시를 통해 이해하기는 훨씬 쉽습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>왜 TanStack Router는 리액트 개발의 판도를 바꾸는가?</title>
+      <link>https://cpro95.github.io/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/</link>
+      <pubDate>Wed, 16 Jul 2025 21:59:21 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-15-why-tanstack-router-is-a-game-changer-for-react-apps/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEidjHhbi-YXQlslzNKNuzT4g9k0nolw_oabiO6CySVzJ2LWS3nHgZovp4ILGqeznMZ2yc2zxYeNm7cehj1jIfb_Mq52H_vJX4kOHHV81F1IefAEa7BPcnsVvToCB0O3oRy0P8PvFg1dsn7UR4Ykl3CL-lqVlBSMUiBaL1XqJt4EZ4pOqmmYnGuebDPBsyI&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;웹 애플리케이션을 구축할 때 &amp;lsquo;라우터&amp;rsquo;를 선택하는 것은 가장 중요한 아키텍처 결정 중 하나입니다.&lt;/p&gt;
+&lt;p&gt;라우터는 단순히 &lt;code&gt;node_modules&lt;/code&gt;에 있는 또 하나의 의존성이 아닙니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React useState 완전 정복 - 비동기 동작부터 최적화까지 (초보자가 겪는 모든 함정)</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/</link>
+      <pubDate>Sun, 13 Jul 2025 11:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-react-usestate-deep-dive-from-basics-to-optimization/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React useReducer 완전 정복 - useState의 한계를 넘어 구조적인 상태 관리하기</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</link>
+      <pubDate>Sun, 13 Jul 2025 10:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-mastering-react-usereducer-for-structured-state-management/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React useEffect 완전 정복 - 동기화 관점으로 레벨업하기</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</link>
+      <pubDate>Sun, 13 Jul 2025 09:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-mastering-react-useeffect-the-synchronization-mindset/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React Context API 완전 정복 - Prop Drilling을 넘어 최적화와 상태 관리 철학까지</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-mastering-react-context-api-deep-dive/</link>
+      <pubDate>Sun, 13 Jul 2025 08:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-mastering-react-context-api-deep-dive/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React의 진짜 반응성 - 35줄 코드로 Context API의 함정 넘어서기</title>
+      <link>https://cpro95.github.io/posts/2025-07-13-fine-grained-reactivity-is-easy/</link>
+      <pubDate>Sun, 13 Jul 2025 07:48:08 +0900</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-13-fine-grained-reactivity-is-easy/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.&lt;/p&gt;
+&lt;p&gt;이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)</title>
+      <link>https://cpro95.github.io/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/</link>
+      <pubDate>Tue, 08 Jul 2025 11:51:11 +0000</pubDate>
+      <author>cpro95@gmail.com (cpro95)</author>
+      <guid>https://cpro95.github.io/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/</guid>
+      <description>&lt;figure&gt;&lt;img
+    class=&#34;my-0 rounded-md&#34;
+    loading=&#34;lazy&#34;
+    decoding=&#34;async&#34;
+    fetchpriority=&#34;low&#34;
+    alt=&#34;&#34;
+    src=&#34;https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000&#34;
+    &gt;&lt;/figure&gt;
+&lt;p&gt;React 애플리케이션을 개발하다 보면, 애플리케이션 상태를 외부 데이터 소스와 동기화해야 할 필요가 종종 생깁니다.&lt;/p&gt;
+&lt;p&gt;특히 사용자의 테마 설정이나 장바구니 정보처럼, 브라우저 세션 간에 유지되어야 하는 데이터를 &amp;lsquo;LocalStorage&amp;rsquo;에 저장하는 경우가 대표적이죠.&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

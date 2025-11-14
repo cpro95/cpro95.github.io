@@ -1,0 +1,1097 @@
+<!doctype html>
+<html
+  lang="ko"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="en">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나? &middot; cpro95.github.io</title>
+    <meta name="title" content="React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나? &middot; cpro95.github.io">
+  
+
+  
+  
+    <meta name="description" content="React가 왜 react와 react-dom 두 개의 패키지로 나뉘어 있는지, 그 심오한 설계 철학을 알아봅니다. 뇌 역할을 하는 React와 손 역할을 하는 React-DOM의 관계를 통해, 플랫폼에 구애받지 않는 React의 이식성과 미래를 탐구합니다.">
+  
+  
+    <meta name="keywords" content="React,React-DOM,React 아키텍처,렌더러,재조정,가상 DOM,">
+  
+  
+  
+  <link rel="canonical" href="https://cpro95.github.io/posts/2025-07-12-react-and-react-dom-architecture-deep-dive/">
+  
+
+  
+  
+    <meta name="author" content="cpro95">
+  
+  
+
+  
+  <meta property="og:url" content="https://cpro95.github.io/posts/2025-07-12-react-and-react-dom-architecture-deep-dive/">
+  <meta property="og:site_name" content="cpro95.github.io">
+  <meta property="og:title" content="React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?">
+  <meta property="og:description" content="React가 왜 react와 react-dom 두 개의 패키지로 나뉘어 있는지, 그 심오한 설계 철학을 알아봅니다. 뇌 역할을 하는 React와 손 역할을 하는 React-DOM의 관계를 통해, 플랫폼에 구애받지 않는 React의 이식성과 미래를 탐구합니다.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-12T11:54:50+00:00">
+    <meta property="article:modified_time" content="2025-07-12T11:54:50+00:00">
+    <meta property="article:tag" content="React">
+    <meta property="article:tag" content="React-DOM">
+    <meta property="article:tag" content="React 아키텍처">
+    <meta property="article:tag" content="렌더러">
+    <meta property="article:tag" content="재조정">
+    <meta property="article:tag" content="가상 DOM">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?">
+  <meta name="twitter:description" content="React가 왜 react와 react-dom 두 개의 패키지로 나뉘어 있는지, 그 심오한 설계 철학을 알아봅니다. 뇌 역할을 하는 React와 손 역할을 하는 React-DOM의 관계를 통해, 플랫폼에 구애받지 않는 React의 이식성과 미래를 탐구합니다.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.b8d32ed5be95cd7994f6ad549495e661546f96418d519f501ae18bbeaf51e8d59ed0d38d60d83bd4feb9ccc6bef0eaeb195fefb40452cd2433f34d0834998b77.css"
+    integrity="sha512-uNMu1b6VzXmU9q1UlJXmYVRvlkGNUZ9QGuGLvq9R6NWe0NONYNg71P65zMa&#43;8OrrGV/vtARSzSQz800INJmLdw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+    
+    <script
+      type="text/javascript"
+      src="/js/zen-mode.min.9814dee9614d32aeb56239d118edfe20acd6231424f9b19c2dd48835038414130a5e946c0d1c9087d60e60e31840c9babfd217e3d4b95643dc8d651a71ccdf4a.js"
+      integrity="sha512-mBTe6WFNMq61YjnRGO3&#43;IKzWIxQk&#43;bGcLdSINQOEFBMKXpRsDRyQh9YOYOMYQMm6v9IX49S5VkPcjWUacczfSg=="></script>
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.9df4fc14d50efcc9aa4cfc2b6f348e365f421f5ad491278f8f48c0360cf2f93f08882fda6da162d7ace8e5add57c2df4ac46bd3861306b1d4c452cd31f448d64.js"
+      integrity="sha512-nfT8FNUO/MmqTPwrbzSONl9CH1rUkSePj0jANgzy&#43;T8IiC/abaFi16zo5a3VfC30rEa9OGEwax1MRSzTH0SNZA=="
+      data-copy="Copy"
+      data-copied="Copied"></script>
+  
+
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts 리스트",
+    "name": "React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?",
+    "headline": "React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?",
+    "description": "React가 왜 react와 react-dom 두 개의 패키지로 나뉘어 있는지, 그 심오한 설계 철학을 알아봅니다. 뇌 역할을 하는 React와 손 역할을 하는 React-DOM의 관계를 통해, 플랫폼에 구애받지 않는 React의 이식성과 미래를 탐구합니다.",
+    "abstract": "\u003cfigure\u003e\u003cimg\n    class=\u0022my-0 rounded-md\u0022\n    loading=\u0022lazy\u0022\n    decoding=\u0022async\u0022\n    fetchpriority=\u0022low\u0022\n    alt=\u0022\u0022\n    src=\u0022https:\/\/blogger.googleusercontent.com\/img\/a\/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000\u0022\n    \u003e\u003c\/figure\u003e\n\u003cp\u003e우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.\u003c\/p\u003e\n\u003cp\u003e이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "https:\/\/cpro95.github.io\/posts\/2025-07-12-react-and-react-dom-architecture-deep-dive\/",
+    "author" : {
+      "@type": "Person",
+      "name": "cpro95"
+    },
+    "copyrightYear": "2025",
+    "dateCreated": "2025-07-12T11:54:50\u002b00:00",
+    "datePublished": "2025-07-12T11:54:50\u002b00:00",
+    
+    "dateModified": "2025-07-12T11:54:50\u002b00:00",
+    
+    "keywords": ["React","React-DOM","React 아키텍처","렌더러","재조정","가상 DOM"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "760"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-XSCP6QR275"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XSCP6QR275');
+</script>
+
+
+
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Skip to main content
+      </a>
+    </div>
+    
+    
+      <div class="min-h-[148px]"></div>
+<div class="fixed inset-x-0 z-100">
+  <div
+    id="menu-blur"
+    class="absolute opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom bg-neutral dark:bg-neutral-800"></div>
+  <div class="relative m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div
+  class="main-menu flex items-center justify-between py-6 md:justify-start gap-x-3 pt-[2px] pr-2 md:pr-4 pb-[3px] pl-0">
+  
+  
+
+  <div class="flex flex-1 items-center justify-between">
+    <nav class="flex space-x-3">
+      
+        <a href="/" class="text-base font-medium">
+          cpro95.github.io
+        </a>
+      
+    </nav>
+    
+  <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+    
+      
+        
+  <a
+  href="/posts/"
+  
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="Posts"
+  title="Posts 리스트">
+  
+  
+    <p class="text-base font-medium">
+      Posts
+    </p>
+  
+</a>
+
+
+
+      
+    
+
+    
+
+    
+
+    
+      <button
+        id="search-button"
+        aria-label="Search"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+        title="Search (/)">
+        <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+      </button>
+    
+
+    
+      <div class=" flex items-center">
+        <button
+          id="appearance-switcher"
+          aria-label="Dark mode switcher"
+          type="button"
+          class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+          <div class="flex items-center justify-center dark:hidden">
+            <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+          </div>
+          <div class="items-center justify-center hidden dark:flex">
+            <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+          </div>
+        </button>
+      </div>
+    
+  </nav>
+
+    
+  <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+    <span></span>
+
+    
+
+    
+
+    
+      <button
+        id="search-button-mobile"
+        aria-label="Search"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+        title="Search (/)">
+        <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+      </button>
+    
+
+    
+      <button
+        id="appearance-switcher-mobile"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400 me-1">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    
+  </div>
+
+  </div>
+  
+  <div class="-my-2 md:hidden">
+    <div id="menu-button" class="block">
+      
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50 pt-[5px]">
+          <ul
+            class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none text-end max-w-7xl">
+            <li id="menu-close-button">
+              <span
+                class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+                <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+              </span>
+            </li>
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="/posts/"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="Posts"
+    title="Posts 리스트">
+    
+    
+      <p class="text-bg font-bg">
+        Posts
+      </p>
+    
+  </a>
+</li>
+
+
+
+            
+
+          </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<script
+  type="text/javascript"
+  src="/js/background-blur.min.00a57c73ea12f2cab2980c3c3d649e89f6d82f190f74bbe2b67f2f5e39ab7d032ece47086400ca05396758aace13299da49aca43ea643d2625e62c506267a169.js"
+  integrity="sha512-AKV8c&#43;oS8sqymAw8PWSeifbYLxkPdLvitn8vXjmrfQMuzkcIZADKBTlnWKrOEymdpJrKQ&#43;pkPSYl5ixQYmehaQ=="
+  data-blur-id="menu-blur"></script>
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+  <li class="hidden">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/"
+      >드리프트의 cpro95.github.io</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/posts/"
+      >Posts 리스트</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/posts/2025-07-12-react-and-react-dom-architecture-deep-dive/"
+      >React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        React와 React-DOM의 아키텍처 - 뇌와 손은 어떻게 분리되었나?
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2025-07-12T11:54:50&#43;00:00">Jul 12, 2025</time><span class="px-2 text-primary-500">&middot;</span><span>760 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">4 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+  <span
+    id="zen-mode-button"
+    class="text-lg hover:text-primary-500"
+    title="Enable zen mode"
+    data-title-i18n-disable="Enable zen mode"
+    data-title-i18n-enable="Disable zen mode">
+    <span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
+    <path fill="currentColor" d="M 12.980469 4 C 9.1204688 4 5.9804688 7.14 5.9804688 11 L 6 26 L 9.9804688 26 L 9.9804688 11 C 9.9804688 9.35 11.320469 8 12.980469 8 L 40.019531 8 C 41.679531 8 43.019531 9.35 43.019531 11 L 43.019531 39 C 43.019531 40.65 41.679531 42 40.019531 42 L 29 42 C 29 43.54 28.420938 44.94 27.460938 46 L 40.019531 46 C 43.879531 46 47.019531 42.86 47.019531 39 L 47.019531 11 C 47.019531 7.14 43.879531 4 40.019531 4 L 12.980469 4 z M 7 28 C 4.794 28 3 29.794 3 32 L 3 42 C 3 44.206 4.794 46 7 46 L 23 46 C 25.206 46 27 44.206 27 42 L 27 32 C 27 29.794 25.206 28 23 28 L 7 28 z M 7 32 L 23 32 L 23.001953 42 L 7 42 L 7 32 z"/>
+</svg></span></span>
+  </span>
+</span>
+
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+
+  
+  
+
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ml-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-[140px]">
+            
+              <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#서론-두-개의-패키지-하나의-철학">서론: 두 개의 패키지, 하나의 철학</a></li>
+    <li><a href="#react-패키지-애플리케이션의-뇌">React 패키지: 애플리케이션의 &lsquo;뇌&rsquo;</a></li>
+    <li><a href="#react-dom-패키지-브라우저를-위한-손">React-DOM 패키지: 브라우저를 위한 &lsquo;손&rsquo;</a></li>
+    <li><a href="#왜-두-개의-패키지로-분리했을까">왜 두 개의 패키지로 분리했을까?</a>
+      <ul>
+        <li><a href="#1-이식성-portability">1. 이식성 (Portability)</a></li>
+        <li><a href="#2-독립적인-유지보수-및-발전">2. 독립적인 유지보수 및 발전</a></li>
+        <li><a href="#3-최적화-및-번들-크기">3. 최적화 및 번들 크기</a></li>
+      </ul>
+    </li>
+    <li><a href="#jsx-없이-react-사용해보기">JSX 없이 React 사용해보기</a></li>
+    <li><a href="#결론">결론</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#서론-두-개의-패키지-하나의-철학">서론: 두 개의 패키지, 하나의 철학</a></li>
+    <li><a href="#react-패키지-애플리케이션의-뇌">React 패키지: 애플리케이션의 &lsquo;뇌&rsquo;</a></li>
+    <li><a href="#react-dom-패키지-브라우저를-위한-손">React-DOM 패키지: 브라우저를 위한 &lsquo;손&rsquo;</a></li>
+    <li><a href="#왜-두-개의-패키지로-분리했을까">왜 두 개의 패키지로 분리했을까?</a>
+      <ul>
+        <li><a href="#1-이식성-portability">1. 이식성 (Portability)</a></li>
+        <li><a href="#2-독립적인-유지보수-및-발전">2. 독립적인 유지보수 및 발전</a></li>
+        <li><a href="#3-최적화-및-번들-크기">3. 최적화 및 번들 크기</a></li>
+      </ul>
+    </li>
+    <li><a href="#jsx-없이-react-사용해보기">JSX 없이 React 사용해보기</a></li>
+    <li><a href="#결론">결론</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+
+            
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+
+        <div class="article-content max-w-prose mb-20">
+          <figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt=""
+    src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000"
+    ></figure>
+<p>우리는 React의 내부 메커니즘, 모범 사례, 디자인 패턴, 그리고 고급 개념들을 탐구합니다.</p>
+<p>이 글들은 기본을 넘어 React가 내부적으로 어떻게 작동하는지 진정으로 이해하고자 하는 React 개발자들을 위해 작성되었습니다.</p>
+
+<h2 class="relative group">서론: 두 개의 패키지, 하나의 철학
+    <div id="서론-두-개의-패키지-하나의-철학" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ec%84%9c%eb%a1%a0-%eb%91%90-%ea%b0%9c%ec%9d%98-%ed%8c%a8%ed%82%a4%ec%a7%80-%ed%95%98%eb%82%98%ec%9d%98-%ec%b2%a0%ed%95%99" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>React는 &lsquo;react&rsquo;와 &lsquo;react-dom&rsquo;이라는 두 개의 개별 패키지로 나뉘어 있습니다.</p>
+<p>이 분리는 단순히 기술적인 선택이 아니라, React의 핵심적인 아키텍처 비전을 반영합니다.</p>
+<p>마치 인간의 신체처럼, React는 &lsquo;생각하는 뇌&rsquo;와 &lsquo;실행하는 손&rsquo;으로 역할을 명확히 나누고 있습니다.</p>
+<p>오늘은 이 두 패키지의 역할과 그 분리 뒤에 숨겨진 깊은 의미를 자세히 살펴보겠습니다.</p>
+
+<h2 class="relative group">React 패키지: 애플리케이션의 &lsquo;뇌&rsquo;
+    <div id="react-패키지-애플리케이션의-뇌" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#react-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%95%a0%ed%94%8c%eb%a6%ac%ec%bc%80%ec%9d%b4%ec%85%98%ec%9d%98-%eb%87%8c" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>&lsquo;react&rsquo; 패키지는 React 애플리케이션이 무엇인지를 정의하는 핵심 로직을 담고 있습니다.</p>
+<p>마치 모든 것을 계획하고 결정하는 &lsquo;뇌&rsquo;와 같습니다.</p>
+<p>컴포넌트, 엘리먼트, 상태를 생성하고 관리하는 모든 추상적인 작업이 바로 이곳에서 이루어집니다.</p>
+<p>구체적으로 이 패키지는 다음을 관리합니다.</p>
+<ul>
+<li>&lsquo;React 엘리먼트 생성&rsquo;: 우리가 JSX로 작성한 코드를 바탕으로, 화면에 그려질 내용에 대한 &lsquo;설계도&rsquo;인 가상 DOM(React 엘리먼트 객체)을 만듭니다.</li>
+<li>&lsquo;컴포넌트 시스템 관리&rsquo;: 함수형 컴포넌트와 클래스 컴포넌트의 정의, props 전달 등 컴포넌트의 기본 구조를 관장합니다.</li>
+<li>&lsquo;훅(Hooks)과 내부 로직&rsquo;: <code>useState</code>, <code>useEffect</code> 등 훅의 모든 로직은 여기에 있습니다.
+훅은 컴포넌트의 상태와 생명주기를 관리하는 &lsquo;규칙&rsquo;이므로, 특정 플랫폼에 종속되지 않습니다.</li>
+<li>&lsquo;상태 관리와 컨텍스트&rsquo;: 컴포넌트의 상태 변경을 추적하고, Context API를 통해 상태를 전파하는 모든 메커니즘을 포함합니다.</li>
+</ul>
+<p>가장 중요한 점은 &lsquo;react&rsquo; 패키지가 &lsquo;플랫폼에 구애받지 않는다(platform-agnostic)&lsquo;는 것입니다.</p>
+<p>이 안에는 웹 브라우저의 DOM이나 모바일의 네이티브 UI에 대한 코드가 단 한 줄도 없습니다.</p>
+<p>오직 순수한 &lsquo;무엇을(what)&rsquo; 렌더링할지에 대한 계획과 로직만 존재합니다.</p>
+<p>이 덕분에 React는 웹, 모바일, 데스크톱, 심지어 VR 애플리케이션까지 넘나들 수 있는 것입니다.</p>
+
+<h2 class="relative group">React-DOM 패키지: 브라우저를 위한 &lsquo;손&rsquo;
+    <div id="react-dom-패키지-브라우저를-위한-손" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#react-dom-%ed%8c%a8%ed%82%a4%ec%a7%80-%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%eb%a5%bc-%ec%9c%84%ed%95%9c-%ec%86%90" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>&lsquo;react-dom&rsquo; 패키지는 &lsquo;웹 브라우저&rsquo;라는 특정 플랫폼을 위해 만들어졌습니다.</p>
+<p>이 패키지의 역할은 React라는 &lsquo;뇌&rsquo;가 만든 추상적인 세계(가상 DOM)와 실제 브라우저 DOM을 연결하는 &lsquo;다리&rsquo;이자, 그 계획을 실행하는 &lsquo;손&rsquo;입니다.</p>
+<p>React의 지시를 실제 DOM 변경으로 바꾸는 모든 구체적인 작업이 이곳에서 이루어집니다.</p>
+<p>주요 책임은 다음과 같습니다.</p>
+<ul>
+<li>&lsquo;초기 DOM 렌더링 관리&rsquo;: <code>createRoot(document.getElementById('root'))</code>와 같이, React 애플리케이션을 실제 HTML 문서의 특정 지점에 처음으로 &lsquo;장착(mount)&lsquo;시키는 역할을 합니다.</li>
+<li>&lsquo;효율적인 DOM 업데이트&rsquo;: 상태가 변경되었을 때, &lsquo;뇌(react)&lsquo;로부터 변경 사항에 대한 지시를 받아, <code>appendChild</code>, <code>setAttribute</code>, <code>removeChild</code> 등 브라우저가 알아듣는 명령어로 실제 DOM을 최소한으로 조작합니다.</li>
+<li>&lsquo;브라우저 이벤트 처리&rsquo;: 우리가 JSX에 작성하는 <code>onClick</code>, <code>onChange</code> 같은 이벤트들을 처리합니다.
+흥미롭게도, <code>react-dom</code>은 각 버튼마다 이벤트 리스너를 다는 대신, 애플리케이션 루트에 단 하나의 이벤트 리스너를 두고 &lsquo;이벤트 위임(event delegation)&lsquo;을 통해 모든 이벤트를 효율적으로 관리합니다.</li>
+</ul>
+
+<h2 class="relative group">왜 두 개의 패키지로 분리했을까?
+    <div id="왜-두-개의-패키지로-분리했을까" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ec%99%9c-%eb%91%90-%ea%b0%9c%ec%9d%98-%ed%8c%a8%ed%82%a4%ec%a7%80%eb%a1%9c-%eb%b6%84%eb%a6%ac%ed%96%88%ec%9d%84%ea%b9%8c" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이 아키텍처 분리는 여러 가지 중요한 이점을 제공합니다.</p>
+
+<h3 class="relative group">1. 이식성 (Portability)
+    <div id="1-이식성-portability" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%ec%9d%b4%ec%8b%9d%ec%84%b1-portability" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>이것이 가장 큰 이유입니다.</p>
+<p>React의 &lsquo;뇌&rsquo;는 그대로 둔 채, &lsquo;손&rsquo;의 역할만 하는 &lsquo;렌더러(Renderer)&lsquo;를 교체하면 다른 환경에서도 React를 사용할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 웹에서는 React-DOM 렌더러를 사용합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">createRoot</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;react-dom/client&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;root&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 모바일에서는 React-Native 렌더러를 사용합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">AppRegistry</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;react-native&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">AppRegistry</span><span class="p">.</span><span class="nx">registerComponent</span><span class="p">(</span><span class="s2">&#34;App&#34;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">App</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 테스트 환경에서는 React-Test-Renderer를 사용합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="nx">renderer</span> <span class="nx">from</span> <span class="s2">&#34;react-test-renderer&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">).</span><span class="nx">toJSON</span><span class="p">();</span>
+</span></span></code></pre></div><p>이 모든 환경에서 <code>App</code> 컴포넌트 자체는 동일하게 재사용될 수 있습니다.</p>
+<p>이것이 바로 React의 &lsquo;한 번 배워서, 어디서든 작성한다(Learn Once, Write Anywhere)&lsquo;는 철학의 핵심입니다.</p>
+
+<h3 class="relative group">2. 독립적인 유지보수 및 발전
+    <div id="2-독립적인-유지보수-및-발전" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%eb%8f%85%eb%a6%bd%ec%a0%81%ec%9d%b8-%ec%9c%a0%ec%a7%80%eb%b3%b4%ec%88%98-%eb%b0%8f-%eb%b0%9c%ec%a0%84" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>각 패키지는 독립적으로 발전할 수 있습니다.</p>
+<p>예를 들어, React 팀은 브라우저 DOM의 변화와는 상관없이 새로운 훅(<code>useOptimistic</code> 등)을 &lsquo;react&rsquo; 패키지에 추가할 수 있습니다.</p>
+<p>반대로, 브라우저에 새로운 API가 등장하면, &lsquo;react-dom&rsquo; 팀은 React의 핵심 로직을 건드리지 않고도 렌더링 성능을 최적화할 수 있습니다.</p>
+
+<h3 class="relative group">3. 최적화 및 번들 크기
+    <div id="3-최적화-및-번들-크기" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%ec%b5%9c%ec%a0%81%ed%99%94-%eb%b0%8f-%eb%b2%88%eb%93%a4-%ed%81%ac%ea%b8%b0" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>이 분리는 번들 크기를 최적화하는 데 도움이 됩니다.</p>
+<p>예를 들어, 모바일 앱을 빌드할 때는 웹 브라우저의 DOM 조작과 관련된 <code>react-dom</code>의 방대한 코드를 포함할 필요가 전혀 없습니다.</p>
+
+<h2 class="relative group">JSX 없이 React 사용해보기
+    <div id="jsx-없이-react-사용해보기" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#jsx-%ec%97%86%ec%9d%b4-react-%ec%82%ac%ec%9a%a9%ed%95%b4%eb%b3%b4%ea%b8%b0" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이 분리 구조를 실제로 체감할 수 있는 재미있는 방법이 있습니다.</p>
+<p>바로 JSX 없이 React를 사용하는 것입니다.</p>
+<p>사실 JSX는 <code>React.createElement()</code> 함수를 더 편하게 쓰기 위한 &lsquo;문법적 설탕(Syntactic Sugar)&lsquo;일 뿐입니다.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// createElement와 useState는 &#39;react&#39; 패키지에서 옵니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="p">{</span> <span class="nx">createElement</span><span class="p">,</span> <span class="nx">useState</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">React</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Counter</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">[</span><span class="nx">count</span><span class="p">,</span> <span class="nx">setCount</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 이 모든 것은 UI의 &#39;설계도&#39;를 만드는 과정입니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nx">createElement</span><span class="p">(</span><span class="s2">&#34;div&#34;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">createElement</span><span class="p">(</span><span class="s2">&#34;p&#34;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="sb">`Counter: </span><span class="si">${</span><span class="nx">count</span><span class="si">}</span><span class="sb">`</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">createElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;button&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span> <span class="nx">onClick</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">setCount</span><span class="p">(</span><span class="nx">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Increment&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">createElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;button&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span> <span class="nx">onClick</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">setCount</span><span class="p">(</span><span class="nx">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Decrement&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// createRoot와 render는 &#39;react-dom&#39; 패키지에서 옵니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;root&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &#39;뇌&#39;가 만든 설계도(엘리먼트)를 &#39;손&#39;에게 전달하여 화면에 그리도록 명령합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">Counter</span><span class="p">));</span>
+</span></span></code></pre></div><p>솔직히 말해, 보기에 아주 장황한 코드죠! 😅 이것이 바로 우리가 JSX의 편리함에 감사해야 하는 이유입니다.</p>
+
+<h2 class="relative group">결론
+    <div id="결론" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ea%b2%b0%eb%a1%a0" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p><code>react</code>와 <code>react-dom</code>의 분리 아키텍처는 훌륭한 설계가 어떻게 코드에 유연성과 유지보수성을 부여하는지 보여주는 완벽한 예시입니다.</p>
+<p>이 구조는 React가 다양한 환경에서 작동하게 하면서도, 코드베이스를 일관되고 최적화된 상태로 유지할 수 있게 해줍니다.
+핵심을 다시 정리해 보겠습니다.</p>
+<ul>
+<li>&lsquo;React&rsquo;는 &lsquo;무엇을&rsquo; 할지 결정하는 &lsquo;뇌&rsquo;입니다.</li>
+<li>&lsquo;React-DOM&rsquo;은 브라우저에서 그 결정을 실행하는 &lsquo;손&rsquo;입니다.</li>
+<li>이 분리 덕분에 React는 다른 플랫폼(모바일 등)에서도 작동할 수 있습니다.</li>
+<li>각 플랫폼에 맞는 최적화를 가능하게 합니다.</li>
+<li>서버 컴포넌트나 스트리밍 같은 현대적인 고급 기능을 지원하는 기반이 됩니다.</li>
+</ul>
+<p>이 아키텍처는 React 19와 그 이후에도 계속해서 발전하며, React가 성공할 수 있었던 이유인 단순함과 유연성을 유지하면서 개발자들에게 더 많은 가능성을 열어줄 것입니다.</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+
+        
+
+      </div>
+
+      
+      
+        
+        
+          
+          
+        
+        
+        
+        <script
+          type="text/javascript"
+          src="/js/page.min.54b6f4371722649edbe871e431d8670d670878c22be8f36e229fe53cc9b786fe25a834def5e6de621f7a3e37b72bc8cd73839aa5ed907ed6cbd45cd3e1b0fa20.js"
+          integrity="sha512-VLb0NxciZJ7b6HHkMdhnDWcIeMIr6PNuIp/lPMm3hv4lqDTe9ebeYh96Pje3K8jNc4Oape2QftbL1FzT4bD6IA=="
+          data-oid="views_posts/2025-07-12-react-and-react-dom-architecture-deep-dive.md"
+          data-oid-likes="likes_posts/2025-07-12-react-and-react-dom-architecture-deep-dive.md"></script>
+      
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+      
+      
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/2025-07-12-functional-programming-principles-in-react/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;React와 함수형 프로그래밍 - 더 나은 코드를 위한 핵심 원칙
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2025-07-12T12:41:31&#43;00:00">Jul 12, 2025</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/2025-07-11-react-element-deep-dive/">
+              <span class="leading-6">
+                React Element 완전 정복 - 컴포넌트와 인스턴스는 무엇이 다른가?&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
+            
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2025-07-11T11:51:11&#43;00:00">Jul 11, 2025</time>
+              </span>
+            
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top"
+    title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+
+    
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js"
+    integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="https://cpro95.github.io/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+  
+</html>

@@ -1,0 +1,1136 @@
+<!doctype html>
+<html
+  lang="ko"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="en">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage) &middot; cpro95.github.io</title>
+    <meta name="title" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage) &middot; cpro95.github.io">
+  
+
+  
+  
+    <meta name="description" content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.">
+  
+  
+    <meta name="keywords" content="hello,useSyncExternalStore,React 18,상태 관리,state management,LocalStorage,상태 동기화,React 훅,">
+  
+  
+  
+  <link rel="canonical" href="https://cpro95.github.io/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/">
+  
+
+  
+  
+    <meta name="author" content="cpro95">
+  
+  
+
+  
+  <meta property="og:url" content="https://cpro95.github.io/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/">
+  <meta property="og:site_name" content="cpro95.github.io">
+  <meta property="og:title" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)">
+  <meta property="og:description" content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-08T11:51:11+00:00">
+    <meta property="article:modified_time" content="2025-07-08T11:51:11+00:00">
+    <meta property="article:tag" content="Hello">
+    <meta property="article:tag" content="UseSyncExternalStore">
+    <meta property="article:tag" content="React 18">
+    <meta property="article:tag" content="상태 관리">
+    <meta property="article:tag" content="State Management">
+    <meta property="article:tag" content="LocalStorage">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)">
+  <meta name="twitter:description" content="React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.b8d32ed5be95cd7994f6ad549495e661546f96418d519f501ae18bbeaf51e8d59ed0d38d60d83bd4feb9ccc6bef0eaeb195fefb40452cd2433f34d0834998b77.css"
+    integrity="sha512-uNMu1b6VzXmU9q1UlJXmYVRvlkGNUZ9QGuGLvq9R6NWe0NONYNg71P65zMa&#43;8OrrGV/vtARSzSQz800INJmLdw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+    
+    <script
+      type="text/javascript"
+      src="/js/zen-mode.min.9814dee9614d32aeb56239d118edfe20acd6231424f9b19c2dd48835038414130a5e946c0d1c9087d60e60e31840c9babfd217e3d4b95643dc8d651a71ccdf4a.js"
+      integrity="sha512-mBTe6WFNMq61YjnRGO3&#43;IKzWIxQk&#43;bGcLdSINQOEFBMKXpRsDRyQh9YOYOMYQMm6v9IX49S5VkPcjWUacczfSg=="></script>
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.9df4fc14d50efcc9aa4cfc2b6f348e365f421f5ad491278f8f48c0360cf2f93f08882fda6da162d7ace8e5add57c2df4ac46bd3861306b1d4c452cd31f448d64.js"
+      integrity="sha512-nfT8FNUO/MmqTPwrbzSONl9CH1rUkSePj0jANgzy&#43;T8IiC/abaFi16zo5a3VfC30rEa9OGEwax1MRSzTH0SNZA=="
+      data-copy="Copy"
+      data-copied="Copied"></script>
+  
+
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts 리스트",
+    "name": "React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)",
+    "headline": "React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)",
+    "description": "React의 상태 찢어짐(tearing) 문제는 무엇이며, React 18의 useSyncExternalStore 훅이 이 문제를 어떻게 해결하는지 알아봅니다. LocalStorage와 연동하여 여러 브라우저 탭 간에 상태를 동기화하는 실용적인 예제를 통해 완벽하게 마스터해 보세요.",
+    "abstract": "\u003cfigure\u003e\u003cimg\n    class=\u0022my-0 rounded-md\u0022\n    loading=\u0022lazy\u0022\n    decoding=\u0022async\u0022\n    fetchpriority=\u0022low\u0022\n    alt=\u0022\u0022\n    src=\u0022https:\/\/blogger.googleusercontent.com\/img\/a\/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000\u0022\n    \u003e\u003c\/figure\u003e\n\u003cp\u003eReact 애플리케이션을 개발하다 보면, 애플리케이션 상태를 외부 데이터 소스와 동기화해야 할 필요가 종종 생깁니다.\u003c\/p\u003e\n\u003cp\u003e특히 사용자의 테마 설정이나 장바구니 정보처럼, 브라우저 세션 간에 유지되어야 하는 데이터를 \u0026lsquo;LocalStorage\u0026rsquo;에 저장하는 경우가 대표적이죠.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "https:\/\/cpro95.github.io\/posts\/2025-07-08-react-usesyncexternalstore-guide-with-localstorage\/",
+    "author" : {
+      "@type": "Person",
+      "name": "cpro95"
+    },
+    "copyrightYear": "2025",
+    "dateCreated": "2025-07-08T11:51:11\u002b00:00",
+    "datePublished": "2025-07-08T11:51:11\u002b00:00",
+    
+    "dateModified": "2025-07-08T11:51:11\u002b00:00",
+    
+    "keywords": ["hello","useSyncExternalStore","React 18","상태 관리","state management","LocalStorage","상태 동기화","React 훅"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "887"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-XSCP6QR275"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XSCP6QR275');
+</script>
+
+
+
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Skip to main content
+      </a>
+    </div>
+    
+    
+      <div class="min-h-[148px]"></div>
+<div class="fixed inset-x-0 z-100">
+  <div
+    id="menu-blur"
+    class="absolute opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom bg-neutral dark:bg-neutral-800"></div>
+  <div class="relative m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div
+  class="main-menu flex items-center justify-between py-6 md:justify-start gap-x-3 pt-[2px] pr-2 md:pr-4 pb-[3px] pl-0">
+  
+  
+
+  <div class="flex flex-1 items-center justify-between">
+    <nav class="flex space-x-3">
+      
+        <a href="/" class="text-base font-medium">
+          cpro95.github.io
+        </a>
+      
+    </nav>
+    
+  <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+    
+      
+        
+  <a
+  href="/posts/"
+  
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="Posts"
+  title="Posts 리스트">
+  
+  
+    <p class="text-base font-medium">
+      Posts
+    </p>
+  
+</a>
+
+
+
+      
+    
+
+    
+
+    
+
+    
+      <button
+        id="search-button"
+        aria-label="Search"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+        title="Search (/)">
+        <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+      </button>
+    
+
+    
+      <div class=" flex items-center">
+        <button
+          id="appearance-switcher"
+          aria-label="Dark mode switcher"
+          type="button"
+          class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+          <div class="flex items-center justify-center dark:hidden">
+            <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+          </div>
+          <div class="items-center justify-center hidden dark:flex">
+            <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+          </div>
+        </button>
+      </div>
+    
+  </nav>
+
+    
+  <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+    <span></span>
+
+    
+
+    
+
+    
+      <button
+        id="search-button-mobile"
+        aria-label="Search"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+        title="Search (/)">
+        <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+      </button>
+    
+
+    
+      <button
+        id="appearance-switcher-mobile"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base hover:text-primary-600 dark:hover:text-primary-400 me-1">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    
+  </div>
+
+  </div>
+  
+  <div class="-my-2 md:hidden">
+    <div id="menu-button" class="block">
+      
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50 pt-[5px]">
+          <ul
+            class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none text-end max-w-7xl">
+            <li id="menu-close-button">
+              <span
+                class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+                <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+              </span>
+            </li>
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="/posts/"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="Posts"
+    title="Posts 리스트">
+    
+    
+      <p class="text-bg font-bg">
+        Posts
+      </p>
+    
+  </a>
+</li>
+
+
+
+            
+
+          </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<script
+  type="text/javascript"
+  src="/js/background-blur.min.00a57c73ea12f2cab2980c3c3d649e89f6d82f190f74bbe2b67f2f5e39ab7d032ece47086400ca05396758aace13299da49aca43ea643d2625e62c506267a169.js"
+  integrity="sha512-AKV8c&#43;oS8sqymAw8PWSeifbYLxkPdLvitn8vXjmrfQMuzkcIZADKBTlnWKrOEymdpJrKQ&#43;pkPSYl5ixQYmehaQ=="
+  data-blur-id="menu-blur"></script>
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+  <li class="hidden">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/"
+      >드리프트의 cpro95.github.io</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/posts/"
+      >Posts 리스트</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden">
+    <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage/"
+      >React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        React 18의 숨겨진 보석, useSyncExternalStore 완벽 가이드 (feat. LocalStorage)
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2025-07-08T11:51:11&#43;00:00">Jul 8, 2025</time><span class="px-2 text-primary-500">&middot;</span><span>887 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+  <span
+    id="zen-mode-button"
+    class="text-lg hover:text-primary-500"
+    title="Enable zen mode"
+    data-title-i18n-disable="Enable zen mode"
+    data-title-i18n-enable="Disable zen mode">
+    <span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
+    <path fill="currentColor" d="M 12.980469 4 C 9.1204688 4 5.9804688 7.14 5.9804688 11 L 6 26 L 9.9804688 26 L 9.9804688 11 C 9.9804688 9.35 11.320469 8 12.980469 8 L 40.019531 8 C 41.679531 8 43.019531 9.35 43.019531 11 L 43.019531 39 C 43.019531 40.65 41.679531 42 40.019531 42 L 29 42 C 29 43.54 28.420938 44.94 27.460938 46 L 40.019531 46 C 43.879531 46 47.019531 42.86 47.019531 39 L 47.019531 11 C 47.019531 7.14 43.879531 4 40.019531 4 L 12.980469 4 z M 7 28 C 4.794 28 3 29.794 3 32 L 3 42 C 3 44.206 4.794 46 7 46 L 23 46 C 25.206 46 27 44.206 27 42 L 27 32 C 27 29.794 25.206 28 23 28 L 7 28 z M 7 32 L 23 32 L 23.001953 42 L 7 42 L 7 32 z"/>
+</svg></span></span>
+  </span>
+</span>
+
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+
+  
+  
+
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ml-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-[140px]">
+            
+              <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#왜-usesyncexternalstore를-사용해야-할까요">왜 <code>useSyncExternalStore</code>를 사용해야 할까요?</a>
+      <ul>
+        <li><a href="#과거의-문제점-상태-찢어짐state-tearing">과거의 문제점: &lsquo;상태 찢어짐(State Tearing)&rsquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#usesyncexternalstore의-세-가지-핵심-인자"><code>useSyncExternalStore</code>의 세 가지 핵심 인자</a></li>
+    <li><a href="#구체적인-예제-localstorage와-테마-동기화하기">구체적인 예제: LocalStorage와 테마 동기화하기</a>
+      <ul>
+        <li><a href="#1단계-커스텀-훅-usethemestore-만들기">1단계: 커스텀 훅 <code>useThemeStore</code> 만들기</a></li>
+        <li><a href="#2단계-애플리케이션에-훅-적용하기">2단계: 애플리케이션에 훅 적용하기</a></li>
+      </ul>
+    </li>
+    <li><a href="#usesyncexternalstore의-다른-활용-사례"><code>useSyncExternalStore</code>의 다른 활용 사례</a></li>
+    <li><a href="#결론">결론</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#왜-usesyncexternalstore를-사용해야-할까요">왜 <code>useSyncExternalStore</code>를 사용해야 할까요?</a>
+      <ul>
+        <li><a href="#과거의-문제점-상태-찢어짐state-tearing">과거의 문제점: &lsquo;상태 찢어짐(State Tearing)&rsquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#usesyncexternalstore의-세-가지-핵심-인자"><code>useSyncExternalStore</code>의 세 가지 핵심 인자</a></li>
+    <li><a href="#구체적인-예제-localstorage와-테마-동기화하기">구체적인 예제: LocalStorage와 테마 동기화하기</a>
+      <ul>
+        <li><a href="#1단계-커스텀-훅-usethemestore-만들기">1단계: 커스텀 훅 <code>useThemeStore</code> 만들기</a></li>
+        <li><a href="#2단계-애플리케이션에-훅-적용하기">2단계: 애플리케이션에 훅 적용하기</a></li>
+      </ul>
+    </li>
+    <li><a href="#usesyncexternalstore의-다른-활용-사례"><code>useSyncExternalStore</code>의 다른 활용 사례</a></li>
+    <li><a href="#결론">결론</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+
+            
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+
+        <div class="article-content max-w-prose mb-20">
+          <figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt=""
+    src="https://blogger.googleusercontent.com/img/a/AVvXsEgr_P_vbKgrljls-Gm7_Q94A5hP7OGGDjiZ4NqZq0cUJXCAeOxSriFZ63Fo7ho_lEsmt12FiMbXbcDJham42JrUyfgIZh1Wjqm5xJzzk3myWV9Lzbqupz9NkwIb9NtsomHN7FiIGPDnwgrqDWOtBu86bPddi0h14xq8FI5lK3012XK6vxkGx3yQWs2xW7w=s16000"
+    ></figure>
+<p>React 애플리케이션을 개발하다 보면, 애플리케이션 상태를 외부 데이터 소스와 동기화해야 할 필요가 종종 생깁니다.</p>
+<p>특히 사용자의 테마 설정이나 장바구니 정보처럼, 브라우저 세션 간에 유지되어야 하는 데이터를 &lsquo;LocalStorage&rsquo;에 저장하는 경우가 대표적이죠.</p>
+<p>React 18부터는 이러한 동기화를 원활하게 처리하기 위해 <code>useSyncExternalStore</code>라는 새로운 훅이 도입되었습니다.</p>
+<p>오늘은 이 강력한 훅을 사용하는 구체적인 예제를 통해 그 사용법을 깊이 있게 알아보겠습니다.</p>
+
+<h2 class="relative group">왜 <code>useSyncExternalStore</code>를 사용해야 할까요?
+    <div id="왜-usesyncexternalstore를-사용해야-할까요" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ec%99%9c-usesyncexternalstore%eb%a5%bc-%ec%82%ac%ec%9a%a9%ed%95%b4%ec%95%bc-%ed%95%a0%ea%b9%8c%ec%9a%94" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이 훅의 이름을 직역하면 &lsquo;외부 저장소의 상태를 동기화하는 데 사용한다&rsquo;는 의미입니다.</p>
+<p>여기서 &lsquo;외부 저장소&rsquo;란 React의 상태 관리 시스템 바깥에 있는 모든 데이터 소스를 의미합니다.</p>
+<p>예를 들어, <code>localStorage</code>, <code>sessionStorage</code>, 브라우저의 <code>window.matchMedia</code> API, 심지어 Redux나 Zustand 같은 서드파티 상태 관리 라이브러리의 스토어까지 모두 해당됩니다.</p>
+
+<h3 class="relative group">과거의 문제점: &lsquo;상태 찢어짐(State Tearing)&rsquo;
+    <div id="과거의-문제점-상태-찢어짐state-tearing" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ea%b3%bc%ea%b1%b0%ec%9d%98-%eb%ac%b8%ec%a0%9c%ec%a0%90-%ec%83%81%ed%83%9c-%ec%b0%a2%ec%96%b4%ec%a7%90state-tearing" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>React 18 이전에는 <code>useState</code>와 <code>useEffect</code>를 조합하여 외부 저장소를 구독하는 방식을 주로 사용했습니다.</p>
+<p>하지만 이 방식은 React 18의 &lsquo;동시성 렌더링(Concurrent Rendering)&rsquo; 환경에서 치명적인 문제를 일으킬 수 있었습니다.</p>
+<p>바로 &lsquo;상태 찢어짐(tearing)&rsquo; 현상입니다.</p>
+<p>동시성 렌더링 환경에서 React는 렌더링을 잠시 멈추거나, 다른 렌더링을 먼저 처리할 수 있습니다.</p>
+<p>이때 외부 저장소의 값이 변경되면, 화면의 일부 컴포넌트는 변경 전의 옛날 값을 보여주고, 다른 일부는 변경 후의 새로운 값을 보여주는 &lsquo;불일치&rsquo; 상태가 발생할 수 있습니다.</p>
+<p>UI가 찢어진 것처럼 보이는 이 현상이 바로 &lsquo;상태 찢어짐&rsquo;입니다.</p>
+<p><code>useSyncExternalStore</code>는 바로 이 문제를 해결하기 위해 탄생했습니다.</p>
+<p>이 훅은 React의 렌더링 과정과 외부 데이터 소스의 동기화를 보장하여, 동시성 환경에서도 항상 일관된 상태를 유지하도록 만듭니다.</p>
+
+<h2 class="relative group"><code>useSyncExternalStore</code>의 세 가지 핵심 인자
+    <div id="usesyncexternalstore의-세-가지-핵심-인자" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#usesyncexternalstore%ec%9d%98-%ec%84%b8-%ea%b0%80%ec%a7%80-%ed%95%b5%ec%8b%ac-%ec%9d%b8%ec%9e%90" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이 훅은 세 개의 인자를 받습니다.</p>
+<p><code>useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)</code></p>
+<ol>
+<li><code>subscribe</code>: 외부 저장소의 &lsquo;변화를 감지&rsquo;하는 방법을 알려주는 함수입니다.
+이 함수는 콜백 함수를 인자로 받아, 저장소에 변화가 생겼을 때 그 콜백을 호출하도록 구독(subscribe) 로직을 구현해야 합니다.
+또한, 구독을 해지하는 함수를 반환해야 합니다.</li>
+<li><code>getSnapshot</code>: 외부 저장소의 &lsquo;현재 값&rsquo;을 가져오는 방법을 알려주는 함수입니다.
+이 함수는 저장소 데이터의 스냅샷을 반환해야 합니다.</li>
+<li><code>getServerSnapshot</code> (선택 사항): 서버 사이드 렌더링(SSR) 시에 사용할 초기 스냅샷을 제공하는 함수입니다.
+클라이언트와 서버의 초기 HTML이 일치하도록 보장하는 역할을 합니다.</li>
+</ol>
+
+<h2 class="relative group">구체적인 예제: LocalStorage와 테마 동기화하기
+    <div id="구체적인-예제-localstorage와-테마-동기화하기" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ea%b5%ac%ec%b2%b4%ec%a0%81%ec%9d%b8-%ec%98%88%ec%a0%9c-localstorage%ec%99%80-%ed%85%8c%eb%a7%88-%eb%8f%99%ea%b8%b0%ed%99%94%ed%95%98%ea%b8%b0" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이제 사용자가 라이트/다크 테마를 선택하고, 그 선택이 여러 브라우저 탭에 걸쳐 동기화되는 예제를 만들어 보겠습니다.</p>
+
+<h3 class="relative group">1단계: 커스텀 훅 <code>useThemeStore</code> 만들기
+    <div id="1단계-커스텀-훅-usethemestore-만들기" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1%eb%8b%a8%ea%b3%84-%ec%bb%a4%ec%8a%a4%ed%85%80-%ed%9b%85-usethemestore-%eb%a7%8c%eb%93%a4%ea%b8%b0" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>가장 먼저 <code>localStorage</code>의 변화를 감지하고 상태를 업데이트하는 로직을 담은 커스텀 훅을 만듭니다.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// useThemeStore.ts
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">useSyncExternalStore</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;react&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Theme</span> <span class="o">=</span> <span class="s2">&#34;light&#34;</span> <span class="o">|</span> <span class="s2">&#34;dark&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">THEME_STORAGE_KEY</span> <span class="o">=</span> <span class="s2">&#34;app-theme&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;getSnapshot&#34; 역할을 하는 함수: 현재 localStorage의 값을 읽어옵니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">getThemeFromLocalStorage</span> <span class="o">=</span> <span class="p">()</span><span class="o">:</span> <span class="nx">Theme</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="nx">THEME_STORAGE_KEY</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">Theme</span><span class="p">)</span> <span class="o">||</span> <span class="s2">&#34;light&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;subscribe&#34; 역할을 하는 함수: localStorage의 &#39;storage&#39; 이벤트를 구독합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">subscribe</span> <span class="o">=</span> <span class="p">(</span><span class="nx">callback</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span><span class="o">:</span> <span class="p">(()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&#34;storage&#34;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 구독 해지 함수를 반환합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&#34;storage&#34;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 우리의 최종 커스텀 훅
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">useThemeStore</span> <span class="o">=</span> <span class="p">()</span><span class="o">:</span> <span class="p">[</span><span class="nx">Theme</span><span class="p">,</span> <span class="p">(</span><span class="nx">newTheme</span>: <span class="kt">Theme</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// useSyncExternalStore에 구독 함수와 스냅샷 함수를 전달합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">theme</span> <span class="o">=</span> <span class="nx">useSyncExternalStore</span><span class="p">(</span><span class="nx">subscribe</span><span class="p">,</span> <span class="nx">getThemeFromLocalStorage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">setTheme</span> <span class="o">=</span> <span class="p">(</span><span class="nx">newTheme</span>: <span class="kt">Theme</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1. localStorage에 새로운 테마 값을 저장합니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="nx">THEME_STORAGE_KEY</span><span class="p">,</span> <span class="nx">newTheme</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2. &#39;storage&#39; 이벤트를 수동으로 발생시킵니다.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="s2">&#34;storage&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">[</span><span class="nx">theme</span><span class="p">,</span> <span class="nx">setTheme</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">useThemeStore</span><span class="p">;</span>
+</span></span></code></pre></div><p>여기서 가장 중요한 부분들을 자세히 살펴보겠습니다.</p>
+<ul>
+<li><code>getThemeFromLocalStorage</code> 함수는 <code>useSyncExternalStore</code>의 두 번째 인자인 <code>getSnapshot</code>의 역할을 합니다.
+언제나 <code>localStorage</code>에서 최신 값을 읽어오죠.</li>
+<li><code>subscribe</code> 함수는 <code>useSyncExternalStore</code>의 첫 번째 인자입니다.
+브라우저의 <code>storage</code> 이벤트는 다른 탭이나 창에서 <code>localStorage</code>가 변경되었을 때 발생합니다.
+이 이벤트를 구독함으로써 다른 탭의 변경 사항을 감지할 수 있습니다.</li>
+<li><code>setTheme</code> 함수 안의 <code>window.dispatchEvent(new Event(&quot;storage&quot;))</code>는 이 솔루션의 &lsquo;핵심 트릭&rsquo;입니다.
+<code>storage</code> 이벤트는 기본적으로 &lsquo;다른&rsquo; 탭에서의 변경만 감지합니다.
+따라서 현재 탭에서 <code>setTheme</code>을 호출했을 때도 상태가 즉시 업데이트되게 하려면, 이벤트를 수동으로 발생시켜 <code>subscribe</code>의 콜백 함수가 실행되도록 만들어야 합니다.</li>
+</ul>
+
+<h3 class="relative group">2단계: 애플리케이션에 훅 적용하기
+    <div id="2단계-애플리케이션에-훅-적용하기" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2%eb%8b%a8%ea%b3%84-%ec%95%a0%ed%94%8c%eb%a6%ac%ec%bc%80%ec%9d%b4%ec%85%98%ec%97%90-%ed%9b%85-%ec%a0%81%ec%9a%a9%ed%95%98%ea%b8%b0" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>이제 우리가 만든 <code>useThemeStore</code> 훅을 사용하여 애플리케이션을 구성해 보겠습니다.</p>
+<p>이 훅 덕분에 각 컴포넌트는 <code>localStorage</code> 동기화의 복잡한 내부 로직을 전혀 알 필요 없이, 마치 일반적인 <code>useState</code>처럼 상태를 사용할 수 있습니다.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// App.tsx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="nx">React</span> <span class="kr">from</span> <span class="s2">&#34;react&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">Header</span> <span class="kr">from</span> <span class="s2">&#34;./Header&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">ThemeToggler</span> <span class="kr">from</span> <span class="s2">&#34;./ThemeToggler&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">Footer</span> <span class="kr">from</span> <span class="s2">&#34;./Footer&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">useThemeStore</span> <span class="kr">from</span> <span class="s2">&#34;./useThemeStore&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">styled</span> <span class="kr">from</span> <span class="s2">&#34;styled-components&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">AppContainer</span> <span class="o">=</span> <span class="nx">styled</span><span class="p">.</span><span class="nx">div</span><span class="o">&lt;</span><span class="p">{</span> <span class="nx">themeType</span><span class="o">:</span> <span class="s2">&#34;light&#34;</span> <span class="o">|</span> <span class="s2">&#34;dark&#34;</span> <span class="p">}</span><span class="o">&gt;</span><span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">  min-height: 100vh;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  background-color: </span><span class="si">${</span><span class="p">({</span> <span class="nx">themeType</span> <span class="si">}</span><span class="sb">) =&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    themeType === &#34;light&#34; ? &#34;#ffffff&#34; : &#34;#333333&#34;};
+</span></span></span><span class="line"><span class="cl"><span class="sb">  color: </span><span class="si">${</span><span class="p">({</span> <span class="nx">themeType</span> <span class="si">}</span><span class="sb">) =&gt; (themeType === &#34;light&#34; ? &#34;#000000&#34; : &#34;#ffffff&#34;)};
+</span></span></span><span class="line"><span class="cl"><span class="sb">  // ... 기타 스타일
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">App</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">[</span><span class="nx">theme</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useThemeStore</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">AppContainer</span> <span class="na">themeType</span><span class="o">=</span><span class="p">{</span><span class="nx">theme</span><span class="p">}&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">Header</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">ThemeToggler</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">Footer</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">AppContainer</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// ThemeToggler.tsx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="nx">React</span> <span class="kr">from</span> <span class="s2">&#34;react&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">useThemeStore</span> <span class="kr">from</span> <span class="s2">&#34;./useThemeStore&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">ThemeToggler</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">[</span><span class="nx">theme</span><span class="p">,</span> <span class="nx">setTheme</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useThemeStore</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">toggleTheme</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">setTheme</span><span class="p">(</span><span class="nx">theme</span> <span class="o">===</span> <span class="s2">&#34;light&#34;</span> <span class="o">?</span> <span class="s2">&#34;dark&#34;</span> <span class="o">:</span> <span class="s2">&#34;light&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">toggleTheme</span><span class="p">}&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Switch</span> <span class="nx">to</span> <span class="p">{</span><span class="nx">theme</span> <span class="o">===</span> <span class="s2">&#34;light&#34;</span> <span class="o">?</span> <span class="s2">&#34;Dark&#34;</span> <span class="o">:</span> <span class="s2">&#34;Light&#34;</span><span class="p">}</span> <span class="nx">Theme</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">ThemeToggler</span><span class="p">;</span>
+</span></span></code></pre></div><p>이제 애플리케이션을 두 개의 브라우저 탭에서 열어 보세요.</p>
+<p>한쪽 탭에서 테마 변경 버튼을 누르면, 다른 쪽 탭의 테마도 즉시 함께 변경되는 마법 같은 경험을 할 수 있습니다.</p>
+
+<h2 class="relative group"><code>useSyncExternalStore</code>의 다른 활용 사례
+    <div id="usesyncexternalstore의-다른-활용-사례" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#usesyncexternalstore%ec%9d%98-%eb%8b%a4%eb%a5%b8-%ed%99%9c%ec%9a%a9-%ec%82%ac%eb%a1%80" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>이 훅의 활용 가능성은 무궁무진합니다.</p>
+<ul>
+<li>&lsquo;로그인 상태 동기화&rsquo;: 한 탭에서 사용자가 로그아웃하면, 다른 모든 탭에서도 자동으로 로그아웃 상태가 반영되도록 할 수 있습니다.</li>
+<li>&lsquo;장바구니 동기화&rsquo;: 이커머스 사이트에서 한 탭에 상품을 담으면, 다른 탭의 장바구니 아이콘에도 즉시 상품 개수가 업데이트됩니다.</li>
+<li>&lsquo;실시간 데이터 동기화&rsquo;: WebSocket을 통해 들어오는 실시간 데이터를 모든 컴포넌트에서 일관되게 보여줄 수 있습니다.</li>
+<li>&lsquo;전역 알림 관리&rsquo;: 애플리케이션 전체에 걸쳐 표시되는 알림 상태를 동기화할 수 있습니다.</li>
+</ul>
+
+<h2 class="relative group">결론
+    <div id="결론" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%ea%b2%b0%eb%a1%a0" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p><code>useSyncExternalStore</code>는 React 애플리케이션의 상태를 <code>localStorage</code>와 같은 외부 데이터 소스와 동기화하기 위한 강력하고 공식적인 도구입니다.</p>
+<p>이 훅을 사용하면 &lsquo;상태 찢어짐&rsquo;과 같은 복잡한 동시성 문제를 피하면서, 여러 컴포넌트나 여러 브라우저 인스턴스에 걸쳐 공유되는 데이터를 안전하고 일관되게 처리할 수 있습니다.</p>
+<p>이제 외부 상태와 React를 동기화해야 할 때, 더 이상 복잡한 <code>useEffect</code> 로직으로 고민하지 마세요.</p>
+<p><code>useSyncExternalStore</code>가 여러분에게 우아하고 안정적인 해결책을 제공할 것입니다.</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+
+        
+
+      </div>
+
+      
+      
+        
+        
+          
+          
+        
+        
+        
+        <script
+          type="text/javascript"
+          src="/js/page.min.54b6f4371722649edbe871e431d8670d670878c22be8f36e229fe53cc9b786fe25a834def5e6de621f7a3e37b72bc8cd73839aa5ed907ed6cbd45cd3e1b0fa20.js"
+          integrity="sha512-VLb0NxciZJ7b6HHkMdhnDWcIeMIr6PNuIp/lPMm3hv4lqDTe9ebeYh96Pje3K8jNc4Oape2QftbL1FzT4bD6IA=="
+          data-oid="views_posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage.md"
+          data-oid-likes="likes_posts/2025-07-08-react-usesyncexternalstore-guide-with-localstorage.md"></script>
+      
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+      
+      
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/2025-07-09-complete-guide-to-understanding-cors/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;CORS 에러, 더 이상 두렵지 않다 (완전 정복 가이드)
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2025-07-09T11:43:10&#43;00:00">Jul 9, 2025</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/posts/hello/">
+              <span class="leading-6">
+                안녕하세요? 주인장입니다.&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
+            
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2024-02-13T11:51:11&#43;00:00">Feb 13, 2024</time>
+              </span>
+            
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top"
+    title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+
+    
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js"
+    integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="https://cpro95.github.io/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+  
+</html>
